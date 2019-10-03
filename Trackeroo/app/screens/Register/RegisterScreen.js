@@ -98,20 +98,16 @@ class RegisterScreen extends Component {
 
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { firstName, lastName, age, weight, height, username, password } = this.state
     const { navigate } = this.props.navigation;
-    // api.addNewUser(firstName, lastName, age, weight, height, username, password).then((newUser) => {
-    //   this.setState({ newUser })
-    // })
-    //   .catch(error => {
-    //     this.setState({
-    //       error
-    //     })
-    //   })
-    // if (validUser) {
-    navigate('HomeScreen', { username, password, title: 'Home' })
-    // }
+    try {
+      await api.signup(username, password)
+      navigate('HomeScreen', { username, password, title: 'Home' })
+    }
+    catch (error) {
+      console.log('in register catch block')
+    }
   }
 
   render() {
@@ -119,7 +115,7 @@ class RegisterScreen extends Component {
     const { username, password } = this.state;
     return (
       <View style={styles.container}>
-        <TextInput placeholder='first name' onEndEditing={(event) => this.handleChange(event, 'firstName')} name='firstName'
+        {/* <TextInput placeholder='first name' onEndEditing={(event) => this.handleChange(event, 'firstName')} name='firstName'
         />
         <TextInput placeholder='last name' onEndEditing={(event) => this.handleChange(event, 'lastName')} name='lastName'
         />
@@ -128,7 +124,7 @@ class RegisterScreen extends Component {
         <TextInput placeholder='height' onEndEditing={(event) => this.handleChange(event, 'height')} name='height'
         />
         <TextInput placeholder='weight' onEndEditing={(event) => this.handleChange(event, 'weight')} name='weight'
-        />
+        /> */}
         <TextInput placeholder='username' onEndEditing={(event) => this.handleChange(event, 'username')} name='username'
         />
         <TextInput placeholder='password' onEndEditing={(event) => this.handleChange(event, 'password')} name='password'

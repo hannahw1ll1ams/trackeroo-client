@@ -1,16 +1,7 @@
 import styles from './styles';
 import React, { Component } from 'react';
 import { Text, View, Button, TextInput } from 'react-native';
-// import * as api from '../../../api'
-
-
-//need to type in username and password
-//validates client side after change each box
-//if valid, send api request to db
-// db either finds user and sends back true and then we navigate to home page, pass through username on props.
-//or db doesn't find, sends back false and we display the error of user does not exist.
-
-//would it not be better that if already doing a request that just get back the whole object then can pass it down.
+import * as api from '../../../api'
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -49,23 +40,20 @@ class LoginScreen extends Component {
   }
 
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { username, password, validUser } = this.state
     const { navigate } = this.props.navigation;
     console.log(username, password)
-    // api.checkExistingUser(username, password).then((boolean) => {
-    //   this.setState({ validUser: boolean })
-    // })
-    //   .catch(error => {
-    //     this.setState({
-    //       error
-    //     })
-    //   })
-    // if (validUser) {
-    navigate('GroupsScreen', { username, password, title: 'Which group to enter?' })
-    // this.setState({ username: '', password: '' })
-    // }
+    try {
+      await api.login(username, password)
+      navigate('GroupsScreen', { username, password, title: 'Which group to enter?' })
+    }
+    catch (error) {
+      console.log('in catch block')
+      console.log(error)
+    }
   }
+
 
   render() {
     const { navigate } = this.props.navigation;
@@ -73,7 +61,7 @@ class LoginScreen extends Component {
     if (error) return <Text>{error}</Text>
     return (
       <View style={styles.container}>
-        <Text> Sign Up</Text>
+        <Text> Sign In</Text>
         <TextInput placeholder='username' onEndEditing={(event) => this.handleChange(event, 'username')} name='username' style={styles.inputStyle}
         />
         <TextInput placeholder='password' name='password' onEndEditing={(event) => this.handleChange(event, 'password')} style={styles.inputStyle}
