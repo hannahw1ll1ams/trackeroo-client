@@ -4,6 +4,14 @@ import { Text, View, Button, TextInput } from 'react-native';
 // import * as api from '../../../api'
 
 
+//need to type in username and password
+//validates client side after change each box
+//if valid, send api request to db
+// db either finds user and sends back true and then we navigate to home page, pass through username on props.
+//or db doesn't find, sends back false and we display the error of user does not exist.
+
+//would it not be better that if already doing a request that just get back the whole object then can pass it down.
+
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "TRACKEROO"
@@ -15,34 +23,10 @@ class LoginScreen extends Component {
     error: null
   }
 
-  handleUsernameChange = (e) => {
-    const { text } = e.nativeEvent
-    usernameRule = /^[a-zA-Z0-9]+$/
-    if (usernameRule.test(text)) {
-      console.log('username is valid')
-      this.setState({ username: text })
-    }
-    else
-      console.log('username is invalid')
-  }
-
-  handlePasswordChange = (e) => {
-    const { text } = e.nativeEvent
-    passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}()<>£%+='$:;%^&*])(?=.{8,})/;
-    if (passwordRule.test(text)) {
-      console.log('password is valid')
-      this.setState({ password: text })
-    }
-    else
-      console.log('password is invalid')
-  }
-
-
   handleChange = (event, inputType) => {
     const { text } = event.nativeEvent
     usernameRule = /^[a-zA-Z0-9]+$/
-    passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}()<>£%+='$:;%^&*])(?=.{8,})/;
-    //need to add to check for spaces and improve testing for special characters
+    passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#" {}()<>£%+='$:;%^&*])(?=.{8,})/;
     if (inputType === 'password') {
       if (passwordRule.test(text)) {
         console.log('password is valid')
@@ -50,6 +34,7 @@ class LoginScreen extends Component {
       }
       else
         console.log('password is invalid')
+
     }
     if (inputType === 'username') {
       if (usernameRule.test(text)) {
@@ -58,6 +43,7 @@ class LoginScreen extends Component {
       }
       else
         console.log('username is invalid')
+
     }
 
   }
@@ -66,6 +52,7 @@ class LoginScreen extends Component {
   handleSubmit = () => {
     const { username, password, validUser } = this.state
     const { navigate } = this.props.navigation;
+    console.log(username, password)
     // api.checkExistingUser(username, password).then((boolean) => {
     //   this.setState({ validUser: boolean })
     // })
@@ -76,20 +63,23 @@ class LoginScreen extends Component {
     //   })
     // if (validUser) {
     navigate('HomeScreen', { username, password, title: 'Home' })
+    // this.setState({ username: '', password: '' })
     // }
   }
 
   render() {
     const { navigate } = this.props.navigation;
-    const { username, password, error } = this.state
+    const { username, password, error, usernameValid, passwordValid } = this.state
     if (error) return <Text>{error}</Text>
     return (
       <View style={styles.container}>
         <Text> Sign Up</Text>
-        <TextInput placeholder='username' onEndEditing={(event) => this.handleChange(event, 'username')} name='username'
+        <TextInput placeholder='username' onEndEditing={(event) => this.handleChange(event, 'username')} name='username' style={styles.inputStyle}
         />
-        <TextInput placeholder='password' name='password' onEndEditing={(event) => this.handleChange(event, 'password')}
+        <TextInput placeholder='password' name='password' onEndEditing={(event) => this.handleChange(event, 'password')} style={styles.inputStyle}
         />
+        <Text style={styles.bottomText}>Password must be 8 characters long</Text>
+        <Button title="Forgot Password" onPress={() => navigate('PasswordResetScreen', { title: 'Change your password' })} />
         <Button title="Sign In" onPress={this.handleSubmit} />
         <Button title="Don't have a account?" onPress={() => navigate('RegisterScreen', { title: 'Create a account' })} />
       </View>

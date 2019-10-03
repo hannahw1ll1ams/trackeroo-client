@@ -1,6 +1,7 @@
 import styles from './styles';
 import React, { Component } from 'react';
-import { View, Button, TextInput } from 'react-native';
+import { View, Button, TextInput, Text } from 'react-native';
+import * as api from '../../../api'
 
 class RegisterScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -9,6 +10,7 @@ class RegisterScreen extends Component {
     }
   };
   state = {
+    newUser: {},
     firstName: null,
     lastName: null,
     username: null,
@@ -29,7 +31,7 @@ class RegisterScreen extends Component {
     heightRule = /^[0-9]{1,3}$/
     weightRule = /^[0-9]{1,3}$/
     usernameRule = /^[a-zA-Z0-9]+$/
-    passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}()<>£%+='$:;%^&*])(?=.{8,})/;
+    passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}( )<>£%+='$:;%^&*])(?=.{8,})/;
 
     if (inputType === 'firstName') {
       if (firstNameRule.test(text)) {
@@ -96,6 +98,22 @@ class RegisterScreen extends Component {
 
   }
 
+  handleSubmit = () => {
+    const { firstName, lastName, age, weight, height, username, password } = this.state
+    const { navigate } = this.props.navigation;
+    // api.addNewUser(firstName, lastName, age, weight, height, username, password).then((newUser) => {
+    //   this.setState({ newUser })
+    // })
+    //   .catch(error => {
+    //     this.setState({
+    //       error
+    //     })
+    //   })
+    // if (validUser) {
+    navigate('HomeScreen', { username, password, title: 'Home' })
+    // }
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     const { username, password } = this.state;
@@ -115,7 +133,8 @@ class RegisterScreen extends Component {
         />
         <TextInput placeholder='password' onEndEditing={(event) => this.handleChange(event, 'password')} name='password'
         />
-        <Button title="Create account and Log In" onPress={() => navigate('HomeScreen', { username: username, password: password, otherParam: 'Home' })} />
+        <Text>Password must be 8 characters long, include at least one capital and lowercase letter, and one number</Text>
+        <Button title="Create account and Log In" onPress={this.handleSubmit} />
       </View>
     );
   }
