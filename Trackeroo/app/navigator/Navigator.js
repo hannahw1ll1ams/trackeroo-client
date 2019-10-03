@@ -18,7 +18,7 @@ const Home = createStackNavigator({
   MapView
 })
 
-const TabNavigator = createMaterialTopTabNavigator({ Home, Rewards, PersonalProfile, LeaderBoard }, {
+const TabNavigator = createMaterialTopTabNavigator({ Home, Rewards, LeaderBoard, PersonalProfile }, {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: '#651fff',
