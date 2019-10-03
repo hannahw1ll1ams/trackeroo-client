@@ -9,13 +9,11 @@ class GroupsScreen extends Component {
     groups: [{ title: 'northcoders' }, { title: 'FunRun' }],
     selectedGroup: null
   }
-
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('title')
     }
   };
-
   onPress = (event, title) => {
     console.log(this.props.navigation)
     this.setState({ selectedGroup: title })

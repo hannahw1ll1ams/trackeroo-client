@@ -19,6 +19,7 @@ const Home = createStackNavigator({
 })
 
 const TabNavigator = createMaterialTopTabNavigator({ Home, Rewards, LeaderBoard, PersonalProfile }, {
+
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: '#651fff',
