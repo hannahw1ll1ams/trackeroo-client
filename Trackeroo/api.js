@@ -5,12 +5,9 @@ import { AsyncStorage } from 'react-native';
 const setAuthorizationHeader = (token) => {
   axios.defaults.headers.common['Authorization'] = token
 }
-
 const request = axios.create({
   baseURL: 'https://x8g5k6odfe.execute-api.eu-west-1.amazonaws.com/api/'
 })
-
-
 
 export const login = async (username, password) => {
 
@@ -46,6 +43,23 @@ export const signup = async (username, password) => {
 export const storeToken = async (token) => {
   try {
     await AsyncStorage.setItem('token', token)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getToken = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token')
+    return token
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const logout = async () => {
+  try {
+    await AsyncStorage.removeItem('token')
   } catch (error) {
     console.log(error)
   }

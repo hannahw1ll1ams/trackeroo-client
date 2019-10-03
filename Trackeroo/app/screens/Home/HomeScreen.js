@@ -1,6 +1,9 @@
 import styles from './styles';
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, Button } from 'react-native';
+import { Text, View, Button } from 'react-native';
+import * as api from '../../../api'
+import Feed from '../../components/Feed';
+
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -12,6 +15,18 @@ class HomeScreen extends Component {
   state = {
     isLoading: true
   }
+
+  handleSignOut = async () => {
+    const { navigate } = this.props.navigation
+    try {
+      await api.logout()
+      navigate('LoginScreen', { title: 'Sign In' })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   render() {
     const { navigate } = this.props.navigation;
 
@@ -23,7 +38,8 @@ class HomeScreen extends Component {
         <Text>Username : {JSON.stringify(this.props.navigation.getParam('username', 'NO-username'))}</Text>
         <Text>Password : {JSON.stringify(this.props.navigation.getParam('password', 'NO-password'))}</Text>
         <Text>GroupName : {JSON.stringify(this.props.navigation.getParam('groupName', 'no-group'))}</Text>
-        <Button title="Actually, sign me out" onPress={() => navigate('LoginScreen', { title: 'Sign In' })} />
+        <Feed navigation={this.props.navigation} />
+        <Button title="Actually, sign me out" onPress={this.handleSignOut} />
       </View>
     );
   }
