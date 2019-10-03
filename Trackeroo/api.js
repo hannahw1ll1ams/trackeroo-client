@@ -1,17 +1,56 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
+
+
+const setAuthorizationHeader = (token) => {
+  axios.defaults.headers.common['Authorization'] = token
+}
 
 const request = axios.create({
-  baseURL: ''
+  baseURL: 'https://x8g5k6odfe.execute-api.eu-west-1.amazonaws.com/api/'
 })
 
-export const checkExistingUser = () => {
-  return request.get('').then(({ data }) => {
-    return data
-  })
+
+
+export const login = async (username, password) => {
+
+  try {
+    const { headers } = await request.post('/login', { username, password })
+    const token = headers['x-amzn-remapped-authorization'];
+    storeToken(token)
+    setAuthorizationHeader(token)
+  }
+  catch (error) {
+    throw error
+  }
+
 }
 
-export const addNewUser = () => {
-  return request.post('').then(({ data }) => {
-    return data
-  })
+export const signup = async (username, password) => {
+  try {
+    const { headers, data } = await request.post('/signup', { username, password })
+    console.log(headers, data)
+    const token = headers['x-amzn-remapped-authorization'];
+    storeToken(token)
+    setAuthorizationHeader(token)
+  }
+  catch (error) {
+    console.log(error)
+    throw error
+  }
 }
+// Fhhdgjhbg username
+// Gftjhvjjff6 password
+
+
+export const storeToken = async (token) => {
+  try {
+    await AsyncStorage.setItem('token', token)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
+//to sign out, just delete token from asyncStorage
