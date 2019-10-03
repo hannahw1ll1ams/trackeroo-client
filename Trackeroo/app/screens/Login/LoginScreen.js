@@ -62,7 +62,7 @@ class LoginScreen extends Component {
     //     })
     //   })
     // if (validUser) {
-    navigate('HomeScreen', { username, password, title: 'Home' })
+    navigate('GroupsScreen', { username, password, title: 'Which group to enter?' })
     // this.setState({ username: '', password: '' })
     // }
   }
