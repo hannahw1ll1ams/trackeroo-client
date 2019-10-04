@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import MapView from 'react-native-maps';
 import RunInfo from './RunInfo';
 import RunInfoNumeric from './RunInfoNumeric';
 import haversine from 'haversine';
+import styles from '../screens/MapView/SharedStyles'
 
 let id = 0;
 
-class App extends Component {
+class Map extends Component {
   state = {
     markers: [],
-    watchID: null
+    watchID: null,
+    isMapTrue: false
   };
 
   componentDidMount() {
     let watchID = navigator.geolocation.watchPosition(position => {
-      console.log(position);
 
       let distance = 0;
       if (this.state.previousCoordinate) {
@@ -64,6 +65,10 @@ class App extends Component {
       );
     });
 
+    onMapLayout = () => {
+      this.setState({ isMapTrue: true })
+    }
+
     setInterval = () => {
       this.distanceInfo.setState({ value: Math.random() * 15 });
       this.speedInfo.setState({ value: Math.random() * 15 });
@@ -74,14 +79,15 @@ class App extends Component {
     };
   }
 
-  // componentWillUnmount() {
-  //   navigator.geolocation.stopWatch(this.state.watchID);
-  // }
+  componentWillUnmount() {
+    navigator.geolocation.stopWatch(this.state.watchID);
+  }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
         <MapView
+          onLayout={this.onMapLayout}
           style={styles.map}
           showsUserLocation
           followsUserLocation
@@ -92,10 +98,12 @@ class App extends Component {
             longitudeDelta: 0.02
           }}
         >
-          <MapView.Polyline
-            coordinates={this.state.markers.map(marker => marker.coordinate)}
-            strokeWidth={5}
-          />
+          {this.state.isMapTrue &&
+            <MapView.Polyline
+              coordinates={this.state.markers.map(marker => marker.coordinate)}
+              strokeWidth={5}
+            />
+          }
         </MapView>
         {/* <View style={styles.ic1}>
           <StopWatch />
@@ -128,13 +136,5 @@ class App extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  infoWrapper: {
-    flexDirection: 'row',
-    flex: 1
-  },
-  map: {
-    flex: 1
-  }
-});
-export default App;
+
+export default Map;

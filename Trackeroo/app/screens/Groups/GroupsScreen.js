@@ -15,7 +15,7 @@ class GroupsScreen extends Component {
     }
   };
   onPress = (event, title) => {
-    console.log(this.props.navigation)
+    // console.log(this.props.navigation)
     this.setState({ selectedGroup: title })
     const { navigate } = this.props.navigation;
     const { selectedGroup } = this.state;

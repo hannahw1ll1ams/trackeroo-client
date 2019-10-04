@@ -26,7 +26,7 @@ export const login = async (username, password) => {
 export const signup = async (username, password) => {
   try {
     const { headers, data } = await request.post('/signup', { username, password })
-    console.log(headers, data)
+    // console.log(headers, data)
     const token = headers['x-amzn-remapped-authorization'];
     storeToken(token)
     setAuthorizationHeader(token)
