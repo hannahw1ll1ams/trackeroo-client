@@ -2,6 +2,8 @@ import styles from './styles';
 import React, { Component } from 'react';
 import { Text, View, Button, TextInput } from 'react-native';
 import * as api from '../../../api'
+import { withNavigation } from 'react-navigation';
+
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -13,6 +15,19 @@ class LoginScreen extends Component {
     validUser: false,
     error: null
   }
+
+  async componentDidMount() {
+    const { navigate } = this.props.navigation;
+    try {
+      const token = await api.getToken()
+      if (token) {
+        navigate('GroupsScreen', { title: 'Which group to enter?' })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   handleChange = (event, inputType) => {
     const { text } = event.nativeEvent
@@ -75,4 +90,4 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+export default withNavigation(LoginScreen);
