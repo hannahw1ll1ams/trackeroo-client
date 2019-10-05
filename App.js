@@ -4,17 +4,30 @@ import Navigator from "./app/navigator/Navigator";
 import * as api from "./app/api";
 import Layout from "./app/components/Layout";
 import { FontProvider } from "./app/context/FontContext";
+import { RunsProvider } from "./app/context/RunsContext";
 
 export default class App extends Component {
+  addRuns = runs => {
+    if (Array.isArray(runs)) {
+      this.setState(currentState => ({
+        runs: [...currentState.runs, ...runs]
+      }));
+    } else {
+      this.setState(currentState => ({ runs: [...currentState.runs, runs] }));
+    }
+  };
+
   state = {
-    hasFontLoaded: false
+    runs: [],
+    addRuns: this.addRuns,
+    hasFontLoaded: false,
+    isAuthenticated: false
   };
 
   componentDidMount = async () => {
     await api.loadFonts();
     this.setState({ hasFontLoaded: true });
     await api.storeToken("token", "adadd");
-
     // Orientation.lockToPortrait();
   };
 
@@ -23,7 +36,9 @@ export default class App extends Component {
     return (
       <Layout>
         <FontProvider value={hasFontLoaded}>
-          <Navigator />
+          <RunsProvider value={this.state}>
+            <Navigator />
+          </RunsProvider>
         </FontProvider>
       </Layout>
     );
