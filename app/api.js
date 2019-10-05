@@ -1,12 +1,15 @@
 import axios from "axios";
 import { AsyncStorage } from "react-native";
 import * as Font from "expo-font";
+import getEnvVars from "../environment";
+const { apiUrl } = getEnvVars();
+console.log(apiUrl);
 
 const setAuthorizationHeader = token => {
   axios.defaults.headers.common["Authorization"] = token;
 };
 const request = axios.create({
-  baseURL: "https://x8g5k6odfe.execute-api.eu-west-1.amazonaws.com/api/"
+  baseURL: apiUrl
 });
 
 export const login = async (username, password) => {
@@ -70,5 +73,48 @@ export const loadFonts = async () => {
     "open-sans-regular": require("../assets/fonts/OpenSans-Regular.ttf")
   });
 };
+
+export const getRuns = async () => {
+  return [
+    {
+      run_id: "dadada1",
+      username: "John",
+      start_time: Date.now(),
+      end_time: ""
+    },
+    {
+      run_id: "dadada2",
+      username: "Thanh",
+      start_time: Date.now(),
+      end_time: ""
+    },
+    {
+      run_id: "dadada3",
+      username: "Hannah",
+      start_time: Date.now(),
+      end_time: ""
+    },
+    {
+      run_id: "dadada4",
+      username: "Tim",
+      start_time: Date.now(),
+      end_time: Date.now()
+    }
+  ];
+};
+
+export const startRun = async ({ username, start_time }) => {
+  try {
+    const { data } = await request.post("/runs", { username, start_time });
+  } catch (error) {
+    throw error;
+  }
+  return {
+    run_id: "runid1",
+    start_time: "adad"
+  };
+};
+
+export const endRun = async ({ end_time }) => {};
 
 //to sign out, just delete token from asyncStorage
