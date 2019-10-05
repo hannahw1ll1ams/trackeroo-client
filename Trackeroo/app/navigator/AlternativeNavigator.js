@@ -10,19 +10,33 @@ import LeaderBoard from '../screens/LeaderBoard';
 // import AuthLoadingScreen from '../screens/AuthLoading';
 import CreateRun from '../screens/CreateRun';
 import AllUsers from '../screens/AllUsers';
+import React, { Component } from 'react';
+import { View, Button, Text, Alert } from 'react-native';
+
 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
+import SafeAreaView from 'react-native-safe-area-view';
 
 
-const HomeStack = createStackNavigator({
+const Group = createStackNavigator({
   HomeScreen,
   MapView
 })
 
-const ProfileStack = createStackNavigator({
+Group.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {
+    tabBarVisible,
+  };
+};
+
+const You = createStackNavigator({
   PersonalProfile,
   MapView
 })
@@ -39,7 +53,6 @@ const LeaderBoardStack = createStackNavigator({
 
 const UsersNavigator = createMaterialTopTabNavigator({
   AllUsers, PersonalProfile
-
 }, {
   defaultNavigationOptions: {
     headerStyle: {
@@ -49,10 +62,30 @@ const UsersNavigator = createMaterialTopTabNavigator({
     headerTitleStyle: {
       fontWeight: 'bold',
     },
-  },
+  }, tabBarPosition: "bottom"
 })
 
-const FeedsNavigator = createMaterialTopTabNavigator({ HomeStack, ProfileStack }, {
+const FeedsNavigator = createMaterialTopTabNavigator({ Group, You }, {
+
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#651fff',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  }, tabBarPosition: "bottom"
+})
+
+const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordResetScreen })
+
+const GroupStack = createStackNavigator({ GroupsScreen })
+
+
+const DrawerNavigator = createDrawerNavigator({
+  FeedsNavigator, RewardsStack, LeaderBoardStack, UsersNavigator
+}, {
 
   defaultNavigationOptions: {
     headerStyle: {
@@ -63,16 +96,48 @@ const FeedsNavigator = createMaterialTopTabNavigator({ HomeStack, ProfileStack }
       fontWeight: 'bold',
     },
   },
+
+  contentComponent: (props) => (
+    <View style={{ flex: 1 }}>
+      <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+        <Text>TRACKEROO</Text>
+        <Text>    </Text>
+        <DrawerNavigatorItems {...props} />
+        <Button title="logout?" onPress=
+          {() =>
+            Alert.alert(
+              'Alert',
+              'Log out?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                { text: 'OK', onPress: () => console.log('OK Pressed') }
+              ],
+              { cancelable: false }
+            )
+          }
+        />
+      </SafeAreaView>
+    </View>
+  ),
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle'
 })
 
-const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordResetScreen })
 
-const GroupStack = createStackNavigator({ GroupsScreen })
-
-
-const DrawerNavigator = createDrawerNavigator({
-  FeedsNavigator, RewardsStack, LeaderBoardStack, UsersNavigator
-})
+// handleSignOut = async () => {
+//   const { navigate } = this.props.navigation
+//   try {
+//     await api.logout()
+//     navigate('LoginScreen', { title: 'Sign In' })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
 
 const AppContainer = createAppContainer(createSwitchNavigator({
   DrawerNavigator, AuthStack, GroupStack
