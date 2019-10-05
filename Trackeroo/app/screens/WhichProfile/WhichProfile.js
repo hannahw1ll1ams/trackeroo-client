@@ -1,14 +1,12 @@
 import styles from './styles';
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
-import * as api from '../../../api'
-import ToggleButton from '../../components/ToggleButton';
 
-class PersonalProfile extends Component {
+class WhichProfile extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: (
-        <ToggleButton />),
+        <Button title="=" onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />),
       headerRight: (
         <Button
           onPress={() => alert('This is a button!')}
@@ -17,21 +15,16 @@ class PersonalProfile extends Component {
     }
   };
 
-  handleSignOut = async () => {
-    const { navigate } = this.props.navigation
-    try {
-      await api.logout()
-      navigate('LoginScreen', { title: 'Sign In' })
-    } catch (error) {
-      console.log(error)
-    }
-  }
   render() {
     return (
       <View style={styles.container}>
+        <Text>You are....</Text>
+        <Text>Your profile</Text>
+        <Text>All users</Text>
+        <Text>Log Out</Text>
       </View>
     );
   }
 }
 
-export default PersonalProfile;
+export default WhichProfile;

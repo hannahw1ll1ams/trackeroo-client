@@ -11,7 +11,6 @@ class Feed extends Component {
     const { navigation } = this.props
     return (
       <View>
-        <Text>{navigation.getParam('groupName')}'s FEED</Text>
         <FeedCard navigation={navigation} />
       </View>
     );
@@ -19,3 +18,5 @@ class Feed extends Component {
 }
 
 export default Feed;
+
+

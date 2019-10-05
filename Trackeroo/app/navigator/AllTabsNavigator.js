@@ -15,7 +15,6 @@ import WhichProfile from '../screens/WhichProfile';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer';
 
 
 const Home = createStackNavigator({
@@ -39,12 +38,12 @@ const UsersStack = createStackNavigator({
   AllUsers
 })
 
-const CreateRunStack = createStackNavigator({
-  MapView
-})
+// const CreateRunStack = createStackNavigator({
+//   MapView
+// })
 
 
-const TabNavigator = createMaterialTopTabNavigator({ Home, RewardsStack, CreateRunStack, LeaderBoardStack, UsersStack }, {
+const TabNavigator = createMaterialTopTabNavigator({ Home, RewardsStack, LeaderBoardStack, UsersStack }, {
 
   defaultNavigationOptions: {
     headerStyle: {
@@ -60,10 +59,6 @@ const TabNavigator = createMaterialTopTabNavigator({ Home, RewardsStack, CreateR
 const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordResetScreen })
 
 const GroupStack = createStackNavigator({ GroupsScreen })
-
-const DrawerNavigator = createDrawerNavigator({
-
-})
 
 
 

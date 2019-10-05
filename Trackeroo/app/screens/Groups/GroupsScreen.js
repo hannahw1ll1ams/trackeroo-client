@@ -16,7 +16,8 @@ class GroupsScreen extends Component {
   };
   onPress = (event, title) => {
     const { navigate } = this.props.navigation;
-    navigate('HomeScreen', { title: 'Home', groupName: title })
+    const groupName = title + "'s Feed"
+    navigate('HomeScreen', { title: 'Home', groupName })
   }
 
   postNewGroup = (newGroup) => {
