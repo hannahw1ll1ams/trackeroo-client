@@ -21,7 +21,7 @@ class LoginScreen extends Component {
     try {
       const token = await api.getToken()
       if (token) {
-        navigate('GroupsScreen', { title: 'Which group to enter?' })
+        navigate('HomeScreen', { title: 'Which group to enter?' })
       }
     } catch (error) {
       console.log(error)
@@ -61,7 +61,7 @@ class LoginScreen extends Component {
     console.log(username, password)
     try {
       await api.login(username, password)
-      navigate('GroupsScreen', { username, password, title: 'Which group to enter?' })
+      navigate('HomeScreen', { username, password, title: 'Which group to enter?' })
     }
     catch (error) {
       console.log('in catch block')
