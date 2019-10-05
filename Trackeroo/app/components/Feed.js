@@ -9,10 +9,9 @@ class Feed extends Component {
   }
   render() {
     const { navigation } = this.props
-
     return (
       <View>
-        <Text>FEED</Text>
+        <Text>{navigation.getParam('groupName')}'s FEED</Text>
         <FeedCard navigation={navigation} />
       </View>
     );

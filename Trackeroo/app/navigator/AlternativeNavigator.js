@@ -10,7 +10,6 @@ import LeaderBoard from '../screens/LeaderBoard';
 // import AuthLoadingScreen from '../screens/AuthLoading';
 import CreateRun from '../screens/CreateRun';
 import AllUsers from '../screens/AllUsers';
-import WhichProfile from '../screens/WhichProfile';
 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
@@ -18,8 +17,13 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
 
-const Home = createStackNavigator({
+const HomeStack = createStackNavigator({
   HomeScreen,
+  MapView
+})
+
+const ProfileStack = createStackNavigator({
+  PersonalProfile,
   MapView
 })
 
@@ -33,18 +37,22 @@ const LeaderBoardStack = createStackNavigator({
   MapView
 })
 
-const UsersStack = createStackNavigator({
-  WhichProfile,
-  PersonalProfile,
-  AllUsers
+const UsersNavigator = createMaterialTopTabNavigator({
+  AllUsers, PersonalProfile
+
+}, {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#651fff',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  },
 })
 
-const CreateRunStack = createStackNavigator({
-  MapView
-})
-
-
-const TabNavigator = createMaterialTopTabNavigator({ Home, RewardsStack, CreateRunStack, LeaderBoardStack, UsersStack }, {
+const FeedsNavigator = createMaterialTopTabNavigator({ HomeStack, ProfileStack }, {
 
   defaultNavigationOptions: {
     headerStyle: {
@@ -61,14 +69,13 @@ const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordRe
 
 const GroupStack = createStackNavigator({ GroupsScreen })
 
-const DrawerNavigator = createDrawerNavigator({
 
+const DrawerNavigator = createDrawerNavigator({
+  FeedsNavigator, RewardsStack, LeaderBoardStack, UsersNavigator
 })
 
-
-
 const AppContainer = createAppContainer(createSwitchNavigator({
-  TabNavigator, AuthStack, GroupStack
+  DrawerNavigator, AuthStack, GroupStack
 },
   {
     initialRouteName: 'AuthStack'

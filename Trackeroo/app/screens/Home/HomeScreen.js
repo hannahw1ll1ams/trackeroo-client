@@ -8,7 +8,13 @@ import Feed from '../../components/Feed';
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('title')
+      title: navigation.getParam('groupName'),
+      headerRight: (
+        <Button
+          onPress={() => alert('This is a button!')}
+          title="Info"
+          color="#fff"
+        />)
     }
   };
 
@@ -28,8 +34,7 @@ class HomeScreen extends Component {
 
 
   render() {
-    const { navigate } = this.props.navigation;
-
+    const { navigate, getParam } = this.props.navigation;
     // const { isLoading } = this.state;
     // if (isLoading) return <ActivityIndicator size="small" color="#00ff00" />
     return (
@@ -38,7 +43,7 @@ class HomeScreen extends Component {
         <Text>Username : {JSON.stringify(this.props.navigation.getParam('username', 'NO-username'))}</Text>
         <Text>Password : {JSON.stringify(this.props.navigation.getParam('password', 'NO-password'))}</Text>
         <Text>GroupName : {JSON.stringify(this.props.navigation.getParam('groupName', 'no-group'))}</Text>
-        <Feed navigation={this.props.navigation} />
+        <Feed navigation={this.props.navigation} groupName={getParam('groupName', 'no-group')} />
         <Button title="Actually, sign me out" onPress={this.handleSignOut} />
       </View>
     );
