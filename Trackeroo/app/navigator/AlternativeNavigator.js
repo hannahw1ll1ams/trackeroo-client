@@ -20,6 +20,8 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import SafeAreaView from 'react-native-safe-area-view';
 import { withNavigation } from 'react-navigation';
+// import CustomReactNavigationNavigator from './TestOneCustomReactNavigationNavigator'
+// import TestTwoCustomNavigator from './TestTwoCustomNavigator'
 
 
 // const MessagesIcon = ({ tintColor }) => (
@@ -73,32 +75,8 @@ import { withNavigation } from 'react-navigation';
 //   MapView
 // })
 
-// const UsersNavigator = createMaterialTopTabNavigator({
-//   AllUsers, PersonalProfile
-// }, {
-//   defaultNavigationOptions: {
-//     headerStyle: {
-//       backgroundColor: '#651fff',
-//     },
-//     headerTintColor: '#fff',
-//     headerTitleStyle: {
-//       fontWeight: 'bold',
-//     },
-//   }, tabBarPosition: "bottom"
-// })
 
-// const FeedsNavigator = createMaterialTopTabNavigator({ Group, You }, {
 
-//   defaultNavigationOptions: {
-//     headerStyle: {
-//       backgroundColor: '#651fff',
-//     },
-//     headerTintColor: '#fff',
-//     headerTitleStyle: {
-//       fontWeight: 'bold',
-//     },
-//   }, tabBarPosition: "bottom"
-// })
 
 ///////
 
@@ -164,11 +142,15 @@ const FeedsNavigator = createMaterialTopTabNavigator({ HomeScreen: { screen: Hom
 
 
 
-
-
 const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordResetScreen })
 
 const GroupStack = createStackNavigator({ GroupsScreen })
+
+//TEST TWO
+// const DrawerNavigator = createDrawerNavigator({
+//   Router: { screen: TestTwoCustomNavigator }, Rewards, LeaderBoard, Members: { screen: AllUsers }
+// }, {
+
 
 
 const DrawerNavigator = createDrawerNavigator({
@@ -227,14 +209,23 @@ const DrawerNavigator = createDrawerNavigator({
 //   }
 // }
 
+
+//TEST ONE
+// const AppContainer = createAppContainer(createSwitchNavigator({
+//   CustomReactNavigationNavigator, AuthStack, GroupStack
+// },
+//   {
+//     initialRouteName: 'AuthStack'
+//   }));
+
+
+
 const AppContainer = createAppContainer(createSwitchNavigator({
   DrawerNavigator, AuthStack, GroupStack
 },
   {
     initialRouteName: 'AuthStack'
   }));
-
-
 
 export default AppContainer;
 
