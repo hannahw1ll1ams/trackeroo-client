@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 // import Map from '../../components/Map';
 // import StopWatch from '../../components/StopWatch';
 import AlternativeMap from '../../components/AlternativeMap'
+import AlternativeStopWatch from '../../components/AlternativeStopWatch';
 
 class MapScreen extends Component {
   render() {
@@ -11,8 +12,7 @@ class MapScreen extends Component {
       <View style={styles.wholeContainer}>
         <AlternativeMap />
         <Text style={styles.text}>This is ...'s Run</Text>
-        {/* <StopWatch /> */}
-
+        <AlternativeStopWatch style={styles.stopwatch} />
       </View>
     );
   }

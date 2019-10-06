@@ -42,7 +42,11 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 24,
     textAlign: 'center',
-
+  },
+  stopwatch: {
+    position: "absolute",
+    bottom: 165,
+    justifyContent: 'center', alignItems: 'center'
   }
 });
 
