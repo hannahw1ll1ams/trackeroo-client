@@ -1,37 +1,69 @@
-import styles from './styles';
-import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
-import * as api from '../../../api'
-import ToggleButton from '../../components/ToggleButton';
+import React, { Component } from "react";
+import { FlatList, Platform, StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-navigation";
+import { data } from "../../config/fixtures";
+import { ListItem, Icon } from "react-native-elements";
 
-class PersonalProfile extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerLeft: (
-        <ToggleButton />),
-      headerRight: (
-        <Button
-          onPress={() => alert('This is a button!')}
-          title="GO"
-        />)
-    }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  padLeft: {
+    paddingLeft: 16
+  },
+  padRight: {
+    paddingRight: 16
+  }
+});
+
+export class PersonalProfileScreen extends Component {
+  static navigationOptions = {
+    headerLeft: (
+      <Icon
+        name={`${Platform.OS === "ios" ? "ios" : "md"}-menu`}
+        type="ionicon"
+        color="white"
+        containerStyle={styles.padLeft}
+      />
+    ),
+    headerTitle: "List",
+    headerRight: (
+      <React.Fragment>
+        <Icon
+          name={`${Platform.OS === "ios" ? "ios" : "md"}-chatbubbles`}
+          type="ionicon"
+          color="white"
+          containerStyle={styles.padRight}
+        />
+        <Icon
+          name={`${Platform.OS === "ios" ? "ios" : "md"}-more`}
+          type="ionicon"
+          color="white"
+          containerStyle={styles.padRight}
+        />
+      </React.Fragment>
+    )
   };
 
-  handleSignOut = async () => {
-    const { navigate } = this.props.navigation
-    try {
-      await api.logout()
-      navigate('LoginScreen', { title: 'Sign In' })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  keyExtractor = item => String(item.id);
+
+  renderItem = ({ item }) => (
+    <ListItem
+      title={`${item.firstName} ${item.lastName}`}
+      subtitle={item.job}
+      leftAvatar={{ source: { uri: item.avatar } }}
+      bottomDivider={true}
+    />
+  );
+
   render() {
     return (
-      <View style={styles.container}>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#3b5998" barStyle="light-content" />
+        <FlatList data={data} keyExtractor={this.keyExtractor} renderItem={this.renderItem} />
+      </SafeAreaView>
     );
   }
 }
 
-export default PersonalProfile;
+export default PersonalProfileScreen;

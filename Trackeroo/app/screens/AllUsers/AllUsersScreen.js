@@ -1,7 +1,8 @@
 import styles from './styles';
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import ToggleButton from '../../components/ToggleButton';
+import { SafeAreaView } from "react-navigation";
 
 class AllUsersScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -13,9 +14,10 @@ class AllUsersScreen extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <Text>This is the AllUsersScreen.</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#3b5998" barStyle="light-content" />
+        <Text>This screen is empty.</Text>
+      </SafeAreaView>
     );
   }
 }

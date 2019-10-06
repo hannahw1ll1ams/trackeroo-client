@@ -10,8 +10,10 @@ import LeaderBoard from '../screens/LeaderBoard';
 // import AuthLoadingScreen from '../screens/AuthLoading';
 import CreateRun from '../screens/CreateRun';
 import AllUsers from '../screens/AllUsers';
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Button, Text, Alert } from 'react-native';
+import { Badge, Icon, withBadge } from 'react-native-elements'
+import { Ionicons } from '@expo/vector-icons'; // 6.2.2
 
 
 import { createStackNavigator } from 'react-navigation-stack';
@@ -19,6 +21,27 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import SafeAreaView from 'react-native-safe-area-view';
+
+
+// const MessagesIcon = ({ tintColor }) => (
+//   <Icon
+//     type="ionicon"
+//     name="ios-chatbubbles"
+//     size={24}
+//     color={tintColor}
+//   />
+// );
+// const UsersIcon = ({ tintColor }) => (
+//   <Icon
+//     type="material"
+//     name="supervisor-account"
+//     size={24}
+//     color={tintColor}
+//   />
+// );
+
+
+
 
 
 const Group = createStackNavigator({
@@ -65,18 +88,84 @@ const UsersNavigator = createMaterialTopTabNavigator({
   }, tabBarPosition: "bottom"
 })
 
-const FeedsNavigator = createMaterialTopTabNavigator({ Group, You }, {
+// const FeedsNavigator = createMaterialTopTabNavigator({ Group, You }, {
 
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: '#651fff',
+//   defaultNavigationOptions: {
+//     headerStyle: {
+//       backgroundColor: '#651fff',
+//     },
+//     headerTintColor: '#fff',
+//     headerTitleStyle: {
+//       fontWeight: 'bold',
+//     },
+//   }, tabBarPosition: "bottom"
+// })
+
+///////
+
+class IconWithBadge extends React.Component {
+  render() {
+    const { name, badgeCount, color, size } = this.props;
+    return (
+      <View style={{ width: 24, height: 24, margin: 5 }}>
+        <Ionicons name={name} size={size} color={color} />
+        {badgeCount > 0 && (
+          <View
+            style={{
+              position: 'absolute',
+              right: -6,
+              top: -3,
+              backgroundColor: 'red',
+              borderRadius: 6,
+              width: 12,
+              height: 12,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>
+              {badgeCount}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  }
+}
+
+const HomeIconWithBadge = props => {
+  // need to pass down the badgeCount 
+  return <IconWithBadge {...props} badgeCount={5} />;
+};
+
+
+/////
+
+
+const FeedsNavigator = createMaterialTopTabNavigator({ Group: { screen: Group }, You: { screen: You } }, {
+  tabBarPosition: "bottom",
+  defaultNavigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let IconComponent = Ionicons;
+      let iconName;
+      if (routeName === 'Group') {
+        iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+        IconComponent = HomeIconWithBadge;
+      } else if (routeName === 'You') {
+        iconName = `ios-options`;
+      }
+      return <IconComponent name={iconName} size={25} color={tintColor} />;
     },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }, tabBarPosition: "bottom"
+  }),
+  tabBarOptions: {
+    activeTintColor: 'tomato',
+    inactiveTintColor: 'gray',
+  },
 })
+
+
+
+
 
 const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordResetScreen })
 
@@ -149,3 +238,6 @@ const AppContainer = createAppContainer(createSwitchNavigator({
 
 
 export default AppContainer;
+
+
+
