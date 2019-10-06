@@ -3,6 +3,7 @@ import { FlatList, Platform, StatusBar, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { data } from "../../config/fixtures";
 import { ListItem, Icon } from "react-native-elements";
+import ToggleButton from '../../components/ToggleButton'
 
 const styles = StyleSheet.create({
   container: {
@@ -61,6 +62,8 @@ export class PersonalProfileScreen extends Component {
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#3b5998" barStyle="light-content" />
         <FlatList data={data} keyExtractor={this.keyExtractor} renderItem={this.renderItem} />
+        <ToggleButton style={styles.button} navigation={this.props.navigation} />
+
       </SafeAreaView>
     );
   }

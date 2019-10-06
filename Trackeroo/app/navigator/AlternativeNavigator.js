@@ -8,19 +8,18 @@ import Rewards from '../screens/Rewards';
 import PersonalProfile from '../screens/PersonalProfile';
 import LeaderBoard from '../screens/LeaderBoard';
 // import AuthLoadingScreen from '../screens/AuthLoading';
-import CreateRun from '../screens/CreateRun';
 import AllUsers from '../screens/AllUsers';
 import React from 'react';
 import { View, Button, Text, Alert } from 'react-native';
 import { Badge, Icon, withBadge } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons'; // 6.2.2
 
-
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import SafeAreaView from 'react-native-safe-area-view';
+import { withNavigation } from 'react-navigation';
 
 
 // const MessagesIcon = ({ tintColor }) => (
@@ -44,49 +43,49 @@ import SafeAreaView from 'react-native-safe-area-view';
 
 
 
-const Group = createStackNavigator({
-  HomeScreen,
-  MapView
-})
+// const Group = createStackNavigator({
+//   HomeScreen,
+//   MapView
+// })
 
-Group.navigationOptions = ({ navigation }) => {
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
-  }
-  return {
-    tabBarVisible,
-  };
-};
+// Group.navigationOptions = ({ navigation }) => {
+//   let tabBarVisible = true;
+//   if (navigation.state.index > 0) {
+//     tabBarVisible = false;
+//   }
+//   return {
+//     tabBarVisible,
+//   };
+// };
 
-const You = createStackNavigator({
-  PersonalProfile,
-  MapView
-})
+// const You = createStackNavigator({
+//   PersonalProfile,
+//   MapView
+// })
 
-const RewardsStack = createStackNavigator({
-  Rewards,
-  MapView
-})
+// const RewardsStack = createStackNavigator({
+//   Rewards,
+//   MapView
+// })
 
-const LeaderBoardStack = createStackNavigator({
-  LeaderBoard,
-  MapView
-})
+// const LeaderBoardStack = createStackNavigator({
+//   LeaderBoard,
+//   MapView
+// })
 
-const UsersNavigator = createMaterialTopTabNavigator({
-  AllUsers, PersonalProfile
-}, {
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: '#651fff',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }, tabBarPosition: "bottom"
-})
+// const UsersNavigator = createMaterialTopTabNavigator({
+//   AllUsers, PersonalProfile
+// }, {
+//   defaultNavigationOptions: {
+//     headerStyle: {
+//       backgroundColor: '#651fff',
+//     },
+//     headerTintColor: '#fff',
+//     headerTitleStyle: {
+//       fontWeight: 'bold',
+//     },
+//   }, tabBarPosition: "bottom"
+// })
 
 // const FeedsNavigator = createMaterialTopTabNavigator({ Group, You }, {
 
@@ -141,7 +140,7 @@ const HomeIconWithBadge = props => {
 /////
 
 
-const FeedsNavigator = createMaterialTopTabNavigator({ Group: { screen: Group }, You: { screen: You } }, {
+const FeedsNavigator = createMaterialTopTabNavigator({ HomeScreen: { screen: HomeScreen }, Map: { screen: MapView }, You: { screen: PersonalProfile } }, {
   tabBarPosition: "bottom",
   defaultNavigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -173,7 +172,7 @@ const GroupStack = createStackNavigator({ GroupsScreen })
 
 
 const DrawerNavigator = createDrawerNavigator({
-  FeedsNavigator, RewardsStack, LeaderBoardStack, UsersNavigator
+  Feeds: { screen: FeedsNavigator }, Rewards, LeaderBoard, Members: { screen: AllUsers }
 }, {
 
   defaultNavigationOptions: {
@@ -190,7 +189,7 @@ const DrawerNavigator = createDrawerNavigator({
     <View style={{ flex: 1 }}>
       <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
         <Text>TRACKEROO</Text>
-        <Text>    </Text>
+        <Button title='Time to Move?' onPress={() => props.navigation.navigate('Map')} />
         <DrawerNavigatorItems {...props} />
         <Button title="logout?" onPress=
           {() =>

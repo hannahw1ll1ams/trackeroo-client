@@ -8,10 +8,12 @@ class Feed extends Component {
 
   }
   render() {
-    const { navigation } = this.props
+    const { navigation, events } = this.props
     return (
       <View>
-        <FeedCard navigation={navigation} />
+        {events.map(event => {
+          return <FeedCard navigation={navigation} />
+        })}
       </View>
     );
   }
