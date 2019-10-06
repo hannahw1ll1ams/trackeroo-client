@@ -32,7 +32,7 @@ export default class App extends Component {
         errorMessage: 'Permission to access location was denied',
       });
     }
-    await Location.watchPositionAsync({ enableHighAccuracy: true, timeInterval: 5000, distanceInterval: 5 }, location => {
+    await Location.watchPositionAsync({ enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 0.1 }, location => {
       this.setState({ markers: [...this.state.markers, location] })
     })
   }
@@ -84,12 +84,19 @@ export default class App extends Component {
               description={marker.description}
             />
           ))} */}
-          {/* {this.state.isMapTrue &&
-            <MapView.Polyline
-              coordinates={this.state.markers.map(marker => [{ latitude: marker.coords.latitude, longitude: marker.coords.longitude }])}
-              strokeWidth={5}
+
+          {
+            this.state.isMapTrue && markers.length > 6 &&
+            <Polyline coordinates={[
+              { latitude: markers[0].coords.latitude, longitude: markers[0].coords.longitude },
+              { latitude: markers[1].coords.latitude, longitude: markers[1].coords.longitude },
+              { latitude: markers[2].coords.latitude, longitude: markers[2].coords.longitude },
+              { latitude: markers[3].coords.latitude, longitude: markers[3].coords.longitude },
+              { latitude: markers[4].coords.latitude, longitude: markers[4].coords.longitude }
+            ]} strokeWidth={5}
             />
-          } */}
+          }
+
         </MapView>
       </View>
     );
