@@ -24,7 +24,7 @@ class HomeScreen extends Component {
 
   state = {
     isLoading: true,
-    events: []
+    events: [{ typeOfEvent: 'run', eventText: "View John's run" }]
   }
 
   postNewEvent = (newEvent) => {
