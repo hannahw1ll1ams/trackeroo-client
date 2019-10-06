@@ -4,15 +4,14 @@ import FeedCard from './FeedCard';
 
 
 class Feed extends Component {
-  state = {
 
-  }
   render() {
     const { navigation, events } = this.props
     return (
       <View>
         {events.map(event => {
-          return <FeedCard navigation={navigation} />
+          console.log(event)
+          return <FeedCard key={event.eventText} navigation={navigation} eventText={event.eventText} />
         })}
       </View>
     );
