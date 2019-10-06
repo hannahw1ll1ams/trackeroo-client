@@ -1,9 +1,10 @@
 import styles from './styles';
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import ToggleButton from '../../components/ToggleButton';
+import { SafeAreaView } from "react-navigation";
 
-class RewardsScreen extends Component {
+class AllUsersScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('title'),
@@ -13,11 +14,12 @@ class RewardsScreen extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <Text>This is RewardsScreen</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#3b5998" barStyle="light-content" />
+        <Text>This screen is empty.</Text>
+      </SafeAreaView>
     );
   }
 }
 
-export default RewardsScreen;
+export default AllUsersScreen;

@@ -22,17 +22,27 @@ const styles = StyleSheet.create({
   },
   map: {
     // ...StyleSheet.absoluteFillObject
-    height: 300,
-    width: 475,
+    height: 600,
+    width: 400,
     left: 0,
     top: 0,
     bottom: 0,
     flex: 0
   },
-  container: {
+  wholeContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  text: {
+    position: "absolute",
+    top: 65,
+    backgroundColor: "white",
+    width: 300,
+    height: 40,
+    fontSize: 24,
+    textAlign: 'center',
+
   }
 });
 

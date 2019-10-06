@@ -8,17 +8,42 @@ import Rewards from '../screens/Rewards';
 import PersonalProfile from '../screens/PersonalProfile';
 import LeaderBoard from '../screens/LeaderBoard';
 // import AuthLoadingScreen from '../screens/AuthLoading';
+import CreateRun from '../screens/CreateRun';
+import AllUsers from '../screens/AllUsers';
+import WhichProfile from '../screens/WhichProfile';
 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+
 
 const Home = createStackNavigator({
   HomeScreen,
   MapView
 })
 
-const TabNavigator = createMaterialTopTabNavigator({ Home, Rewards, LeaderBoard, PersonalProfile }, {
+const RewardsStack = createStackNavigator({
+  Rewards,
+  MapView
+})
+
+const LeaderBoardStack = createStackNavigator({
+  LeaderBoard,
+  MapView
+})
+
+const UsersStack = createStackNavigator({
+  WhichProfile,
+  PersonalProfile,
+  AllUsers
+})
+
+// const CreateRunStack = createStackNavigator({
+//   MapView
+// })
+
+
+const TabNavigator = createMaterialTopTabNavigator({ Home, RewardsStack, LeaderBoardStack, UsersStack }, {
 
   defaultNavigationOptions: {
     headerStyle: {
@@ -35,12 +60,15 @@ const AuthStack = createStackNavigator({ LoginScreen, RegisterScreen, PasswordRe
 
 const GroupStack = createStackNavigator({ GroupsScreen })
 
+
+
 const AppContainer = createAppContainer(createSwitchNavigator({
   TabNavigator, AuthStack, GroupStack
 },
   {
     initialRouteName: 'AuthStack'
   }));
+
 
 
 export default AppContainer;

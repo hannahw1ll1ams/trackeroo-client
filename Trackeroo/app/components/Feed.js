@@ -9,10 +9,8 @@ class Feed extends Component {
   }
   render() {
     const { navigation } = this.props
-
     return (
       <View>
-        <Text>FEED</Text>
         <FeedCard navigation={navigation} />
       </View>
     );
@@ -20,3 +18,5 @@ class Feed extends Component {
 }
 
 export default Feed;
+
+

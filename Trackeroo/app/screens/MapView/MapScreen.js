@@ -8,11 +8,11 @@ import AlternativeMap from '../../components/AlternativeMap'
 class MapScreen extends Component {
   render() {
     return (
-      <View>
-        <Text>This is MapScreen</Text>
-        {/* <Map style={styles.map} /> */}
-        {/* <StopWatch /> */}
+      <View style={styles.wholeContainer}>
         <AlternativeMap />
+        <Text style={styles.text}>This is ...'s Run</Text>
+        {/* <StopWatch /> */}
+
       </View>
     );
   }

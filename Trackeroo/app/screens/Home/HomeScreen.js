@@ -1,14 +1,24 @@
 import styles from './styles';
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
-import * as api from '../../../api'
 import Feed from '../../components/Feed';
+import { DrawerActions } from 'react-navigation-drawer';
+import Header from '../../components/Header';
+import ToggleButton from '../../components/ToggleButton';
+
 
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('title')
+      title: navigation.getParam('groupName'),
+      headerLeft: (
+        <ToggleButton navigation={navigation} />),
+      headerRight: (
+        <Button
+          onPress={() => alert('This is a button!')}
+          title="GO"
+        />)
     }
   };
 
@@ -16,30 +26,19 @@ class HomeScreen extends Component {
     isLoading: true
   }
 
-  handleSignOut = async () => {
-    const { navigate } = this.props.navigation
-    try {
-      await api.logout()
-      navigate('LoginScreen', { title: 'Sign In' })
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
 
   render() {
-    const { navigate } = this.props.navigation;
-
+    const { navigate, getParam } = this.props.navigation;
     // const { isLoading } = this.state;
     // if (isLoading) return <ActivityIndicator size="small" color="#00ff00" />
     return (
       <View style={styles.container}>
-        <Text>This is the HomeScreen.</Text>
-        <Text>Username : {JSON.stringify(this.props.navigation.getParam('username', 'NO-username'))}</Text>
-        <Text>Password : {JSON.stringify(this.props.navigation.getParam('password', 'NO-password'))}</Text>
-        <Text>GroupName : {JSON.stringify(this.props.navigation.getParam('groupName', 'no-group'))}</Text>
-        <Feed navigation={this.props.navigation} />
-        <Button title="Actually, sign me out" onPress={this.handleSignOut} />
+        {/* <Header navigation={this.props.navigation} /> */}
+        {/* <Text>Username : {JSON.stringify(this.props.navigation.getParam('username', 'NO-username'))}</Text>
+        <Text>Password : {JSON.stringify(this.props.navigation.getParam('password', 'NO-password'))}</Text> */}
+        {/* <Text>GroupName : {JSON.stringify(this.props.navigation.getParam('groupName', 'no-group'))}</Text> */}
+        <Feed navigation={this.props.navigation} groupName={getParam('groupName', 'no-group')} />
       </View>
     );
   }
