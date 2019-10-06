@@ -3,7 +3,7 @@ import { Text, View, Button, TextInput } from 'react-native';
 import styles from '../screens/Groups/styles';
 
 
-class UserCreator extends Component {
+class GroupCreator extends Component {
   state = {
     groupName: '',
     groupDescription: ''
@@ -34,10 +34,10 @@ class UserCreator extends Component {
         />
         <TextInput placeholder='description' name='groupDescription' onEndEditing={(event) => this.handleChange(event, 'groupDescription')} style={styles.inputStyle}
         />
-        <Button title="Create Group" onPress={this.handleSubmit} />
+        <Button title="Create!" onPress={this.handleSubmit} />
       </View>
     );
   }
 }
 
-export default UserCreator;
+export default GroupCreator;
