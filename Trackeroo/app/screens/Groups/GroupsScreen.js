@@ -35,7 +35,7 @@ class GroupsScreen extends Component {
         {groups.map(group => {
           return <Button key={group.title} title={group.title} onPress={(event) => this.onPress(event, group.title)} />
         })}
-        <ViewToggler postNewGroup={this.postNewGroup} />
+        <ViewToggler item='group' postNewGroup={this.postNewGroup} />
       </View>
     );
   }
