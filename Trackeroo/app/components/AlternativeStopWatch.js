@@ -9,19 +9,25 @@ class AlternativeStopWatch extends Component {
   state = {
     isStopwatchStart: false,
     timerDuration: 90000,
-    resetStopwatch: false
+    resetStopwatch: false,
+    endTime: ''
   };
 
-  startStopStopWatch = () => {
+  startStopStopWatch = (event) => {
+
+    const { updateActivityStatus } = this.props
+    console.log(event)
+
+
     this.setState({
       isStopwatchStart: !this.state.isStopwatchStart,
       resetStopwatch: false
     }, () => {
-      console.log(this.state.isStopwatchStart)
+      updateActivityStatus(this.state.isStopwatchStart, this.state.endTime)
     });
     //on start, send a notification up to feed, to update events to this person started a run, and include a type of event, if started a run then have the onPress method be to navigate to map, 
     //if event that someone has created a reward, then update the feed to say the logged in person has created a reward
-    //if event = stopped run, notification that 
+    //if event = stopped run etc
   }
 
   resetStopwatch = () => {
@@ -29,7 +35,7 @@ class AlternativeStopWatch extends Component {
   };
 
   getFormattedTime = time => {
-    console.log(time)
+    // console.log(time)
     this.currentTime = time;
   };
 
@@ -48,7 +54,7 @@ class AlternativeStopWatch extends Component {
           // //options for the styling
           getTime={this.getFormattedTime}
         />
-        <Button title={!this.state.isStopwatchStart ? 'START' : 'STOP'} onPress={this.startStopStopWatch} />
+        <Button title={!this.state.isStopwatchStart ? 'START' : 'STOP'} onPress={(event) => this.startStopStopWatch(event)} />
         <Button title='RESET' onPress={this.resetStopwatch} />
       </View>
     );

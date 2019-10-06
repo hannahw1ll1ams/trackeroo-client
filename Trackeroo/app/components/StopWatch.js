@@ -48,7 +48,7 @@ class App extends Component {
           />
           <Button onPress={this.startStopStopWatch}>
             <Text style={{ fontSize: 20, marginTop: 10 }}>
-              {!this.state.isStopwatchStart ? 'START' : 'STOP'}
+              {!this.state.isStopwatchStart ? 'START' : 'FINISH'}
             </Text>
           </Button>
           <Button onPress={this.resetStopwatch}>
