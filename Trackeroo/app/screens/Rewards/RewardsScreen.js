@@ -18,18 +18,25 @@ class RewardsScreen extends Component {
   // };
 
   state = {
-    rewards: [{ id: 1, challenge: '10,000 Steps', reward: 'last one buys a round of beers', madeBy: 'John', status: 'Live' }, { id: 2, challenge: '5,000 steps', reward: 'free coffee', madeBy: 'hannah', status: 'Closed' }],
+    rewards: [{ challenge: '10,000 Steps', reward: 'last one buys a round of beers', madeBy: 'John', status: 'LIVE' }, { challenge: '5,000 steps', reward: 'free coffee', madeBy: 'hannah', status: 'CLOSED' }],
   }
 
-  keyExtractor = item => String(item.id);
+  keyExtractor = item => String(item.challenge);
 
   renderItem = ({ item }) => (
     <ListItem
       title={item.challenge}
       subtitle={item.reward}
+      rightTitle={item.status}
       bottomDivider={true}
     />
   );
+
+  postNewReward = (challenge, reward) => {
+    this.setState(currentState => {
+      return { rewards: [...currentState.rewards, { challenge: challenge, reward: reward, status: 'LIVE' }] }
+    })
+  }
 
   render() {
     const { rewards } = this.state
