@@ -55,7 +55,7 @@ export default class App extends Component {
     } else if (this.state.location) {
       text = JSON.stringify(this.state.location);
     }
-    console.log(markers)
+    // console.log(markers)
     return (
       <View style={styles.container}>
         {/* {markers.map(marker => {
