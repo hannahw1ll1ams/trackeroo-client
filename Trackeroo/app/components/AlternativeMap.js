@@ -9,14 +9,14 @@ import RunInfoNumeric from './RunInfoNumeric';
 import haversine from 'haversine';
 import styles from '../screens/MapView/SharedStyles'
 
+///this doesn't quite work yet, need to pass in markers correctly to polyline 
 
-
-export default class App extends Component {
+export default class AlternativeMap extends Component {
   state = {
     errorMessage: null,
-    startTime: {},
-    endTime: {},
-    markers: [],
+    runs: [{ endTime: "00:00:00:457", distance: '', speed: '', markers: [] }],
+    ownRunMarkers: [],
+    finishedRun: false,
     watchID: null,
     isMapTrue: false
   };
@@ -26,6 +26,7 @@ export default class App extends Component {
   }
 
   _getLocationAsync = async () => {
+    const { isRunning } = this.props;
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
@@ -33,7 +34,9 @@ export default class App extends Component {
       });
     }
     await Location.watchPositionAsync({ enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 0.1 }, location => {
-      this.setState({ markers: [...this.state.markers, location] })
+      // if (isRunning) {
+      this.setState({ ownRunMarkers: [...this.state.ownRunMarkers, location] })
+      // }
     })
   }
 
@@ -41,21 +44,20 @@ export default class App extends Component {
     this.setState({ isMapTrue: true })
   }
 
-  onEndRun = () => {
-    const { markers, startTime, endTime } = this.state
-    //send to database, the run route, the start time and end time.
+  onEndRun = (time) => {
+    const { ownRunMarkers } = this.state
+    this.setState({ finishedRun: true })
   }
 
-
   render() {
-    const { markers } = this.state
+    const { ownRunMarkers } = this.state
     let text = 'Waiting..';
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
     } else if (this.state.location) {
       text = JSON.stringify(this.state.location);
     }
-    // console.log(markers)
+    // console.log(ownRunMarkers)
     return (
       <View style={styles.container}>
         {/* {markers.map(marker => {
@@ -73,9 +75,9 @@ export default class App extends Component {
             longitudeDelta: 0.02
           }}
         >
-          {markers.length > 0 && <Marker coordinate={{ latitude: markers[0].coords.latitude, longitude: markers[0].coords.longitude }}
+          {ownRunMarkers.length > 0 && <Marker coordinate={{ latitude: ownRunMarkers[0].coords.latitude, longitude: ownRunMarkers[0].coords.longitude }}
             title="starting position"
-            description={markers[0].description} />}
+            description={ownRunMarkers[0].description} />}
 
           {/* {markers.map(marker => (
             <Marker key={marker.timestamp}
@@ -86,17 +88,16 @@ export default class App extends Component {
           ))} */}
 
           {
-            this.state.isMapTrue && markers.length > 6 &&
+            this.state.isMapTrue && ownRunMarkers.length > 6 &&
             <Polyline coordinates={[
-              { latitude: markers[0].coords.latitude, longitude: markers[0].coords.longitude },
-              { latitude: markers[1].coords.latitude, longitude: markers[1].coords.longitude },
-              { latitude: markers[2].coords.latitude, longitude: markers[2].coords.longitude },
-              { latitude: markers[3].coords.latitude, longitude: markers[3].coords.longitude },
-              { latitude: markers[4].coords.latitude, longitude: markers[4].coords.longitude }
+              { latitude: ownRunMarkers[0].coords.latitude, longitude: ownRunMarkers[0].coords.longitude },
+              { latitude: ownRunMarkers[1].coords.latitude, longitude: ownRunMarkers[1].coords.longitude },
+              { latitude: ownRunMarkers[2].coords.latitude, longitude: ownRunMarkers[2].coords.longitude },
+              { latitude: ownRunMarkers[3].coords.latitude, longitude: ownRunMarkers[3].coords.longitude },
+              { latitude: ownRunMarkers[4].coords.latitude, longitude: ownRunMarkers[4].coords.longitude }
             ]} strokeWidth={5}
             />
           }
-
         </MapView>
       </View>
     );

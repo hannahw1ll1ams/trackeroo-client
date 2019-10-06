@@ -47,6 +47,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 165,
     justifyContent: 'center', alignItems: 'center'
+  },
+  statsBox: {
+    backgroundColor: 'white',
+    position: "absolute",
+    bottom: 65,
+    width: 300,
+    textAlign: 'center',
+
   }
 });
 
