@@ -1,9 +1,10 @@
 import styles from './styles';
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import ToggleButton from '../../components/ToggleButton';
+import { SafeAreaView } from "react-navigation";
 
-class LeaderBoardScreen extends Component {
+class AllUsersScreen extends Component {
   // static navigationOptions = ({ navigation }) => {
   //   return {
   //     title: navigation.getParam('title'),
@@ -13,12 +14,13 @@ class LeaderBoardScreen extends Component {
   // };
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#3b5998" barStyle="light-content" />
         <ToggleButton navigation={this.props.navigation} />
-        <Text>This is the LeaderBoard</Text>
-      </View>
+        <Text>This screen is empty.</Text>
+      </SafeAreaView>
     );
   }
 }
 
-export default LeaderBoardScreen;
+export default AllUsersScreen;

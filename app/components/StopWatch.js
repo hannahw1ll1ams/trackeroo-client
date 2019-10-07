@@ -1,6 +1,6 @@
 /*This is an Example of Timer/Stopwatch in React Native */
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 
 class App extends Component {
@@ -46,14 +46,14 @@ class App extends Component {
             //options for the styling
             getTime={this.getFormattedTime}
           />
-          <TouchableHighlight onPress={this.startStopStopWatch}>
+          <Button onPress={this.startStopStopWatch}>
             <Text style={{ fontSize: 20, marginTop: 10 }}>
-              {!this.state.isStopwatchStart ? 'START' : 'STOP'}
+              {!this.state.isStopwatchStart ? 'START' : 'FINISH'}
             </Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.resetStopwatch}>
+          </Button>
+          <Button onPress={this.resetStopwatch}>
             <Text style={{ fontSize: 20, marginTop: 10 }}>RESET</Text>
-          </TouchableHighlight>
+          </Button>
         </View>
         <View
           style={{

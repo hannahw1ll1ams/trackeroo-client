@@ -4,19 +4,20 @@ import FeedCard from './FeedCard';
 
 
 class Feed extends Component {
-  state = {
 
-  }
   render() {
-    const { navigation } = this.props
-
+    const { navigation, events } = this.props
     return (
       <View>
-        <Text>FEED</Text>
-        <FeedCard navigation={navigation} />
+        {events.map(event => {
+          console.log(event)
+          return <FeedCard key={event.eventText} navigation={navigation} eventText={event.eventText} />
+        })}
       </View>
     );
   }
 }
 
 export default Feed;
+
+
