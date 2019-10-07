@@ -5,6 +5,7 @@ import * as api from "./app/api";
 import Layout from "./app/components/Layout";
 import { FontProvider } from "./app/context/FontContext";
 import { RunsProvider } from "./app/context/RunsContext";
+import { AuthenticationProvider } from "./app/context/AuthenticationContext";
 
 export default class App extends Component {
   addRuns = runs => {
@@ -20,8 +21,7 @@ export default class App extends Component {
   state = {
     runs: [],
     addRuns: this.addRuns,
-    hasFontLoaded: false,
-    isAuthenticated: false
+    hasFontLoaded: false
   };
 
   componentDidMount = async () => {
