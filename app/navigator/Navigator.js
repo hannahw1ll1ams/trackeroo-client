@@ -1,7 +1,7 @@
 import RegisterScreen from "../screens/Register";
 import LoginScreen from "../screens/Login";
 import PasswordResetScreen from "../screens/PasswordReset";
-import GroupsScreen from "../screens/Groups";
+// import GroupsScreen from "../screens/Groups";
 // import AuthLoadingScreen from '../screens/AuthLoading';
 
 import { createStackNavigator } from "react-navigation-stack";
@@ -15,14 +15,14 @@ const AuthStack = createStackNavigator({
   PasswordResetScreen
 });
 
-const GroupStack = createStackNavigator({ GroupsScreen });
+// const GroupStack = createStackNavigator({ GroupsScreen });
 
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       TabNavigator,
       AuthStack,
-      GroupStack
+      // GroupStack
     },
     {
       initialRouteName: "AuthStack"
