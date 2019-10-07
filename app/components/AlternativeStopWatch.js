@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 import styles from '../screens/MapView/SharedStyles';
-
+import moment from 'moment'
 
 class AlternativeStopWatch extends Component {
 
@@ -10,24 +10,49 @@ class AlternativeStopWatch extends Component {
     isStopwatchStart: false,
     timerDuration: 90000,
     resetStopwatch: false,
-    endTime: ''
+    startTime: 0,
+    isRunning: false
   };
 
-  startStopStopWatch = (event) => {
+  // startStopStopWatch = () => {
 
-    const { updateActivityStatus } = this.props
-    console.log(event)
+  //   const { updateActivityStatus } = this.props;
 
+  //   this.setState({
+  //     isStopwatchStart: !this.state.isStopwatchStart,
+  //     resetStopwatch: false
+  //   },
+  //     () => {
+  //       updateActivityStatus(this.state.isRunning)
+  //     }
+  //   );
+  // }
+
+  startWatch = () => {
+    const { updateActivityStatus } = this.props;
+    const startTime = new Date().getTime()
 
     this.setState({
-      isStopwatchStart: !this.state.isStopwatchStart,
-      resetStopwatch: false
-    }, () => {
-      updateActivityStatus(this.state.isStopwatchStart, this.state.endTime)
-    });
-    //on start, send a notification up to feed, to update events to this person started a run, and include a type of event, if started a run then have the onPress method be to navigate to map, 
-    //if event that someone has created a reward, then update the feed to say the logged in person has created a reward
-    //if event = stopped run etc
+      resetStopwatch: false, isRunning: true, startTime
+    },
+      () => {
+        updateActivityStatus(this.state.isRunning, this.state.startTime)
+      })
+  }
+
+  stopStopWatch = () => {
+    const { updateActivityStatus } = this.props;
+    const { startTime } = this.state;
+    const endTime = new Date().getTime()
+    console.log(startTime, endTime)
+    const totalTime = endTime - startTime
+    console.log(totalTime)
+    this.setState({
+      resetStopwatch: false, isRunning: false
+    },
+      () => {
+        updateActivityStatus(this.state.isRunning, totalTime)
+      })
   }
 
   resetStopwatch = () => {
@@ -41,12 +66,13 @@ class AlternativeStopWatch extends Component {
 
 
   render() {
+    const { isRunning } = this.state
     return (
       <View style={styles.stopwatch}>
         <Stopwatch
           laps
           msecs
-          start={this.state.isStopwatchStart}
+          start={this.state.isRunning}
           //To start
           reset={this.state.resetStopwatch}
           //To reset
@@ -54,7 +80,8 @@ class AlternativeStopWatch extends Component {
           // //options for the styling
           getTime={this.getFormattedTime}
         />
-        <Button title={!this.state.isStopwatchStart ? 'START' : 'STOP'} onPress={(event) => this.startStopStopWatch(event)} />
+        {isRunning === false && <Button title='START RUN' onPress={this.startWatch} />}
+        {isRunning && <Button title='FINISH RUN' onPress={this.stopStopWatch} />}
         <Button title='RESET' onPress={this.resetStopwatch} />
       </View>
     );
