@@ -7,9 +7,9 @@ In the root of the project, create an `environment.js` file and add the followin
 ```
 import Constants from "expo-constants";
 
-const apiUrl = "https://t7yfejrlg9.execute-api.eu-west-1.amazonaws.com/api";
+const apiUrl = "your-api-url";
 const webSocketUrl =
-  "wss://gm0t9l8xo2.execute-api.eu-west-1.amazonaws.com/api/";
+  "your-websocket-url";
 
 const ENV = {
   dev: {
