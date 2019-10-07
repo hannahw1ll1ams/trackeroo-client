@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-// import GroupCreator from './GroupCreator'
+import GroupCreator from './GroupCreator'
 import RewardCreator from './RewardCreator'
 
 class ViewToggler extends Component {
@@ -24,7 +24,7 @@ class ViewToggler extends Component {
       <View>
         <Button onPress={this.handlePress} title={messageToggle === true ? `+Add ${item}` : "Hide Form"}>
         </Button>
-        {/* {(isShowingForm) && (item === 'group') && <GroupCreator postNewGroup={postNewGroup} />} */}
+        {(isShowingForm) && (item === 'group') && <GroupCreator postNewGroup={postNewGroup} />}
         {(isShowingForm) && (item === 'reward') && <RewardCreator postNewReward={postNewReward} />}
       </View>
     );
