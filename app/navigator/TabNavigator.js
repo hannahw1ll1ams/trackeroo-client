@@ -4,6 +4,7 @@ import MapView from "../screens/MapView";
 import FeedScreen from "../screens/Feed";
 import FollowingScreen from "../screens/Following";
 import RunScreen from "../screens/Run";
+import RewardsScreen from '../screens/Rewards'
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -18,7 +19,8 @@ const TabNavigator = createBottomTabNavigator(
     Home: Home,
     Feed: FeedScreen,
     Run: RunScreen,
-    Following: FollowingScreen
+    Members: FollowingScreen,
+    Rewards: RewardsScreen
   },
   {
     tabBarOptions: {
@@ -48,8 +50,11 @@ const TabNavigator = createBottomTabNavigator(
         if (routeName === "Feed") {
           iconName = "rss-feed";
         }
-        if (routeName === "Following") {
+        if (routeName === "Members") {
           iconName = "people";
+        }
+        if (routeName === "Rewards") {
+          iconName = "star";
         }
         return <IconComponent name={iconName} size={24} color={tintColor} />;
       }

@@ -15,34 +15,48 @@
 
 import React, { Component } from 'react';
 import { View, Button, Text, FlatList, StyleSheet } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, ButtonGroup } from 'react-native-elements';
 import Typography from '../../components/Typography';
 import { SafeAreaView } from 'react-navigation';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 
 class FollowingScreen extends Component {
   state = {
     users: [
-      { name: 'John' },
-      { name: 'Hannah' },
-      { name: 'Than' },
-      { name: 'Tim' }
+      { name: 'John', followers: "10" },
+      { name: 'Hannah', followers: "100000" },
+      { name: 'Than', followers: "75" },
+      { name: 'Tim', followers: "-30" }
     ],
     suggested: [
-      { name: 'Rowan' },
-      { name: 'Williams' },
-      { name: 'Doran' },
-      { name: 'Doan' }
-    ]
+      { name: 'Rowan', followers: "67" },
+      { name: 'Williams', followers: "3" },
+      { name: 'Doran', followers: "76" },
+      { name: 'Doan', followers: "100" }
+    ], selectedIndex: 0
   };
 
+
+  updateIndex = (selectedIndex) => {
+    this.setState({ selectedIndex })
+  }
+
   render() {
-    const { users, suggested } = this.state;
+    const { users, selectedIndex, suggested } = this.state;
+    const buttons = ["Current", "Suggested"]
     // console.log(users);
     return (
       <View style={styles.container}>
-        <Text style={styles.text}></Text>
-
-        <FlatList
+        <ButtonGroup
+          onPress={this.updateIndex}
+          selectedIndex={selectedIndex}
+          buttons={buttons}
+          containerStyle={{ height: 100 }}
+        />
+        {selectedIndex === 0 ?
+          <Typography>Following</Typography> : <Typography>People you might know</Typography>
+        }
+        {selectedIndex === 0 && <FlatList
           data={users}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
@@ -51,26 +65,28 @@ class FollowingScreen extends Component {
               title={item.name}
               bottomDivider={true}
               rightTitle="unfollow"
+              subtitle={`${item.followers} followers`}
             />
           )}
           keyExtractor={item => item.name}
-        />
-        <Text style={styles.text}>People you may know</Text>
-        <FlatList
-          data={suggested}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <ListItem
-              style={styles.flatview}
-              title={item.name}
-              bottomDivider={true}
-              rightTitle="follow"
-            >
-              <Button>+</Button>
-            </ListItem>
-          )}
-          keyExtractor={item => item.name}
-        />
+        />}
+
+        {selectedIndex === 1 &&
+          <FlatList
+            data={suggested}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <ListItem
+                style={styles.flatview}
+                title={item.name}
+                bottomDivider={true}
+                rightTitle="follow"
+                subtitle={item.followers}
+
+              />
+            )}
+            keyExtractor={item => item.name}
+          />}
       </View>
     );
   }
@@ -83,7 +99,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 25,
-    color: 'red',
+    color: 'purple',
     marginLeft: 7
   },
   flatview: {
