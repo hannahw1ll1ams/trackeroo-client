@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import GroupCreator from '../components/GroupCreator'
-import RewardCreator from '../components/RewardCreator'
+import GroupCreator from './GroupCreator'
+import RewardCreator from '../../Trackeroo/app/components/RewardCreator'
 
 class ViewToggler extends Component {
   state = {

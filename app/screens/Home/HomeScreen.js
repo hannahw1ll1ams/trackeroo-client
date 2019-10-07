@@ -52,7 +52,7 @@ class HomeScreen extends Component {
             this.props.navigation.getParam("groupName", "no-group")
           )}
         </Text>
-        <Feed navigation={this.props.navigation} />
+        {/* <Feed navigation={this.props.navigation} /> */}
         <Button title="Actually, sign me out" onPress={this.handleSignOut} />
       </View>
     );
