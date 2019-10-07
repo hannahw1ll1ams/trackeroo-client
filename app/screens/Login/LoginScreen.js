@@ -18,9 +18,11 @@ class LoginScreen extends Component {
   async componentDidMount() {
     const { navigate } = this.props.navigation;
     try {
-      const token = await api.getToken();
+      // const token = await api.getToken();
+      const token = 'fdnsfjs'
+
       if (token) {
-        navigate("HomeScreen", { title: "Which group to enter?" });
+        navigate("HomeScreen", { title: "Trackeroo" });
       }
     } catch (error) {
       console.log(error);

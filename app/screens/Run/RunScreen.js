@@ -18,10 +18,16 @@ const RunScreen = () => {
     setIsRunning(boolean)
   }
 
+
+  collectFinalRunData = (averageSpeed, distanceTravelled) => {
+    this.handleRun(averageSpeed, distanceTravelled)
+  }
+
+
   return (
     <View>
       <Typography>Hello</Typography>
-      <AlternativeMap isRunning={isRunning} />
+      <AlternativeMap isRunning={isRunning} collectFinalRunData={collectFinalRunData} />
       <AlternativeStopWatch style={styles.stopwatch} updateActivityStatus={updateActivityStatus} />
     </View>
   );

@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import RunInfo from './RunInfo';
 import RunInfoNumeric from './RunInfoNumeric';
 import haversine from 'haversine';
-import styles from '../screens/MapView/SharedStyles'
+import styles from '../screens/MapView/SharedStyles';
 
 let id = 0;
 
