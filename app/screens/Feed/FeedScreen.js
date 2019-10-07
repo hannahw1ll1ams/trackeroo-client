@@ -4,6 +4,8 @@ import Typography from "../../components/Typography";
 import * as api from "../../api";
 import RunsContext from "../../context/RunsContext";
 import RunItem from "../../components/RunItem";
+import getEnvVars from "../../../environment";
+const { webSocketUrl } = getEnvVars();
 
 const FeedScreen = () => {
   const { runs, addRuns } = useContext(RunsContext);
@@ -13,6 +15,23 @@ const FeedScreen = () => {
   };
   useEffect(() => {
     fetchRuns();
+    const ws = new WebSocket(webSocketUrl);
+    ws.onopen = () => {
+      ws.send(
+        JSON.stringify({
+          username: "asdadd",
+          start_time: Date.now()
+        })
+      );
+      console.log("connected to ws");
+    };
+
+    ws.onmessage = event => {
+      console.log(event.data);
+    };
+    // return () => {
+    //   ws.close();
+    // };
   }, []);
 
   return (
