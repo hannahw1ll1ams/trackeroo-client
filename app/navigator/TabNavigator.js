@@ -22,10 +22,13 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
+      tabStyle: {
+        paddingVertical: 4
+      },
       style: {
-        backgroundColor: "#121212",
-        height: 52,
-        border: "none"
+        backgroundColor: "rgba(255,255,255,0.07)",
+        height: 56,
+        borderTopColor: "transparent"
       },
       activeTintColor: "#ce93d8",
       inactiveTintColor: "rgba(255,255,255,0.7)"
