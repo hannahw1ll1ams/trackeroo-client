@@ -26,9 +26,9 @@ const RunScreen = () => {
 
   return (
     <View>
-      <Typography>Hello</Typography>
       <AlternativeMap isRunning={isRunning} collectFinalRunData={collectFinalRunData} />
       <AlternativeStopWatch style={styles.stopwatch} updateActivityStatus={updateActivityStatus} />
+      <Typography>Start a run?</Typography>
     </View>
   );
 };

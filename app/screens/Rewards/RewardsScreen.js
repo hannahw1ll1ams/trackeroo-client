@@ -18,7 +18,7 @@ class RewardsScreen extends Component {
   // };
 
   state = {
-    rewards: [{ challenge: '10,000 Steps', reward: 'last one buys a round of beers', madeBy: 'John', status: 'LIVE' }, { challenge: '5,000 steps', reward: 'free coffee', madeBy: 'hannah', status: 'CLOSED' }],
+    rewards: [{ challenge: '10,000 Steps', reward: 'last one buys a round of beers', madeBy: 'John', status: 'LIVE' }, { challenge: '5,000 steps', reward: 'free coffee', madeBy: 'hannah', status: 'CLOSED' }]
   }
 
   keyExtractor = item => String(item.challenge);
@@ -42,10 +42,7 @@ class RewardsScreen extends Component {
     const { rewards } = this.state
     return (
       <SafeAreaView style={styles.container}>
-        <ToggleButton navigation={this.props.navigation} />
-        <Text>This is RewardsScreen</Text>
         <FlatList data={rewards} keyExtractor={this.keyExtractor} renderItem={this.renderItem} />
-        <Button title='+' />
         <ViewToggler item='reward' postNewReward={this.postNewReward} />
       </SafeAreaView>
     );

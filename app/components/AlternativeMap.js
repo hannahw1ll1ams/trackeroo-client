@@ -40,6 +40,14 @@ export default class AlternativeMap extends Component {
       //   const averageSpeed = calcAveSpeed(allSpeeds)
       //   //SEND POST REQUEST HERE
       // }
+      //?????
+      //or
+      //if(isRunning === false) {
+      //  const { allSpeeds, distanceTravelled} = this.state;
+      //  const averageSpeed = calcAveSpeed(allSpeeds)
+      //  const {collectFinalRunData} = this.props
+      //  collectFinalRunData(averageSpeed, distanceTravelled)
+
     }
   }
 
@@ -104,8 +112,6 @@ export default class AlternativeMap extends Component {
     // console.log(currentSpeed, '<--- currentSpeed')
     console.log(allSpeeds, '<--- allSpeeds')
 
-
-
     return (
       <View style={styles.container}>
         {/* {markers.map(marker => {
@@ -132,13 +138,14 @@ export default class AlternativeMap extends Component {
             title="starting position"
             description={ownRunObjects[0].description} />}
 
-          {ownRunObjects.map(marker => (
+          {ownRunObjects.map(marker => {
             <Marker key={marker.timestamp}
               coordinate={{ latitude: marker.coords.latitude, longitude: marker.coords.longitude }}
               title="route"
               description={marker.description}
             />
-          ))}
+          }
+          )}
 
           {/* {routeCoordinates.length > 0 && <Marker coordinate={{ latitude: routeCoordinates[0].latitude, longitude: routeCoordinates[0].longitude }}
             title="starting position"
