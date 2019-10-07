@@ -41,9 +41,13 @@ class FollowingScreen extends Component {
     this.setState({ selectedIndex })
   }
 
+  handlePress = () => {
+    console.log('pressed')
+  }
+
   render() {
     const { users, selectedIndex, suggested } = this.state;
-    const buttons = ["Current", "Suggested"]
+    const buttons = ["Current Members", "Suggested"]
     // console.log(users);
     return (
       <View style={styles.container}>
@@ -53,8 +57,7 @@ class FollowingScreen extends Component {
           buttons={buttons}
           containerStyle={{ height: 100 }}
         />
-        {selectedIndex === 0 ?
-          <Typography>Following</Typography> : <Typography>People you might know</Typography>
+        {selectedIndex === 1 && <Typography>People you might know to invite to group</Typography>
         }
         {selectedIndex === 0 && <FlatList
           data={users}
@@ -64,8 +67,11 @@ class FollowingScreen extends Component {
               style={styles.flatview}
               title={item.name}
               bottomDivider={true}
-              rightTitle="unfollow"
+              rightTitle="wave to"
               subtitle={`${item.followers} followers`}
+              badge={{ value: 'wave to', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
+              onPress={this.handlePress}
+              checkmark={true}
             />
           )}
           keyExtractor={item => item.name}
@@ -80,9 +86,9 @@ class FollowingScreen extends Component {
                 style={styles.flatview}
                 title={item.name}
                 bottomDivider={true}
-                rightTitle="follow"
+                rightTitle="invite"
                 subtitle={item.followers}
-
+                badge={{ value: 'invite', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
               />
             )}
             keyExtractor={item => item.name}

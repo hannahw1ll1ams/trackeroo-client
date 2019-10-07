@@ -9,7 +9,7 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam("title")
+      title: navigation.getParam("groupName")
     };
   };
 
