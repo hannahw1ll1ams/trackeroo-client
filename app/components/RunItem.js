@@ -15,7 +15,10 @@ const RunItem = ({ run }) => {
         backgroundColor: "rgba(255,255,255,0.05)",
         paddingHorizontal: 20,
         paddingVertical: 16,
-        marginBottom: 16
+        marginBottom: 16,
+        borderColor: "black",
+        borderWidth: 1,
+        borderStyle: "solid"
       }}
     >
       <Typography>
