@@ -22,7 +22,7 @@ class LoginScreen extends Component {
       const token = 'fdnsfjs'
 
       if (token) {
-        navigate("HomeScreen", { title: "Trackeroo" });
+        navigate("GroupsScreen", { title: "Which group to enter?" });
       }
     } catch (error) {
       console.log(error);
