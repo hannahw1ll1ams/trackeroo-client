@@ -7,14 +7,18 @@ In the root of the project, create an `environment.js` file and add the followin
 ```
 import Constants from "expo-constants";
 
-const apiUrl = "backend-api-url-here";
+const apiUrl = "https://t7yfejrlg9.execute-api.eu-west-1.amazonaws.com/api";
+const webSocketUrl =
+  "wss://gm0t9l8xo2.execute-api.eu-west-1.amazonaws.com/api/";
 
 const ENV = {
   dev: {
-    apiUrl
+    apiUrl,
+    webSocketUrl
   },
   prod: {
-    apiUrl
+    apiUrl,
+    webSocketUrl
   }
 };
 
@@ -29,5 +33,6 @@ const getEnvVars = (env = Constants.manifest.releaseChannel) => {
 };
 
 export default getEnvVars;
+
 
 ```
