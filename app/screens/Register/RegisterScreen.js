@@ -1,16 +1,22 @@
-import styles from "./styles";
-import React, { Component } from "react";
-import { View, Button, TextInput, Text, TouchableOpacity } from "react-native";
-import * as api from "../../api";
-import Typography from "../../components/Typography";
-
+import styles from './styles';
+import React, { Component } from 'react';
+import {
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  ImageBackground
+} from 'react-native';
+import * as api from '../../api';
+import Typography from '../../components/Typography';
+import { Input, Button } from 'react-native-elements';
 
 class RegisterScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam("title"),
+      title: navigation.getParam('title'),
       headerStyle: {
-        backgroundColor: '#61469C',
+        backgroundColor: '#61469C'
       }
     };
   };
@@ -32,18 +38,18 @@ class RegisterScreen extends Component {
     usernameRule = /^[a-zA-Z0-9]+$/;
     passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}( )<>£%+='$:;%^&*])(?=.{8,})/;
 
-    if (inputType === "username") {
+    if (inputType === 'username') {
       if (usernameRule.test(text)) {
-        console.log("username is valid");
+        console.log('username is valid');
         this.setState({ [inputType]: text });
-      } else console.log("username is invalid");
+      } else console.log('username is invalid');
     }
 
-    if (inputType === "password") {
+    if (inputType === 'password') {
       if (passwordRule.test(text)) {
-        console.log("password is valid");
+        console.log('password is valid');
         this.setState({ [inputType]: text });
-      } else console.log("password is invalid");
+      } else console.log('password is invalid');
     }
   };
 
@@ -52,9 +58,9 @@ class RegisterScreen extends Component {
     const { navigate } = this.props.navigation;
     try {
       await api.signup(username, password);
-      navigate("HomeScreen", { username, password, title: "Home" });
+      navigate('HomeScreen', { username, password, title: 'Home' });
     } catch (error) {
-      console.log("in register catch block");
+      console.log('in register catch block');
     }
   };
 
@@ -62,28 +68,39 @@ class RegisterScreen extends Component {
     const { navigate } = this.props.navigation;
     const { username, password } = this.state;
     return (
-      <View style={styles.container}>
-        <TextInput
-          placeholder="username"
-          onEndEditing={event => this.handleChange(event, "username")}
-          name="username"
-          underlineColorAndroid='black'
+      <View style={styles.register}>
+        <ImageBackground
+          source={require('./gale.jpg')}
+          style={styles.backgroundImage}
+        >
+          <Input
+            placeholder="Username:"
+            placeholderTextColor="white"
+            onEndEditing={event => this.handleChange(event, 'username')}
+            underlineColorAndroid="black"
+          />
 
-        />
-        <TextInput
-          placeholder="password"
-          onEndEditing={event => this.handleChange(event, "password")}
-          name="password"
-          underlineColorAndroid='black'
+          <Input
+            placeholder="Password:"
+            placeholderTextColor="white"
+            onEndEditing={event => this.handleChange(event, 'password')}
+            underlineColorAndroid="black"
+          />
 
-        />
-        <Typography>
-          Password must be 8 characters long, include at least one capital and
-          lowercase letter, and one number
-        </Typography>
-        <TouchableOpacity style={styles.signup_button}>
-          <Typography onPress={this.handleSubmit}>Create</Typography>
-        </TouchableOpacity>
+          <Typography>
+            Password must be 8 characters long, include at least one capital and
+            lowercase letter, and one number
+          </Typography>
+          <TouchableOpacity style={styles.signup_button}>
+            <Button
+              style={styles.button}
+              title="Register"
+              onPress={this.handleSubmit}
+            >
+              Create
+            </Button>
+          </TouchableOpacity>
+        </ImageBackground>
       </View>
     );
   }
