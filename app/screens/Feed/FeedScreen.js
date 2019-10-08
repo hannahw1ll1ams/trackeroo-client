@@ -5,10 +5,12 @@ import * as api from "../../api";
 import RunsContext from "../../context/RunsContext";
 import RunItem from "../../components/RunItem";
 import getEnvVars from "../../../environment";
+import UserContext from "../../context/UserContext";
 const { webSocketUrl } = getEnvVars();
 
 const FeedScreen = () => {
   const { runs, addRuns } = useContext(RunsContext);
+  const { user } = useContext(UserContext);
   const fetchRuns = async () => {
     const latestRuns = await api.getRuns();
     addRuns(latestRuns);
@@ -19,11 +21,10 @@ const FeedScreen = () => {
     ws.onopen = () => {
       ws.send(
         JSON.stringify({
-          username: "asdadd",
-          start_time: Date.now()
+          type: "connect",
+          username: user.username,
         })
       );
-      console.log("connected to ws");
     };
 
     ws.onmessage = event => {

@@ -14,10 +14,14 @@ const request = axios.create({
 
 export const login = async (username, password) => {
   try {
-    const { headers } = await request.post("/login", { username, password });
+    const { headers, data } = await request.post("/login", {
+      username,
+      password
+    });
     const token = headers["x-amzn-remapped-authorization"];
     storeToken(token);
     setAuthorizationHeader(token);
+    return data.user;
   } catch (error) {
     throw error;
   }
@@ -33,8 +37,8 @@ export const signup = async (username, password) => {
     const token = headers["x-amzn-remapped-authorization"];
     storeToken(token);
     setAuthorizationHeader(token);
+    return data.user;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -101,6 +105,17 @@ export const getRuns = async () => {
       end_time: Date.now()
     }
   ];
+};
+
+export const getSuggestedUsers = async () => {
+  const { data } = request.get("/users");
+  return data.users;
+};
+
+export const followUser = async (username, followerUsername) => {
+  return request.post(`/users/${username}/followers`, {
+    follower: followerUsername
+  });
 };
 
 export const startRun = async ({ username, start_time }) => {

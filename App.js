@@ -6,6 +6,7 @@ import Layout from "./app/components/Layout";
 import { FontProvider } from "./app/context/FontContext";
 import { RunsProvider } from "./app/context/RunsContext";
 import { AuthenticationProvider } from "./app/context/AuthenticationContext";
+import { UserProvider } from "./app/context/UserContext";
 
 export default class App extends Component {
   addRuns = runs => {
@@ -18,28 +19,37 @@ export default class App extends Component {
     }
   };
 
+  setUser = user => {
+    this.setState({ user });
+  };
+
   state = {
     runs: [],
     addRuns: this.addRuns,
-    hasFontLoaded: false
+    hasFontLoaded: false,
+    user: {},
+    setUser: this.setUser
   };
 
   componentDidMount = async () => {
     await api.loadFonts();
     this.setState({ hasFontLoaded: true });
-    await api.storeToken("token", "adadd");
+    // await api.storeToken("token", "adadd");
+    await api.storeToken("token", "");
     // Orientation.lockToPortrait();
   };
 
   render() {
-    const { hasFontLoaded } = this.state;
+    const { hasFontLoaded, user } = this.state;
     return (
       <Layout>
-        <FontProvider value={hasFontLoaded}>
-          <RunsProvider value={this.state}>
-            <Navigator />
-          </RunsProvider>
-        </FontProvider>
+        <UserProvider value={user}>
+          <FontProvider value={hasFontLoaded}>
+            <RunsProvider value={this.state}>
+              <Navigator />
+            </RunsProvider>
+          </FontProvider>
+        </UserProvider>
       </Layout>
     );
   }

@@ -13,38 +13,36 @@
 
 // export default FollowingScreen;
 
-import React, { Component } from 'react';
-import { View, Button, Text, FlatList, StyleSheet } from 'react-native';
-import { ListItem, ButtonGroup } from 'react-native-elements';
-import Typography from '../../components/Typography';
-import { SafeAreaView } from 'react-navigation';
-import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
-import UserItem from '../../components/UserItem'
-
+import React, { Component } from "react";
+import { View, Button, Text, FlatList, StyleSheet } from "react-native";
+import { ListItem } from "react-native-elements";
+import Typography from "../../components/Typography";
+import { SafeAreaView } from "react-navigation";
+import UsersList from "../../components/UsersList";
+import { getSuggestedUsers } from "../../api";
 
 class FollowingScreen extends Component {
   state = {
     users: [
-      { name: 'John', followers: "10" },
-      { name: 'Hannah', followers: "100000" },
-      { name: 'Thanh', followers: "75" },
-      { name: 'Tim', followers: "-30" }
+      { username: "John" },
+      { username: "Hannah" },
+      { username: "Than" },
+      { username: "Tim" }
     ],
     suggested: [
-      { name: 'Rowan', followers: "67" },
-      { name: 'Williams', followers: "3" },
-      { name: 'Doran', followers: "76" },
-      { name: 'Doan', followers: "100" }
-    ], selectedIndex: 0
+      { username: "Rowan" },
+      { username: "Williams" },
+      { username: "Doran" },
+      { username: "Doan" }
+    ]
   };
 
-
-  updateIndex = (selectedIndex) => {
-    this.setState({ selectedIndex })
-  }
-
-  handlePress = () => {
-    console.log('pressed')
+  async componentDidMount() {
+    try {
+      const users = await getSuggestedUsers();
+      console.log(users);
+      // console.log(users)
+    } catch (err) {}
   }
 
   render() {
@@ -59,51 +57,8 @@ class FollowingScreen extends Component {
           buttons={buttons}
           containerStyle={{ height: 100 }}
         />
-        {selectedIndex === 1 && <Typography>People you might know to invite to group</Typography>
-        }
-        {selectedIndex === 0 && <FlatList
-          data={users}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            // <ListItem
-            //   style={styles.flatview}
-            //   title={item.name}
-            //   bottomDivider={true}
-            //   // rightTitle="wave to"
-            //   subtitle={`${item.followers} points`}
-            //   badge={{ value: '1', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
-            // // checkmark={true}
-            // />
-            <UserItem user={item} current={true} />
-          )}
-          keyExtractor={item => item.name}
-        />}
-
-        {/* {selectedIndex === 1 &&
-          <FlatList
-            data={suggested}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <ListItem
-                style={styles.flatview}
-                title={item.name}
-                bottomDivider={true}
-                rightTitle="invite"
-                subtitle={item.followers}
-                onPress={this.handlePress}
-                badge={{ value: 'invite', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
-              />
-            )}
-            keyExtractor={item => item.name}
-          />} */}
-        {selectedIndex === 1 &&
-          <FlatList
-            keyExtractor={item => item.name}
-            data={suggested}
-            renderItem={({ item }) => <UserItem user={item} current={false} />}
-          />
-        }
-
+        <Text style={styles.text}>People you may know</Text>
+        <UsersList users={users} />
       </View>
     );
   }
@@ -111,7 +66,7 @@ class FollowingScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flexDirection: "column",
     flex: 1
   },
   text: {
@@ -120,7 +75,7 @@ const styles = StyleSheet.create({
     marginLeft: 7
   },
   flatview: {
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingTop: 30,
     borderRadius: 2
   }
