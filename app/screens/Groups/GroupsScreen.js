@@ -11,7 +11,7 @@ class GroupsScreen extends Component {
   }
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('title')
+      header: null,
     }
   };
   onPress = (event, title) => {
