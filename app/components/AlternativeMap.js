@@ -9,6 +9,7 @@ import RunInfoNumeric from './RunInfoNumeric';
 import haversine from 'haversine';
 import styles from '../screens/MapView/SharedStyles';
 import pick from 'lodash.pick';
+import Typography from './Typography';
 
 
 ///this doesn't quite work yet, need to pass in markers correctly to polyline 
@@ -179,8 +180,8 @@ export default class AlternativeMap extends Component {
             />
           } */}
         </MapView>
-        <Text>Speed: {currentSpeed} </Text>
-        <Text>Distance: {distanceTravelled} km</Text>
+        <Typography>Speed: {currentSpeed} </Typography>
+        <Typography>Distance: {distanceTravelled} km</Typography>
       </View>
     );
   }
