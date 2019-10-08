@@ -25,8 +25,8 @@ class RewardsScreen extends Component {
 
   renderItem = ({ item }) => (
     <ListItem
-      title={item.challenge}
-      subtitle={item.reward}
+      title={`Challenge: ${item.challenge}`}
+      subtitle={`Reward: ${item.reward}`}
       rightTitle={item.status}
       bottomDivider={true}
     />

@@ -29,8 +29,6 @@ class RewardCreator extends Component {
 
     return (
       <View>
-        <Text> New Reward Details :</Text>
-
         <TextInput placeholder='challenge' onEndEditing={(event) => this.handleChange(event, 'challenge')} name='challenge' style={styles.inputStyle}
         />
         <TextInput placeholder='reward' name='reward' onEndEditing={(event) => this.handleChange(event, 'reward')} style={styles.inputStyle}

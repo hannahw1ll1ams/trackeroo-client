@@ -2,12 +2,17 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  }
+    justifyContent: "space-evenly",
+    // top: 30
+  },
+  padLeft: {
+    paddingLeft: 16
+  },
+  padRight: {
+    paddingRight: 16
+  },
+
 });
 
 export default styles;
