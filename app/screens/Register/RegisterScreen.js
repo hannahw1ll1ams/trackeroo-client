@@ -1,12 +1,17 @@
 import styles from "./styles";
 import React, { Component } from "react";
-import { View, Button, TextInput, Text } from "react-native";
+import { View, Button, TextInput, Text, TouchableOpacity } from "react-native";
 import * as api from "../../api";
+import Typography from "../../components/Typography";
+
 
 class RegisterScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam("title")
+      title: navigation.getParam("title"),
+      headerStyle: {
+        backgroundColor: '#61469C',
+      }
     };
   };
   state = {
@@ -62,17 +67,23 @@ class RegisterScreen extends Component {
           placeholder="username"
           onEndEditing={event => this.handleChange(event, "username")}
           name="username"
+          underlineColorAndroid='black'
+
         />
         <TextInput
           placeholder="password"
           onEndEditing={event => this.handleChange(event, "password")}
           name="password"
+          underlineColorAndroid='black'
+
         />
-        <Text>
+        <Typography>
           Password must be 8 characters long, include at least one capital and
           lowercase letter, and one number
-        </Text>
-        <Button title="Create account and Log In" onPress={this.handleSubmit} />
+        </Typography>
+        <TouchableOpacity style={styles.signup_button}>
+          <Typography onPress={this.handleSubmit}>Create</Typography>
+        </TouchableOpacity>
       </View>
     );
   }

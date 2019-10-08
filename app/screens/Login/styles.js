@@ -1,13 +1,17 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
+  fullSize: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
+  },
   container: {
     flex: 1,
-    justifyContent: "space-evenly",
-    alignItems: "center"
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#606469'
   },
   inputStyle: {
-    backgroundColor: '#b4ffff',
     marginBottom: 15,
     fontSize: 25,
     color: '#69f0ae',
@@ -20,6 +24,14 @@ const styles = StyleSheet.create({
   error: {
     borderWidth: 3,
     borderColor: 'red'
+  },
+  textInput: {
+    width: 200,
+    height: 40,
+    marginBottom: 15
+  },
+  signInText: {
+    fontSize: 40
   }
 });
 

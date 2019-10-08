@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: 'grey'
   },
   button: {
   },
@@ -25,7 +26,9 @@ const styles = StyleSheet.create({
   button: {
     position: "absolute",
     top: 5,
-
+  },
+  signup_button: {
+    color: 'black'
   }
 });
 
