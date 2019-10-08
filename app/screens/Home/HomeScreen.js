@@ -7,9 +7,17 @@ import Typography from "../../components/Typography";
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 class HomeScreen extends Component {
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     title: navigation.getParam("groupName"),
+  //     headerStyle: {
+  //       backgroundColor: '#61469C',
+  //     },
+  //   };
+  // };
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam("groupName")
+      header: null
     };
   };
 

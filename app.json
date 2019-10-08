@@ -13,9 +13,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/footprint-01.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/logoTrackeroo2.png",
+      "resizeMode": "Contain",
+      "backgroundColor": "#61469C"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
