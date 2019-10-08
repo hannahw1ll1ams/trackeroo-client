@@ -19,13 +19,15 @@ import { ListItem, ButtonGroup } from 'react-native-elements';
 import Typography from '../../components/Typography';
 import { SafeAreaView } from 'react-navigation';
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
+import UserItem from '../../components/UserItem'
+
 
 class FollowingScreen extends Component {
   state = {
     users: [
       { name: 'John', followers: "10" },
       { name: 'Hannah', followers: "100000" },
-      { name: 'Than', followers: "75" },
+      { name: 'Thanh', followers: "75" },
       { name: 'Tim', followers: "-30" }
     ],
     suggested: [
@@ -47,7 +49,7 @@ class FollowingScreen extends Component {
 
   render() {
     const { users, selectedIndex, suggested } = this.state;
-    const buttons = ["Current Members", "Suggested"]
+    const buttons = ["Current Rankings", "Suggested"]
     // console.log(users);
     return (
       <View style={styles.container}>
@@ -63,21 +65,21 @@ class FollowingScreen extends Component {
           data={users}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <ListItem
-              style={styles.flatview}
-              title={item.name}
-              bottomDivider={true}
-              rightTitle="wave to"
-              subtitle={`${item.followers} followers`}
-              badge={{ value: 'wave to', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
-              onPress={this.handlePress}
-              checkmark={true}
-            />
+            // <ListItem
+            //   style={styles.flatview}
+            //   title={item.name}
+            //   bottomDivider={true}
+            //   // rightTitle="wave to"
+            //   subtitle={`${item.followers} points`}
+            //   badge={{ value: '1', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
+            // // checkmark={true}
+            // />
+            <UserItem user={item} current={true} />
           )}
           keyExtractor={item => item.name}
         />}
 
-        {selectedIndex === 1 &&
+        {/* {selectedIndex === 1 &&
           <FlatList
             data={suggested}
             showsVerticalScrollIndicator={false}
@@ -88,11 +90,20 @@ class FollowingScreen extends Component {
                 bottomDivider={true}
                 rightTitle="invite"
                 subtitle={item.followers}
+                onPress={this.handlePress}
                 badge={{ value: 'invite', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
               />
             )}
             keyExtractor={item => item.name}
-          />}
+          />} */}
+        {selectedIndex === 1 &&
+          <FlatList
+            keyExtractor={item => item.name}
+            data={suggested}
+            renderItem={({ item }) => <UserItem user={item} current={false} />}
+          />
+        }
+
       </View>
     );
   }
