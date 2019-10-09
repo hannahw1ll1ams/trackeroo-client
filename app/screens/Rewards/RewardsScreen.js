@@ -62,9 +62,12 @@ class RewardsScreen extends Component {
   }
 
   postNewReward = (challenge, reward) => {
-    this.setState(currentState => {
-      return { rewards: [...currentState.rewards, { challenge: challenge, reward: reward, status: 'LIVE' }] }
-    })
+    api.sendNewReward(challenge, reward).then((newReward) => {
+      this.setState(currentState => {
+        return { openRewards: [newReward, ...currentState.openRewards] }
+      })
+    }).catch(error => console.log('ERRORRRR'))
+
   }
 
   rewardClaimed = (reward_id) => {
