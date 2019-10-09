@@ -21,7 +21,7 @@ const RunScreen = () => {
   const handleStartRun = async () => {
     try {
       const run = await api.startRun(user.username, Date.now());
-      //does this work??? 
+      //does this work???, how do you get in async back this value?
       setRun_id(run.run_id)
       console.log(run);
     } catch (err) {
@@ -30,7 +30,8 @@ const RunScreen = () => {
   };
 
   const handleEndRun = (averageSpeed, distanceTravelled, stringedCoords) => {
-    api.endRun("hannah", run_id)
+    api.endRun("hannah", run_id).catch(error => console.log('ERROR'))
+    api.updateDistanceTotal("hannah", distanceTravelled).catch(error => console.log('ERROR'))
     console.log(endTime, '<----totalTime')
     console.log(averageSpeed, '<----averageSpeed')
     console.log(distanceTravelled, '<----totalDistance')

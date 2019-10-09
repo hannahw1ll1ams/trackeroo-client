@@ -241,3 +241,22 @@ export const getMyRuns = async (username) => {
     throw (error)
   }
 }
+
+
+export const sendNewReward = async (challenge, reward) => {
+  try {
+    const { reward } = await request.post('/rewards', { challenge, reward })
+    return reward;
+  } catch (error) {
+    throw (error)
+  }
+}
+
+//do we get anything back from this one??
+export const updateDistanceTotal = async (username, distanceTravelled) => {
+  try {
+    await request.patch(`/users/${username}`, { distance: distanceTravelled })
+  } catch (error) {
+    throw (error)
+  }
+}
