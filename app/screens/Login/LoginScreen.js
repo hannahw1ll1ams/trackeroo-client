@@ -145,9 +145,7 @@ class LoginScreen extends Component {
             </Typography>
           </TouchableOpacity>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Typography onPress={handleSubmit}>Sign In</Typography>
-        </TouchableOpacity>
+        <TouchableOpacity></TouchableOpacity>
         <TouchableOpacity>
           <Typography
             onPress={() => navigate('RegisterScreen', { title: 'SIGN UP' })}

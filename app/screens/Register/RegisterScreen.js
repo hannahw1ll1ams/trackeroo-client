@@ -1,8 +1,17 @@
 import styles from './styles';
 import React, { Component, useState, useContext } from 'react';
-import { View, Button, TextInput, Text } from 'react-native';
+import {
+  View,
+  Button,
+  TextInput,
+  Text,
+  ImageBackground,
+  TouchableOpacity
+} from 'react-native';
+import { Input } from 'react-native-elements';
 import * as api from '../../api';
 import UserContext from '../../context/UserContext';
+import Typography from '../../components/Typography';
 
 const RegisterScreen = ({ navigation }) => {
   const { setUser } = useContext(UserContext);
@@ -73,11 +82,7 @@ const RegisterScreen = ({ navigation }) => {
           lowercase letter, and one number
         </Typography>
         <TouchableOpacity style={styles.signup_button}>
-          <Button
-            style={styles.button}
-            title="Register"
-            onPress={handleSubmit}
-          >
+          <Button style={styles.button} title="Register" onPress={handleSubmit}>
             Create
           </Button>
         </TouchableOpacity>
