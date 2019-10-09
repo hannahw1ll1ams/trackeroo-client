@@ -10,22 +10,11 @@ class AlternativeStopWatch extends Component {
     timerDuration: 90000,
     resetStopwatch: false,
     startTime: 0,
-    isRunning: false
+    isRunning: false,
+    resetPressed: true
+
   };
 
-  // startStopStopWatch = () => {
-
-  //   const { updateActivityStatus } = this.props;
-
-  //   this.setState({
-  //     isStopwatchStart: !this.state.isStopwatchStart,
-  //     resetStopwatch: false
-  //   },
-  //     () => {
-  //       updateActivityStatus(this.state.isRunning)
-  //     }
-  //   );
-  // }
 
   startWatch = async () => {
     const { updateActivityStatus, onStart } = this.props;
@@ -35,10 +24,13 @@ class AlternativeStopWatch extends Component {
       {
         resetStopwatch: false,
         isRunning: true,
-        startTime
+        startTime,
+        resetPressed: false
       },
       () => {
         updateActivityStatus(this.state.isRunning, this.state.startTime);
+        onResetPress(this.state.resetStopwatch)
+
       }
     );
     await onStart();
@@ -49,7 +41,7 @@ class AlternativeStopWatch extends Component {
     const { startTime } = this.state;
     const endTime = new Date().getTime();
     // console.log(startTime, endTime);
-    const totalTime = endTime - startTime;
+    // const totalTime = endTime - startTime;
     // console.log(totalTime);
     this.setState(
       {
@@ -57,13 +49,16 @@ class AlternativeStopWatch extends Component {
         isRunning: false
       },
       () => {
-        updateActivityStatus(this.state.isRunning, totalTime);
+        updateActivityStatus(this.state.isRunning, endTime);
       }
     );
   };
 
   resetStopwatch = () => {
-    this.setState({ isStopwatchStart: false, resetStopwatch: true });
+    const { onResetPress } = this.props;
+    this.setState({ isStopwatchStart: false, resetStopwatch: true, resetPressed: true }, () => {
+      onResetPress(this.state.resetStopwatch)
+    });
   };
 
   getFormattedTime = time => {
@@ -72,7 +67,7 @@ class AlternativeStopWatch extends Component {
   };
 
   render() {
-    const { isRunning } = this.state;
+    const { isRunning, resetPressed } = this.state;
     return (
       <View style={styles.stopwatch}>
         <Stopwatch
@@ -86,13 +81,9 @@ class AlternativeStopWatch extends Component {
           // //options for the styling
           getTime={this.getFormattedTime}
         />
-        {isRunning === false && (
-          <Button title="START RUN" onPress={this.startWatch} />
-        )}
-        {isRunning && (
-          <Button title="FINISH RUN" onPress={this.stopStopWatch} />
-        )}
-        <Button title="RESET" onPress={this.resetStopwatch} />
+        {isRunning === false && <Button title='START RUN' onPress={this.startWatch} disabled={resetPressed === false} />}
+        {isRunning && <Button title='FINISH RUN' onPress={this.stopStopWatch} />}
+        <Button disabled={isRunning} title='RESET' onPress={this.resetStopwatch} />
       </View>
     );
   }
