@@ -146,7 +146,7 @@ class LoginScreen extends Component {
           </TouchableOpacity>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Typography onPress={handleSubmit}>Sign In</Typography>
+          <Typography onPress={this.handleSubmit}>Sign In</Typography>
         </TouchableOpacity>
         <TouchableOpacity>
           <Typography

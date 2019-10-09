@@ -40,7 +40,7 @@ class GroupsScreen extends Component {
     console.log(groups);
     return (
       <View style={styles.groups}>
-        <Image source={require('./fabio.jpg')} style={styles.backgroundImage} />
+        {/* <Image source={require('./fabio.jpg')} style={styles.backgroundImage} /> */}
         <Text style={styles.text}>Your current groups: </Text>
         {groups.map(group => {
           return (

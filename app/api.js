@@ -134,7 +134,6 @@ export const followUser = async (username, followerUsername) => {
 };
 
 export const startRun = async (username, start_time) => {
-  console.log({ username, start_time });
   try {
     const { data } = await request.post("/runs", { username, start_time });
     return data.run;

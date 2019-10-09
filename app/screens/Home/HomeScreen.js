@@ -2,7 +2,6 @@ import styles from "./styles";
 import React, { Component, useState, useContext } from "react";
 import { Text, View, Button } from "react-native";
 import * as api from "../../api";
-import Feed from "../../components/Feed";
 import Typography from "../../components/Typography";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import UserContext from "../../context/UserContext";

@@ -46,10 +46,10 @@ const RegisterScreen = ({ navigation }) => {
   const { username, password } = state;
   return (
     <View style={styles.register}>
-      <ImageBackground
+      {/* <ImageBackground
         source={require('./road.jpg')}
         style={styles.backgroundImage}
-      >
+      > */}
         <Input
           style={styles.input}
           inputStyle={{ color: 'white' }}
@@ -81,7 +81,7 @@ const RegisterScreen = ({ navigation }) => {
             Create
           </Button>
         </TouchableOpacity>
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </View>
   );
 };

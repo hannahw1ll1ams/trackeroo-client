@@ -47,11 +47,10 @@ const FeedScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#121212" }}>
       <View
         style={{
           backgroundColor: "rgba(255,255,255,0.05)",
-          paddingTop: 36,
           paddingBottom: 16,
           paddingHorizontal: 20,
           marginBottom: 16

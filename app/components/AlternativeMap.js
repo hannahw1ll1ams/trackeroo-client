@@ -1,23 +1,24 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  Text,
-  View,
-  StyleSheet,
-  TouchableHighlight
-} from "react-native";
-import Constants from "expo-constants";
+import { View, Dimensions, StyleSheet } from "react-native";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import RunInfo from "./RunInfo";
-import RunInfoNumeric from "./RunInfoNumeric";
 import haversine from "haversine";
 import styles from "../screens/MapView/SharedStyles";
 import pick from "lodash.pick";
 import Typography from "./Typography";
+import AlternativeStopWatch from "./AlternativeStopWatch";
+import StopWatch from "./StopWatch";
 
 ///this doesn't quite work yet, need to pass in markers correctly to polyline
+
+const boxStyle = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  paddingVertical: 10,
+  paddingLeft: 20
+};
 
 export default class AlternativeMap extends Component {
   state = {
@@ -32,9 +33,8 @@ export default class AlternativeMap extends Component {
     allSpeeds: []
   };
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const { isRunning, totalTime, collectFinalRunData } = this.props;
-    console.log(isRunning, "<---- is running");
     if (prevProps.isRunning !== this.props.isRunning) {
       if (isRunning) {
         this._getLocationAsync();
@@ -45,14 +45,11 @@ export default class AlternativeMap extends Component {
         const averageSpeed = this.calcAveSpeed(allSpeeds);
         const stringedCoords = JSON.stringify({ run: routeCoordinates });
 
-        collectFinalRunData(averageSpeed, distanceTravelled, stringedCoords);
-        // this.setState({
-        //   routeCoordinates: [],
-        //   distanceTravelled: 0,
-        //   prevLatLng: {},
-        //   currentSpeed: 0,
-        //   allSpeeds: []
-        // })
+        await collectFinalRunData(
+          averageSpeed,
+          distanceTravelled,
+          stringedCoords
+        );
       }
     }
     if (prevProps.resetRun !== this.props.resetRun) {
@@ -75,7 +72,7 @@ export default class AlternativeMap extends Component {
     }
     this.location = await Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 0.1 },
-      location => {
+      async location => {
         const { routeCoordinates, distanceTravelled, allSpeeds } = this.state;
         const newLatLngs = {
           latitude: location.coords.latitude,
@@ -96,8 +93,10 @@ export default class AlternativeMap extends Component {
             run: routeCoordinates.concat(positionLatLngs)
           })
         };
+        const { onUpdateRun } = this.props;
+        await onUpdateRun(updatedRun);
         //also add run_id and username
-        console.log("running", updatedRun);
+
         this.setState({
           routeCoordinates: routeCoordinates.concat(positionLatLngs),
           // ownRunObjects: [...this.state.ownRunObjects, location],
@@ -126,34 +125,25 @@ export default class AlternativeMap extends Component {
   };
 
   render() {
-    const {
-      ownRunObjects,
-      routeCoordinates,
-      distanceTravelled,
-      prevLatLng,
-      currentSpeed,
-      allSpeeds
-    } = this.state;
-    const { isRunning } = this.state;
+    const { routeCoordinates, distanceTravelled, currentSpeed } = this.state;
+    const { isRunning, updateActivityStatus, onReset, shouldResetStopWatch } = this.props;
+    const { onResetPress } = this.props;
+    // const { isRunning } = this.state;
     let text = "Waiting..";
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
     } else if (this.state.location) {
       text = JSON.stringify(this.state.location);
     }
-    // console.log(ownRunObjects, '<--- routeCoordinates')
-    console.log(routeCoordinates, "<--- routeCoordinates");
-    // console.log(distanceTravelled, '<--- distanceTravelled')
-    // console.log(prevLatLng, '<--- prevLatLng')
-    // console.log(currentSpeed, '<--- currentSpeed')
-    // console.log(allSpeeds, '<--- allSpeeds')
-    // console.log(routeCoordinates, '<--- allSpeeds')
 
     return (
-      <View style={styles.container}>
+      <View style={{ display: "flex", flexDirection: "column" }}>
         <MapView
           onLayout={this.onMapLayout}
-          style={styles.map}
+          style={{
+            height: Dimensions.get("window").height - 50,
+            width: Dimensions.get("window").width
+          }}
           showsUserLocation={true}
           followsUserLocation={true}
           initialRegion={{
@@ -162,37 +152,7 @@ export default class AlternativeMap extends Component {
             latitudeDelta: 0.02,
             longitudeDelta: 0.02
           }}
-          // overlays={[{
-          //   coordinates: this.state.routeCoordinates,
-          //   strokeColor: '#19B5FE',
-          //   lineWidth: 10,
-          // }]}
         >
-          {/* {ownRunObjects.length > 0 && <Marker coordinate={{ latitude: ownRunObjects[0].coords.latitude, longitude: ownRunObjects[0].coords.longitude }}
-            title="starting position"
-            description={ownRunObjects[0].description} />}
-
-          {ownRunObjects.map(marker => {
-            <Marker key={marker.timestamp}
-              coordinate={{ latitude: marker.coords.latitude, longitude: marker.coords.longitude }}
-              title="route"
-              description={marker.description}
-            />
-          }
-          )} */}
-
-          {/* {routeCoordinates.length > 0 && <Marker coordinate={{ latitude: routeCoordinates[0].latitude, longitude: routeCoordinates[0].longitude }}
-            title="starting position"
-            description={routeCoordinates[0].description} />} */}
-
-          {/* {routeCoordinates.map(marker => (
-            <Marker key={marker.timestamp}
-              coordinate={{ latitude: marker.coords.latitude, longitude: marker.coords.longitude }}
-              title="route"
-              description={marker.description}
-            />
-          ))} */}
-
           {this.state.isMapTrue && routeCoordinates.length > 0 && (
             <Marker
               coordinate={{
@@ -217,41 +177,73 @@ export default class AlternativeMap extends Component {
           {this.state.isMapTrue && (
             <Polyline strokeWidth={5} coordinates={routeCoordinates} />
           )}
-          {/* {
-            this.state.isMapTrue && ownRunObjects.length > 6 &&
-            <Polyline coordinates={[
-              { latitude: ownRunObjects[0].coords.latitude, longitude: ownRunObjects[0].coords.longitude },
-              { latitude: ownRunObjects[1].coords.latitude, longitude: ownRunObjects[1].coords.longitude },
-              { latitude: ownRunObjects[2].coords.latitude, longitude: ownRunObjects[2].coords.longitude },
-              { latitude: ownRunObjects[3].coords.latitude, longitude: ownRunObjects[3].coords.longitude },
-              { latitude: ownRunObjects[4].coords.latitude, longitude: ownRunObjects[4].coords.longitude }
-            ]} strokeWidth={5}
-            />
-          } */}
         </MapView>
-        {isRunning === false && routeCoordinates.length > 0 && (
-          <Typography>You have posted a new run!</Typography>
-        )}
-        <Typography>Speed: {currentSpeed.toFixed(2)} </Typography>
-        <Typography>Distance: {distanceTravelled.toFixed(2)} km</Typography>
 
-        {/* if no-one is running */}
+        <View
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            backgroundColor: "#121212",
+            width: Dimensions.get("window").width
+          }}
+        >
+          <View style={boxStyle}>
+            <Typography color="secondary" fontSize={12}>
+              Speed:
+            </Typography>
+            <View
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-end"
+              }}
+            >
+              <Typography color="accent" fontSize={30}>
+                {currentSpeed.toFixed(1)}
+              </Typography>
+              <View style={{ marginBottom: 5, marginLeft: 5 }}>
+                <Typography fontSize={12} color="primary">
+                  mph
+                </Typography>
+              </View>
+            </View>
+          </View>
+          <View style={boxStyle}>
+            <Typography fontSize={12} color="secondary">
+              Distance:
+            </Typography>
+            <View
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-end"
+              }}
+            >
+              <Typography color="accent" fontSize={30}>
+                {distanceTravelled.toFixed(1)}
+              </Typography>
+              <View style={{ marginBottom: 5, marginLeft: 5 }}>
+                <Typography fontSize={12} color="primary">
+                  km
+                </Typography>
+              </View>
+            </View>
+          </View>
+
+          {/* <AlternativeStopWatch
+            updateActivityStatus={updateActivityStatus}
+            onResetPress={onResetPress}
+          /> */}
+          <StopWatch shouldResetStopWatch={shouldResetStopWatch} onReset={onReset} isRunning={isRunning} />
+        </View>
       </View>
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     paddingTop: Constants.statusBarHeight,
-//     backgroundColor: '#ecf0f1',
-//   },
-//   paragraph: {
-//     margin: 24,
-//     fontSize: 18,
-//     textAlign: 'center',
-//   },
-// });
