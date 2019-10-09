@@ -15,7 +15,7 @@
 
 import React, { Component } from "react";
 import { View, Button, Text, FlatList, StyleSheet } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, ButtonGroup } from "react-native-elements";
 import Typography from "../../components/Typography";
 import { SafeAreaView } from "react-navigation";
 import UsersList from "../../components/UsersList";
@@ -23,12 +23,7 @@ import { getSuggestedUsers } from "../../api";
 
 class FollowingScreen extends Component {
   state = {
-    users: [
-      { username: "John" },
-      { username: "Hannah" },
-      { username: "Than" },
-      { username: "Tim" }
-    ],
+    users: [],
     suggested: [
       { username: "Rowan" },
       { username: "Williams" },
@@ -40,14 +35,17 @@ class FollowingScreen extends Component {
   async componentDidMount() {
     try {
       const users = await getSuggestedUsers();
-      console.log(users);
-      // console.log(users)
-    } catch (err) {}
+      this.setState(currentState => ({
+        users: [...currentState.users, ...users]
+      }));
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
     const { users, selectedIndex, suggested } = this.state;
-    const buttons = ["Current Rankings", "Suggested"]
+    const buttons = ["Current Rankings", "Suggested"];
     // console.log(users);
     return (
       <View style={styles.container}>
@@ -71,7 +69,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 25,
-    color: 'purple',
+    color: "purple",
     marginLeft: 7
   },
   flatview: {
