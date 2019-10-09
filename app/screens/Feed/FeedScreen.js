@@ -14,8 +14,8 @@ const FeedScreen = ({ navigation }) => {
   const fetchRuns = async () => {
     try {
       const latestRuns = await api.getLatestRuns(user.username);
-      console.log('running', latestRuns)
-      addRuns(latestRuns)
+      console.log("running", latestRuns);
+      addRuns(latestRuns);
     } catch (err) {
       console.log(err);
     }
@@ -37,6 +37,7 @@ const FeedScreen = ({ navigation }) => {
     ws.onmessage = event => {
       const { run } = JSON.parse(event.data);
       if (run) {
+        console.log("new run", run);
         addRuns(run);
       }
     };
@@ -63,7 +64,9 @@ const FeedScreen = ({ navigation }) => {
       <FlatList
         keyExtractor={item => item.run_id}
         data={runs}
-        renderItem={({ item }) => <RunItem navigate={navigation.navigate} run={item} />}
+        renderItem={({ item }) => (
+          <RunItem navigate={navigation.navigate} run={item} />
+        )}
       />
     </View>
   );

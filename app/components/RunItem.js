@@ -35,7 +35,7 @@ const RunItem = ({ run, navigate }) => {
 
       <Button
         onPress={() => {
-          navigate("MapView", { run_id });
+          navigate("SingleRunnersMap", { run_id });
         }}
         title="View Live"
       />
