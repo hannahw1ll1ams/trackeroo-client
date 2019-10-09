@@ -4,7 +4,8 @@ import MapView from "../screens/MapView";
 import FeedScreen from "../screens/Feed";
 import FollowingScreen from "../screens/Following";
 import RunScreen from "../screens/Run";
-import RewardsScreen from '../screens/Rewards'
+import RewardsScreen from "../screens/Rewards";
+import SingleRunnersMap from "../components/SingleRunnersMap";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -14,10 +15,15 @@ const Home = createStackNavigator({
   MapView
 });
 
+const Feed = createStackNavigator({
+  FeedScreen,
+  SingleRunnersMap
+});
+
 const TabNavigator = createBottomTabNavigator(
   {
     Home: Home,
-    Feed: FeedScreen,
+    Feed: Feed,
     Run: RunScreen,
     Members: FollowingScreen,
     Rewards: RewardsScreen

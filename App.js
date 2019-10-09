@@ -21,7 +21,11 @@ export default class App extends Component {
       if (runExists) {
         this.setState(currentState => ({
           runs: currentState.runs.map(r => {
-            r.run_id === runs.run_id;
+            if (r.run_id === runs.run_id) {
+              return runs;
+            } else {
+              return r;
+            }
           })
         }));
       } else {
