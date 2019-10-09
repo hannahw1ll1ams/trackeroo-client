@@ -4,7 +4,8 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Dimensions
 } from "react-native";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
@@ -29,10 +30,13 @@ const SingleRunnersMap = ({ navigation }) => {
   const run = runs.find(r => r.run_id === run_id);
   console.log("running", run);
   return run ? (
-    <View style={styles.container}>
+    <View style={{ display: "flex", flexDirection: "column" }}>
       <MapView
         onLayout={onMapLayout}
-        style={styles.map}
+        style={{
+          height: Dimensions.get("window").height - 50,
+          width: Dimensions.get("window").width
+        }}
         showsUserLocation={true}
         followsUserLocation={true}
         initialRegion={{

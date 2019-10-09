@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Button } from "react-native";
-import { Text } from "react-native-elements";
+import { View, TouchableOpacity } from "react-native";
+import { Button } from "react-native-elements";
 import Typography from "./Typography";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
@@ -33,12 +33,25 @@ const RunItem = ({ run, navigate }) => {
           : timeAgo.format(new Date(start_time))}
       </Typography>
 
-      <Button
+      <TouchableOpacity
         onPress={() => {
           navigate("SingleRunnersMap", { run_id });
         }}
-        title="View Live"
-      />
+        style={{
+          backgroundColor: "#121212",
+          width: 100,
+          alignSelf: "flex-end",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          padding: 5
+          // paddingRight: 20
+        }}
+      >
+        <Typography fontSize={14} color="accent">
+          Go Live
+        </Typography>
+      </TouchableOpacity>
     </View>
   );
 };
