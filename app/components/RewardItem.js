@@ -7,11 +7,10 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const UserItem = ({ user, current }) => {
-  const { name, followers } = user;
-
-  handlePress = () => {
-    console.log(`INVITED ${name}`)
+const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex }) => {
+  const { challenge, reward, winner, reward_id } = rewardObj;
+  handlePress = (id) => {
+    rewardClaimed(id)
   }
   return (
     <View
@@ -25,17 +24,20 @@ const UserItem = ({ user, current }) => {
         justifyContent: "space-between"
       }}
     >
-      <Typography>
-        {`${name} `}
-        <Typography fontWeight={400} color="secondary">
-          {followers}
-        </Typography>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column'
+      }}>
+        <Typography>
+          Challenge: {rewardObj.challenge} km
       </Typography>
-      {current === false && <Button title='Invite' onPress={this.handlePress} />}
-      {current === true && <Typography>Rank</Typography>}
-
+        <Typography>
+          Reward: {reward}
+        </Typography>
+      </View>
+      {selectedIndex === 0 && <Button title="CLAIM" onPress={() => this.handlePress(reward_id)} />}
     </View>
   );
 };
 
-export default UserItem;
+export default RewardItem;
