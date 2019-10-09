@@ -17,7 +17,7 @@ class AlternativeStopWatch extends Component {
 
 
   startWatch = async () => {
-    const { updateActivityStatus, onStart } = this.props;
+    const { updateActivityStatus, onStart, onResetPress } = this.props;
     const startTime = new Date().getTime();
 
     this.setState(
@@ -33,7 +33,7 @@ class AlternativeStopWatch extends Component {
 
       }
     );
-    await onStart();
+    // await onStart();
   };
 
   stopStopWatch = () => {

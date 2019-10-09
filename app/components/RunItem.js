@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Button } from "react-native";
 import { Text } from "react-native-elements";
 import Typography from "./Typography";
 import TimeAgo from "javascript-time-ago";
@@ -7,7 +7,7 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const RunItem = ({ run }) => {
+const RunItem = ({ run, navigate }) => {
   const { username, start_time, end_time, run_id } = run;
   return (
     <View
@@ -32,6 +32,13 @@ const RunItem = ({ run }) => {
           ? timeAgo.format(new Date(end_time))
           : timeAgo.format(new Date(start_time))}
       </Typography>
+
+      <Button
+        onPress={() => {
+          navigate("SingleRunnersMap", { run_id });
+        }}
+        title="View Live"
+      />
     </View>
   );
 };

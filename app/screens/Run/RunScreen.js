@@ -8,9 +8,10 @@ import styles from "../MapView/SharedStyles";
 import UserContext from "../../context/UserContext";
 
 const RunScreen = () => {
+  //whether running
+  //
   const [isRunning, setIsRunning] = useState(false);
   const [endTime, setEndTime] = useState(null);
-  const [startTime, setStartTime] = useState(null)
   const [completedRun, setCompletedRun] = useState(false);
   const [resetRun, setResetRun] = useState(false)
 
@@ -18,7 +19,6 @@ const RunScreen = () => {
 
   const handleStartRun = async (startingTime) => {
     //make request here
-    console.log(startTime, '<---starting time')
     try {
       const run = await api.startRun(user.username, Date.now());
       console.log(run);
@@ -33,6 +33,7 @@ const RunScreen = () => {
     console.log(endTime, '<----totalTime')
     console.log(averageSpeed, '<----averageSpeed')
     console.log(distanceTravelled, '<----totalDistance')
+    //send this to server
     console.log(stringedCoords, '<----runObject')
   };
 
@@ -43,7 +44,7 @@ const RunScreen = () => {
 
     }
     else {
-      setEndTime(time)
+      setEndTime(Date.now())
     }
   }
 
@@ -60,7 +61,7 @@ const RunScreen = () => {
     <View>
       <Typography>Start a run?</Typography>
       <AlternativeMap isRunning={isRunning}
-        collectFinalRunData={collectFinalRunData} resetRun={onResetPress} />
+        collectFinalRunData={collectFinalRunData} resetRun={resetRun} />
 
       <AlternativeStopWatch style={styles.stopwatch} updateActivityStatus={updateActivityStatus} onResetPress={onResetPress} />
     </View>
