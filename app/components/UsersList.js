@@ -20,8 +20,8 @@ const UsersList = ({ users }) => {
             <Button
               onPress={async () => {
                 try {
-                  console.log(username, user.username);
-                  // await followUser(username, user.username);
+                  console.log(username, user.username)
+                  await followUser(username, user.username);
                 } catch (err) {
                   console.log(err);
                 }
