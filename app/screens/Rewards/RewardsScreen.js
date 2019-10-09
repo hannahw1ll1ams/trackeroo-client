@@ -83,7 +83,7 @@ class RewardsScreen extends Component {
   }
 
   render() {
-    const { rewards, selectedIndex } = this.state
+    const { rewards, selectedIndex, user } = this.state
     const buttons = ["Live", "Closed"]
 
     return (
@@ -93,14 +93,15 @@ class RewardsScreen extends Component {
           selectedIndex={selectedIndex}
           buttons={buttons}
           containerStyle={{ height: 100 }}
+
         />
         {selectedIndex === 0 && <Typography>What is up for grabs??</Typography>}
-        <FlatList
+        <FlatList user={user}
           data={rewards}
           selectedIndex={selectedIndex}
           keyExtractor={this.keyExtractor}
           renderItem={({ item }) => (
-            <RewardItem rewardObj={item} rewardClaimed={this.rewardClaimed} selectedIndex={selectedIndex} />
+            <RewardItem user={user} rewardObj={item} rewardClaimed={this.rewardClaimed} selectedIndex={selectedIndex} />
           )} />
         <ViewToggler item='reward' postNewReward={this.postNewReward} />
       </SafeAreaView>

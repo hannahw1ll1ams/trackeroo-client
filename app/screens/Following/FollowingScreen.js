@@ -47,7 +47,6 @@ class FollowingScreen extends Component {
     //pass in 
     api.followSpecificUser(usernameToFollow)
     api.beSubscribedToUser(usernameToFollow)
-
   }
 
   render() {
