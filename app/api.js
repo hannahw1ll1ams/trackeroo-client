@@ -241,3 +241,13 @@ export const getMyRuns = async (username) => {
     throw (error)
   }
 }
+
+
+export const sendNewReward = async (challenge, reward) => {
+  try {
+    const { reward } = await request.post('/rewards', { challenge, reward })
+    return reward;
+  } catch (error) {
+    throw (error)
+  }
+}
