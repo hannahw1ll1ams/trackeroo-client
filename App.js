@@ -7,6 +7,7 @@ import { FontProvider } from "./app/context/FontContext";
 import { RunsProvider } from "./app/context/RunsContext";
 import { AuthenticationProvider } from "./app/context/AuthenticationContext";
 import { UserProvider } from "./app/context/UserContext";
+import { AsyncStorage } from "react-native";
 
 export default class App extends Component {
   addRuns = runs => {
@@ -33,9 +34,14 @@ export default class App extends Component {
 
   componentDidMount = async () => {
     await api.loadFonts();
-    this.setState({ hasFontLoaded: true });
+    try {
+      const username = await AsyncStorage.getItem("username");
+      this.setState({ hasFontLoaded: true, user: { username } });
+    } catch (err) {
+      this.setState({ hasFontLoaded: true });
+    }
+    // await api.storeToken("token", "");
     // await api.storeToken("token", "adadd");
-    await api.storeToken("token", "");
     // Orientation.lockToPortrait();
   };
 
@@ -43,7 +49,7 @@ export default class App extends Component {
     const { hasFontLoaded, user } = this.state;
     return (
       <Layout>
-        <UserProvider value={user}>
+        <UserProvider value={this.state}>
           <FontProvider value={hasFontLoaded}>
             <RunsProvider value={this.state}>
               <Navigator />
