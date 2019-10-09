@@ -1,51 +1,40 @@
-// import React from 'react';
-// import { View } from 'react-native';
-// //import Typography from '../../components/Typography';
-// import UserList from '../../components/UserList';
+import React, { Component } from 'react';
+import { View, Button, Text, FlatList, StyleSheet } from 'react-native';
+import { ListItem, ButtonGroup } from 'react-native-elements';
+import Typography from '../../components/Typography';
+import { SafeAreaView } from 'react-navigation';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
+import UserItem from '../../components/UserItem'
 
-// const FollowingScreen = () => {
-//   return (
-//     <View>
-//       <UserList />
-//     </View>
-//   );
-// };
-
-// export default FollowingScreen;
-
-import React, { Component } from "react";
-import { View, Button, Text, FlatList, StyleSheet } from "react-native";
-import { ListItem, ButtonGroup } from "react-native-elements";
-import Typography from "../../components/Typography";
-import { SafeAreaView } from "react-navigation";
-import UsersList from "../../components/UsersList";
-import { getSuggestedUsers } from "../../api";
 
 class FollowingScreen extends Component {
   state = {
-    users: [],
+    users: [
+      { name: 'John', followers: "10" },
+      { name: 'Hannah', followers: "100000" },
+      { name: 'Thanh', followers: "75" },
+      { name: 'Tim', followers: "-30" }
+    ],
     suggested: [
-      { username: "Rowan" },
-      { username: "Williams" },
-      { username: "Doran" },
-      { username: "Doan" }
-    ]
+      { name: 'Rowan', followers: "67" },
+      { name: 'Williams', followers: "3" },
+      { name: 'Doran', followers: "76" },
+      { name: 'Doan', followers: "100" }
+    ], selectedIndex: 0
   };
 
-  async componentDidMount() {
-    try {
-      const users = await getSuggestedUsers();
-      this.setState(currentState => ({
-        users: [...currentState.users, ...users]
-      }));
-    } catch (err) {
-      console.log(err);
-    }
+
+  updateIndex = (selectedIndex) => {
+    this.setState({ selectedIndex })
+  }
+
+  handlePress = () => {
+    console.log('pressed')
   }
 
   render() {
     const { users, selectedIndex, suggested } = this.state;
-    const buttons = ["Current Rankings", "Suggested"];
+    const buttons = ["Current Rankings", "Suggested"]
     // console.log(users);
     return (
       <View style={styles.container}>
@@ -55,8 +44,13 @@ class FollowingScreen extends Component {
           buttons={buttons}
           containerStyle={{ height: 100 }}
         />
-        <Text style={styles.text}>People you may know</Text>
-        <UsersList users={users} />
+        {selectedIndex === 1 && <Typography>People you might know to invite to group</Typography>
+        }
+        <FlatList
+          keyExtractor={item => item.name}
+          data={selectedIndex === 0 ? users : suggested}
+          renderItem={({ item }) => <UserItem user={item} current={selectedIndex === 0 ? true : false} />}
+        />
       </View>
     );
   }
@@ -69,7 +63,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 25,
-    color: "purple",
+    color: 'purple',
     marginLeft: 7
   },
   flatview: {
