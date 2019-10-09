@@ -70,10 +70,12 @@ class RegisterScreen extends Component {
     return (
       <View style={styles.register}>
         <ImageBackground
-          source={require('./gale.jpg')}
+          source={require('./road.jpg')}
           style={styles.backgroundImage}
         >
           <Input
+            style={styles.input}
+            inputStyle={{ color: 'white' }}
             placeholder="Username:"
             placeholderTextColor="white"
             onEndEditing={event => this.handleChange(event, 'username')}
@@ -81,6 +83,8 @@ class RegisterScreen extends Component {
           />
 
           <Input
+            style={styles.input}
+            inputStyle={{ color: 'white' }}
             placeholder="Password:"
             placeholderTextColor="white"
             onEndEditing={event => this.handleChange(event, 'password')}

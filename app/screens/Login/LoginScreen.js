@@ -88,24 +88,34 @@ class LoginScreen extends Component {
     return (
       // <KeyboardAvoidingView bahaviour='padding' style={styles.fullSize}>
       // <ScrollView keyboardShouldPersistTaps='never' scrollEnabled={false}>
+
       <View style={styles.login}>
+        <Text style={styles.text}>彡TᖇᗩᑕKEᖇOO</Text>
+
         <Image
           source={require('./running.png')}
           style={styles.backgroundImage}
         />
-        <Typography style={styles.signInText}>Log In</Typography>
+        <Typography style={styles.signInText}>ᒪOG Iᑎ</Typography>
 
         <Input
-          placeholder="username"
+          placeholder="USERNAME"
+          inputStyle={{
+            color: 'gold'
+          }}
           placeholderTextColor="white"
           onEndEditing={event => this.handleChange(event, 'username')}
           name="username"
           style={styles.inputStyle}
-          underlineColorAndroid="white"
+          underlineColorAndroid="gold"
         />
 
         <Input
-          placeholder="password"
+          style={{ color: 'gold' }}
+          inputStyle={{
+            color: 'gold'
+          }}
+          placeholder="PASSWORD"
           placeholderTextColor="white"
           name="password"
           onEndEditing={event => this.handleChange(event, 'password')}
@@ -117,9 +127,12 @@ class LoginScreen extends Component {
         </Typography>
         <TouchableOpacity>
           <Button
+            buttonStyle={{
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }}
             style={styles.button}
             color="black"
-            title="Sign In"
+            title="ᔕIGᑎ Iᑎ"
             onPress={this.handleSubmit}
           />
 
@@ -129,16 +142,17 @@ class LoginScreen extends Component {
                 navigate('PasswordResetScreen', { title: 'Forgot Password' })
               }
             >
-              Forgot Password
+              ᖴOᖇGOT ᑭᗩᔕᔕᗯOᖇᗪ
             </Typography>
           </TouchableOpacity>
           <Typography
             onPress={() => navigate('RegisterScreen', { title: 'SIGN UP' })}
           >
-            Don't have a account?
+            ᗪOᑎ'T ᕼᗩᐯE ᗩᑎ ᗩᑕᑕOᑌᑎT?
           </Typography>
         </TouchableOpacity>
       </View>
+      //</KeyboardAvoidingView>
       // </ScrollView>
       // </KeyboardAvoidingView>
     );
