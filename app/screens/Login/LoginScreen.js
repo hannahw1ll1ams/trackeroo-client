@@ -12,6 +12,7 @@ import {
 import * as api from "../../api";
 import { withNavigation } from "react-navigation";
 import Typography from "../../components/Typography";
+import { Input } from "react-native-elements";
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -86,10 +87,10 @@ class LoginScreen extends Component {
       // <KeyboardAvoidingView bahaviour='padding' style={styles.fullSize}>
       // <ScrollView keyboardShouldPersistTaps='never' scrollEnabled={false}>
       <View style={styles.login}>
-        <Image
+        {/* <Image
           source={require('./running.png')}
           style={styles.backgroundImage}
-        />
+        /> */}
         <Typography style={styles.signInText}>Log In</Typography>
 
         <Input
