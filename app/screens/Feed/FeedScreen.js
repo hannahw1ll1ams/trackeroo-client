@@ -12,23 +12,32 @@ const FeedScreen = () => {
   const { runs, addRuns } = useContext(RunsContext);
   const { user } = useContext(UserContext);
   const fetchRuns = async () => {
-    const latestRuns = await api.getRuns();
-    addRuns(latestRuns);
+    try {
+      const latestRuns = await api.getLatestRuns(user.username);
+      console.log(latestRuns);
+    } catch (err) {
+      console.log(err);
+    }
+    // addRuns(latestRuns);
   };
   useEffect(() => {
     fetchRuns();
     const ws = new WebSocket(webSocketUrl);
     ws.onopen = () => {
+      console.log("opened");
       ws.send(
         JSON.stringify({
           type: "connect",
-          username: user.username,
+          username: user.username
         })
       );
     };
 
     ws.onmessage = event => {
-      console.log(event.data);
+      const { run } = JSON.parse(event.data);
+      if (run) {
+        addRuns(run);
+      }
     };
     // return () => {
     //   ws.close();
