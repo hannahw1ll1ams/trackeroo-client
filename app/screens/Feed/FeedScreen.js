@@ -14,7 +14,8 @@ const FeedScreen = () => {
   const fetchRuns = async () => {
     try {
       const latestRuns = await api.getLatestRuns(user.username);
-      console.log(latestRuns);
+      console.log('running', latestRuns)
+      addRuns(latestRuns)
     } catch (err) {
       console.log(err);
     }

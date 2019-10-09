@@ -8,7 +8,7 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 const RunItem = ({ run }) => {
-  const { username, start_time, end_time } = run;
+  const { username, start_time, end_time, run_id } = run;
   return (
     <View
       style={{

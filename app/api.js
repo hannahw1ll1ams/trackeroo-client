@@ -119,7 +119,12 @@ export const getSuggestedUsers = async () => {
 };
 
 export const getLatestRuns = async username => {
-  return request.get(`/runs`, { params: { username } });
+  try {
+    const { data } = await request.get(`/runs`, { params: { username } });
+    return data.runs;
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const followUser = async (username, followerUsername) => {
