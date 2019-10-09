@@ -5,7 +5,7 @@ import getEnvVars from "../environment";
 const { apiUrl } = getEnvVars();
 console.log(apiUrl);
 
-const setAuthorizationHeader = token => {
+export const setAuthorizationHeader = token => {
   axios.defaults.headers.common["Authorization"] = token;
 };
 const request = axios.create({
@@ -20,6 +20,7 @@ export const login = async (username, password) => {
     });
     const token = headers["x-amzn-remapped-authorization"];
     storeToken(token);
+    await AsyncStorage.setItem("username", data.user.username);
     setAuthorizationHeader(token);
     return data.user;
   } catch (error) {
@@ -36,6 +37,7 @@ export const signup = async (username, password) => {
     // console.log(headers, data)
     const token = headers["x-amzn-remapped-authorization"];
     storeToken(token);
+    await AsyncStorage.setItem("username", data.user.username);
     setAuthorizationHeader(token);
     return data.user;
   } catch (error) {
@@ -108,8 +110,16 @@ export const getRuns = async () => {
 };
 
 export const getSuggestedUsers = async () => {
-  const { data } = request.get("/users");
-  return data.users;
+  try {
+    const { data } = await request.get("/users");
+    return data.users;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getLatestRuns = async username => {
+  return request.get(`/runs`, { params: { username } });
 };
 
 export const followUser = async (username, followerUsername) => {
@@ -118,16 +128,15 @@ export const followUser = async (username, followerUsername) => {
   });
 };
 
-export const startRun = async ({ username, start_time }) => {
+export const startRun = async (username, start_time) => {
+  console.log({ username, start_time });
   try {
     const { data } = await request.post("/runs", { username, start_time });
+    return data.run;
   } catch (error) {
+    console.log(error);
     throw error;
   }
-  return {
-    run_id: "runid1",
-    start_time: "adad"
-  };
 };
 
 export const endRun = async ({ end_time }) => {};
