@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
-import { Stopwatch } from 'react-native-stopwatch-timer';
-import styles from '../screens/MapView/SharedStyles';
-import moment from 'moment'
+import React, { Component } from "react";
+import { Text, View, Button } from "react-native";
+import { Stopwatch } from "react-native-stopwatch-timer";
+import styles from "../screens/MapView/SharedStyles";
+import moment from "moment";
 
 class AlternativeStopWatch extends Component {
-
   state = {
     isStopwatchStart: false,
     timerDuration: 90000,
@@ -28,32 +27,40 @@ class AlternativeStopWatch extends Component {
   //   );
   // }
 
-  startWatch = () => {
-    const { updateActivityStatus } = this.props;
-    const startTime = new Date().getTime()
+  startWatch = async () => {
+    const { updateActivityStatus, onStart } = this.props;
+    const startTime = new Date().getTime();
 
-    this.setState({
-      resetStopwatch: false, isRunning: true, startTime
-    },
+    this.setState(
+      {
+        resetStopwatch: false,
+        isRunning: true,
+        startTime
+      },
       () => {
-        updateActivityStatus(this.state.isRunning, this.state.startTime)
-      })
-  }
+        updateActivityStatus(this.state.isRunning, this.state.startTime);
+      }
+    );
+    await onStart();
+  };
 
   stopStopWatch = () => {
     const { updateActivityStatus } = this.props;
     const { startTime } = this.state;
-    const endTime = new Date().getTime()
-    console.log(startTime, endTime)
-    const totalTime = endTime - startTime
-    console.log(totalTime)
-    this.setState({
-      resetStopwatch: false, isRunning: false
-    },
+    const endTime = new Date().getTime();
+    // console.log(startTime, endTime);
+    const totalTime = endTime - startTime;
+    // console.log(totalTime);
+    this.setState(
+      {
+        resetStopwatch: false,
+        isRunning: false
+      },
       () => {
-        updateActivityStatus(this.state.isRunning, totalTime)
-      })
-  }
+        updateActivityStatus(this.state.isRunning, totalTime);
+      }
+    );
+  };
 
   resetStopwatch = () => {
     this.setState({ isStopwatchStart: false, resetStopwatch: true });
@@ -64,9 +71,8 @@ class AlternativeStopWatch extends Component {
     this.currentTime = time;
   };
 
-
   render() {
-    const { isRunning } = this.state
+    const { isRunning } = this.state;
     return (
       <View style={styles.stopwatch}>
         <Stopwatch
@@ -80,9 +86,13 @@ class AlternativeStopWatch extends Component {
           // //options for the styling
           getTime={this.getFormattedTime}
         />
-        {isRunning === false && <Button title='START RUN' onPress={this.startWatch} />}
-        {isRunning && <Button title='FINISH RUN' onPress={this.stopStopWatch} />}
-        <Button title='RESET' onPress={this.resetStopwatch} />
+        {isRunning === false && (
+          <Button title="START RUN" onPress={this.startWatch} />
+        )}
+        {isRunning && (
+          <Button title="FINISH RUN" onPress={this.stopStopWatch} />
+        )}
+        <Button title="RESET" onPress={this.resetStopwatch} />
       </View>
     );
   }
@@ -90,15 +100,15 @@ class AlternativeStopWatch extends Component {
 
 const options = {
   container: {
-    backgroundColor: '#FF0000',
+    backgroundColor: "#FF0000",
     padding: 5,
     borderRadius: 5,
     width: 200,
-    alignItems: 'center'
+    alignItems: "center"
   },
   text: {
     fontSize: 25,
-    color: '#FFF',
+    color: "#FFF",
     marginLeft: 7
   }
 };
