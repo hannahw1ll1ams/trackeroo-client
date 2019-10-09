@@ -5,11 +5,12 @@ import getEnvVars from "../environment";
 const { apiUrl } = getEnvVars();
 console.log(apiUrl);
 
+
 export const setAuthorizationHeader = token => {
   axios.defaults.headers.common["Authorization"] = token;
 };
 const request = axios.create({
-  baseURL: apiUrl
+  baseURL: "apiUrl"
 });
 
 export const login = async (username, password) => {
@@ -109,14 +110,14 @@ export const getRuns = async () => {
   ];
 };
 
-export const getSuggestedUsers = async () => {
-  try {
-    const { data } = await request.get("/users");
-    return data.users;
-  } catch (err) {
-    throw err;
-  }
-};
+// export const getSuggestedUsers = async () => {
+//   try {
+//     const { data } = await request.get("/users");
+//     return data.users;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 
 export const getLatestRuns = async username => {
   try {
@@ -127,11 +128,13 @@ export const getLatestRuns = async username => {
   }
 };
 
-export const followUser = async (username, followerUsername) => {
-  return request.post(`/users/${username}/followers`, {
-    follower: followerUsername
-  });
-};
+//i think this needs to be a patch request now?
+
+// export const followUser = async (username, followerUsername) => {
+//   return request.post(`/users/${username}/followers`, {
+//     follower: followerUsername
+//   });
+// };
 
 export const startRun = async (username, start_time) => {
   console.log({ username, start_time });
@@ -144,6 +147,70 @@ export const startRun = async (username, start_time) => {
   }
 };
 
-export const endRun = async ({ end_time }) => {};
+export const endRun = async ({ end_time }) => { };
 
 //to sign out, just delete token from asyncStorage
+
+
+export const fetchRewards = async (completed) => {
+  try {
+    const { rewards } = await request.get("/rewards", { params: { completed: completed } })
+    return rewards
+  } catch (error) {
+    throw (error)
+  }
+}
+
+export const claimReward = async (reward_id, username) => {
+  try {
+    await request.patch("/rewards", {
+      reward_id: reward_id,
+      winner: username
+    })
+  } catch (error) {
+    throw (error)
+  }
+}
+
+export const updateUserRewardTotal = async (username) => {
+  try {
+    await request.patch(`/rewards/${username}`)
+  } catch (error) {
+    throw (error)
+  }
+}
+
+export const getSpecificUser = async (username) => {
+  try {
+    const { user } = await request.get(`/users/${username}`)
+    return user
+  } catch (error) {
+    throw (error)
+  }
+}
+
+export const getUsers = async () => {
+  try {
+    const { users } = await request.get('/users')
+    return users
+  } catch (error) {
+    throw (error)
+  }
+}
+
+export const followSpecificUser = async (usernameToFollow) => {
+  try {
+    await request.patch(`/users${username}/subscriptions`)
+  } catch (error) {
+    throw (error)
+  }
+}
+
+export const beSubscribedToUser = async (username) => {
+  try {
+    await request.patch(`/users/${username}/followers`)
+  } catch (error) {
+    throw (error)
+  }
+}
+

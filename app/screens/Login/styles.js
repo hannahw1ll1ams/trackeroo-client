@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   text: {
-    fontFamily: 'Avenir',
+    // fontFamily: 'Avenir',
     position: 'absolute',
     top: 50,
     justifyContent: 'flex-start',
