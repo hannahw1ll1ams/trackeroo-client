@@ -1,18 +1,18 @@
-import styles from "./styles";
-import React, { Component } from "react";
+import styles from './styles';
+import React, { Component } from 'react';
 import {
   Text,
   View,
-  Button,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView
-} from "react-native";
-import * as api from "../../api";
-import { withNavigation } from "react-navigation";
-import Typography from "../../components/Typography";
-import { Input } from "react-native-elements";
+  ScrollView,
+  Image
+} from 'react-native';
+import * as api from '../../api';
+import { withNavigation } from 'react-navigation';
+import Typography from '../../components/Typography';
+import { Input, Button } from 'react-native-elements';
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -31,7 +31,7 @@ class LoginScreen extends Component {
       const token = await api.getToken();
       if (token) {
         api.setAuthorizationHeader(token);
-        navigate("HomeScreen", { title: "Which group to enter?" });
+        navigate('HomeScreen', { title: 'Which group to enter?' });
       }
     } catch (error) {
       console.log(error);
@@ -86,27 +86,37 @@ class LoginScreen extends Component {
     return (
       // <KeyboardAvoidingView bahaviour='padding' style={styles.fullSize}>
       // <ScrollView keyboardShouldPersistTaps='never' scrollEnabled={false}>
+
       <View style={styles.login}>
-        {/* <Image
+        <Text style={styles.text}>彡TᖇᗩᑕKEᖇOO</Text>
+
+        <Image
           source={require('./running.png')}
           style={styles.backgroundImage}
-        /> */}
-        <Typography style={styles.signInText}>Log In</Typography>
+        />
+        <Typography style={styles.signInText}>ᒪOG Iᑎ</Typography>
 
         <Input
-          placeholder="username"
+          placeholder="USERNAME"
+          inputStyle={{
+            color: 'gold'
+          }}
           placeholderTextColor="white"
           onEndEditing={event => this.handleChange(event, 'username')}
           name="username"
           style={styles.inputStyle}
-          underlineColorAndroid="white"
+          underlineColorAndroid="gold"
         />
 
         <Input
-          placeholder="password"
+          style={{ color: 'gold' }}
+          inputStyle={{
+            color: 'gold'
+          }}
+          placeholder="PASSWORD"
           placeholderTextColor="white"
           name="password"
-          onEndEditing={event => this.handleChange(event, "password")}
+          onEndEditing={event => this.handleChange(event, 'password')}
           style={styles.inputStyle}
           underlineColorAndroid="white"
         />
@@ -115,25 +125,38 @@ class LoginScreen extends Component {
           Password must be 8 characters long
         </Typography>
         <TouchableOpacity>
-          <Typography
-            onPress={() =>
-              navigate("PasswordResetScreen", { title: "Forgot Password" })
-            }
-          >
-            Forgot Password
-          </Typography>
+          <Button
+            buttonStyle={{
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }}
+            style={styles.button}
+            color="black"
+            title="ᔕIGᑎ Iᑎ"
+            onPress={this.handleSubmit}
+          />
+
+          <TouchableOpacity>
+            <Typography
+              onPress={() =>
+                navigate('PasswordResetScreen', { title: 'Forgot Password' })
+              }
+            >
+              ᖴOᖇGOT ᑭᗩᔕᔕᗯOᖇᗪ
+            </Typography>
+          </TouchableOpacity>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Typography onPress={this.handleSubmit}>Sign In</Typography>
+          <Typography onPress={handleSubmit}>Sign In</Typography>
         </TouchableOpacity>
         <TouchableOpacity>
           <Typography
-            onPress={() => navigate("RegisterScreen", { title: "SIGN UP" })}
+            onPress={() => navigate('RegisterScreen', { title: 'SIGN UP' })}
           >
-            Don't have a account?
+            ᗪOᑎ'T ᕼᗩᐯE ᗩᑎ ᗩᑕᑕOᑌᑎT?
           </Typography>
         </TouchableOpacity>
       </View>
+      //</KeyboardAvoidingView>
       // </ScrollView>
       // </KeyboardAvoidingView>
     );

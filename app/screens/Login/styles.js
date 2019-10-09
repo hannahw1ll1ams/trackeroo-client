@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     marginBottom: 15,
-    fontSize: 25,
-    color: '#69f0ae',
+    fontSize: 22,
+    color: 'white',
     paddingLeft: 15,
     paddingRight: 15,
     borderColor: 'white'
@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   textInput: {
     width: 200,
     height: 40,
-    marginBottom: 15
+    marginBottom: 15,
+    color: 'white'
   },
   signInText: {
     fontSize: 30,
@@ -56,7 +57,16 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingTop: 15,
-    paddingBottom: 5
+    paddingBottom: 10
+  },
+  text: {
+    fontFamily: 'Avenir',
+    position: 'absolute',
+    top: 50,
+    justifyContent: 'flex-start',
+    fontSize: 35,
+    color: 'white',
+    fontWeight: 'bold'
   }
 });
 
