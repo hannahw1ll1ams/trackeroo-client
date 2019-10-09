@@ -1,18 +1,3 @@
-// import React from 'react';
-// import { View } from 'react-native';
-// //import Typography from '../../components/Typography';
-// import UserList from '../../components/UserList';
-
-// const FollowingScreen = () => {
-//   return (
-//     <View>
-//       <UserList />
-//     </View>
-//   );
-// };
-
-// export default FollowingScreen;
-
 import React, { Component } from 'react';
 import { View, Button, Text, FlatList, StyleSheet } from 'react-native';
 import { ListItem, ButtonGroup } from 'react-native-elements';
@@ -61,49 +46,11 @@ class FollowingScreen extends Component {
         />
         {selectedIndex === 1 && <Typography>People you might know to invite to group</Typography>
         }
-        {selectedIndex === 0 && <FlatList
-          data={users}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            // <ListItem
-            //   style={styles.flatview}
-            //   title={item.name}
-            //   bottomDivider={true}
-            //   // rightTitle="wave to"
-            //   subtitle={`${item.followers} points`}
-            //   badge={{ value: '1', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
-            // // checkmark={true}
-            // />
-            <UserItem user={item} current={true} />
-          )}
+        <FlatList
           keyExtractor={item => item.name}
-        />}
-
-        {/* {selectedIndex === 1 &&
-          <FlatList
-            data={suggested}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <ListItem
-                style={styles.flatview}
-                title={item.name}
-                bottomDivider={true}
-                rightTitle="invite"
-                subtitle={item.followers}
-                onPress={this.handlePress}
-                badge={{ value: 'invite', textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
-              />
-            )}
-            keyExtractor={item => item.name}
-          />} */}
-        {selectedIndex === 1 &&
-          <FlatList
-            keyExtractor={item => item.name}
-            data={suggested}
-            renderItem={({ item }) => <UserItem user={item} current={false} />}
-          />
-        }
-
+          data={selectedIndex === 0 ? users : suggested}
+          renderItem={({ item }) => <UserItem user={item} current={selectedIndex === 0 ? true : false} />}
+        />
       </View>
     );
   }
@@ -111,7 +58,7 @@ class FollowingScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flexDirection: "column",
     flex: 1
   },
   text: {
@@ -120,7 +67,7 @@ const styles = StyleSheet.create({
     marginLeft: 7
   },
   flatview: {
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingTop: 30,
     borderRadius: 2
   }
