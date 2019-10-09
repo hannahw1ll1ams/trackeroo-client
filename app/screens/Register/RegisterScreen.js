@@ -1,109 +1,66 @@
-import styles from './styles';
-import React, { Component } from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  ImageBackground
-} from 'react-native';
-import * as api from '../../api';
-import Typography from '../../components/Typography';
-import { Input, Button } from 'react-native-elements';
+import styles from "./styles";
+import React, { Component, useState, useContext } from "react";
+import { View, Button, TextInput, Text } from "react-native";
+import * as api from "../../api";
+import UserContext from "../../context/UserContext";
 
-class RegisterScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('title'),
-      headerStyle: {
-        backgroundColor: '#61469C'
-      }
-    };
-  };
-  state = {
-    newUser: {},
-    firstName: null,
-    lastName: null,
-    username: null,
-    password: null,
-    age: 0,
-    height: 0,
-    weight: 0,
-    validUser: false,
-    error: null
-  };
+const RegisterScreen = ({ navigation }) => {
+  const { setUser } = useContext(UserContext);
+  const [state, setState] = useState({ username: "", password: "" });
 
-  handleChange = (event, inputType) => {
+  const handleChange = (event, inputType) => {
     const { text } = event.nativeEvent;
     usernameRule = /^[a-zA-Z0-9]+$/;
     passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}( )<>£%+='$:;%^&*])(?=.{8,})/;
 
     if (inputType === 'username') {
       if (usernameRule.test(text)) {
-        console.log('username is valid');
-        this.setState({ [inputType]: text });
-      } else console.log('username is invalid');
+        console.log("username is valid");
+        setState({ ...state, [inputType]: text });
+      } else console.log("username is invalid");
     }
 
-    if (inputType === 'password') {
+    if (inputType === "password") {
+      console.log(text);
       if (passwordRule.test(text)) {
-        console.log('password is valid');
-        this.setState({ [inputType]: text });
-      } else console.log('password is invalid');
+        console.log("password is valid");
+        setState({ ...state, [inputType]: text });
+      } else console.log("password is invalid");
     }
   };
 
-  handleSubmit = async () => {
-    const { username, password } = this.state;
-    const { navigate } = this.props.navigation;
+  const handleSubmit = async () => {
+    const { username, password } = state;
+    const { navigate } = navigation;
     try {
-      await api.signup(username, password);
-      navigate('HomeScreen', { username, password, title: 'Home' });
+      console.log(username, password);
+      const user = await api.signup(username, password);
+      setUser(user);
+      navigate("HomeScreen");
     } catch (error) {
-      console.log('in register catch block');
+      console.log(error.message, "in register catch block");
     }
   };
 
-  render() {
-    const { navigate } = this.props.navigation;
-    const { username, password } = this.state;
-    return (
-      <View style={styles.register}>
-        <ImageBackground
-          source={require('./gale.jpg')}
-          style={styles.backgroundImage}
-        >
-          <Input
-            placeholder="Username:"
-            placeholderTextColor="white"
-            onEndEditing={event => this.handleChange(event, 'username')}
-            underlineColorAndroid="black"
-          />
-
-          <Input
-            placeholder="Password:"
-            placeholderTextColor="white"
-            onEndEditing={event => this.handleChange(event, 'password')}
-            underlineColorAndroid="black"
-          />
-
-          <Typography>
-            Password must be 8 characters long, include at least one capital and
-            lowercase letter, and one number
-          </Typography>
-          <TouchableOpacity style={styles.signup_button}>
-            <Button
-              style={styles.button}
-              title="Register"
-              onPress={this.handleSubmit}
-            >
-              Create
-            </Button>
-          </TouchableOpacity>
-        </ImageBackground>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <TextInput
+        placeholder="username"
+        onEndEditing={event => handleChange(event, "username")}
+        name="username"
+      />
+      <TextInput
+        placeholder="password"
+        onEndEditing={event => handleChange(event, "password")}
+        name="password"
+      />
+      <Text>
+        Password must be 8 characters long, include at least one capital and
+        lowercase letter, and one number
+      </Text>
+      <Button title="Create account and Log In" onPress={handleSubmit} />
+    </View>
+  );
+};
 
 export default RegisterScreen;

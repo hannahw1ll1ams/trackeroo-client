@@ -31,7 +31,7 @@ export default class AlternativeMap extends Component {
   //still tracking when stopped though!!!
   componentDidUpdate(prevProps) {
     const { isRunning } = this.props
-    console.log(isRunning, '<---- is running')
+    // console.log(isRunning, '<---- is running')
     if (prevProps.isRunning !== this.props.isRunning) {
       if (isRunning) {
         this._getLocationAsync();
@@ -111,7 +111,7 @@ export default class AlternativeMap extends Component {
     // console.log(distanceTravelled, '<--- distanceTravelled')
     // console.log(prevLatLng, '<--- prevLatLng')
     // console.log(currentSpeed, '<--- currentSpeed')
-    console.log(allSpeeds, '<--- allSpeeds')
+    // console.log(allSpeeds, '<--- allSpeeds')
 
     return (
       <View style={styles.container}>

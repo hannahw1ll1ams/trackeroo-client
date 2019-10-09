@@ -5,7 +5,7 @@ import getEnvVars from "../environment";
 const { apiUrl } = getEnvVars();
 console.log(apiUrl);
 
-const setAuthorizationHeader = token => {
+export const setAuthorizationHeader = token => {
   axios.defaults.headers.common["Authorization"] = token;
 };
 const request = axios.create({
@@ -14,10 +14,15 @@ const request = axios.create({
 
 export const login = async (username, password) => {
   try {
-    const { headers } = await request.post("/login", { username, password });
+    const { headers, data } = await request.post("/login", {
+      username,
+      password
+    });
     const token = headers["x-amzn-remapped-authorization"];
     storeToken(token);
+    await AsyncStorage.setItem("username", data.user.username);
     setAuthorizationHeader(token);
+    return data.user;
   } catch (error) {
     throw error;
   }
@@ -32,9 +37,10 @@ export const signup = async (username, password) => {
     // console.log(headers, data)
     const token = headers["x-amzn-remapped-authorization"];
     storeToken(token);
+    await AsyncStorage.setItem("username", data.user.username);
     setAuthorizationHeader(token);
+    return data.user;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -103,16 +109,39 @@ export const getRuns = async () => {
   ];
 };
 
-export const startRun = async ({ username, start_time }) => {
+export const getSuggestedUsers = async () => {
+  try {
+    const { data } = await request.get("/users");
+    return data.users;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getLatestRuns = async username => {
+  try {
+    const { data } = await request.get(`/runs`, { params: { username } });
+    return data.runs;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const followUser = async (username, followerUsername) => {
+  return request.post(`/users/${username}/followers`, {
+    follower: followerUsername
+  });
+};
+
+export const startRun = async (username, start_time) => {
+  console.log({ username, start_time });
   try {
     const { data } = await request.post("/runs", { username, start_time });
+    return data.run;
   } catch (error) {
+    console.log(error);
     throw error;
   }
-  return {
-    run_id: "runid1",
-    start_time: "adad"
-  };
 };
 
 export const endRun = async ({ end_time }) => {};

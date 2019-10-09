@@ -1,20 +1,18 @@
-import styles from './styles';
-import React, { Component } from 'react';
+import styles from "./styles";
+import React, { Component } from "react";
 import {
   Text,
   View,
-  // Button,
+  Button,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Image
-} from 'react-native';
-import * as api from '../../api';
-import { withNavigation } from 'react-navigation';
-import Typography from '../../components/Typography';
-import { Input, Button } from 'react-native-elements';
+  ScrollView
+} from "react-native";
+import * as api from "../../api";
+import { withNavigation } from "react-navigation";
+import Typography from "../../components/Typography";
+import { Input } from "react-native-elements";
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -31,9 +29,9 @@ class LoginScreen extends Component {
     const { navigate } = this.props.navigation;
     try {
       const token = await api.getToken();
-      //const token = 'fdnsfjs';
       if (token) {
-        navigate('GroupsScreen', { title: 'Which group to enter?' });
+        api.setAuthorizationHeader(token);
+        navigate("HomeScreen", { title: "Which group to enter?" });
       }
     } catch (error) {
       console.log(error);
@@ -89,10 +87,10 @@ class LoginScreen extends Component {
       // <KeyboardAvoidingView bahaviour='padding' style={styles.fullSize}>
       // <ScrollView keyboardShouldPersistTaps='never' scrollEnabled={false}>
       <View style={styles.login}>
-        <Image
+        {/* <Image
           source={require('./running.png')}
           style={styles.backgroundImage}
-        />
+        /> */}
         <Typography style={styles.signInText}>Log In</Typography>
 
         <Input
@@ -108,7 +106,8 @@ class LoginScreen extends Component {
           placeholder="password"
           placeholderTextColor="white"
           name="password"
-          onEndEditing={event => this.handleChange(event, 'password')}
+          onEndEditing={event => this.handleChange(event, "password")}
+          style={styles.inputStyle}
           underlineColorAndroid="white"
         />
 
@@ -116,24 +115,20 @@ class LoginScreen extends Component {
           Password must be 8 characters long
         </Typography>
         <TouchableOpacity>
-          <Button
-            style={styles.button}
-            color="black"
-            title="Sign In"
-            onPress={this.handleSubmit}
-          />
-
-          <TouchableOpacity>
-            <Typography
-              onPress={() =>
-                navigate('PasswordResetScreen', { title: 'Forgot Password' })
-              }
-            >
-              Forgot Password
-            </Typography>
-          </TouchableOpacity>
           <Typography
-            onPress={() => navigate('RegisterScreen', { title: 'SIGN UP' })}
+            onPress={() =>
+              navigate("PasswordResetScreen", { title: "Forgot Password" })
+            }
+          >
+            Forgot Password
+          </Typography>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Typography onPress={this.handleSubmit}>Sign In</Typography>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Typography
+            onPress={() => navigate("RegisterScreen", { title: "SIGN UP" })}
           >
             Don't have a account?
           </Typography>

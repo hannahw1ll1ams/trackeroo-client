@@ -4,7 +4,7 @@ import FeedCard from './FeedCard';
 
 
 class Feed extends Component {
-
+  
   render() {
     const { navigation, events } = this.props
     return (

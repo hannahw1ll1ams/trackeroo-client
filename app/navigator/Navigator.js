@@ -15,14 +15,11 @@ const AuthStack = createStackNavigator({
   PasswordResetScreen
 });
 
-const GroupStack = createStackNavigator({ GroupsScreen });
-
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       TabNavigator,
       AuthStack,
-      GroupStack
     },
     {
       initialRouteName: "AuthStack"

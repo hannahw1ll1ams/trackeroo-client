@@ -8,10 +8,10 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 const UserItem = ({ user, current }) => {
-  const { name, followers } = user;
+  const { username, followers } = user;
 
   handlePress = () => {
-    console.log(`INVITED ${name}`)
+    console.log(`INVITED ${username}`)
   }
   return (
     <View
@@ -26,7 +26,7 @@ const UserItem = ({ user, current }) => {
       }}
     >
       <Typography>
-        {`${name} `}
+        {`${username}`}
         <Typography fontWeight={400} color="secondary">
           {followers}
         </Typography>
