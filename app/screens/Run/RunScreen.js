@@ -39,7 +39,7 @@ const RunScreen = () => {
   const updateActivityStatus = (boolean, time) => {
     setIsRunning(boolean)
     if (boolean === true) {
-      handleStartedRun(time)
+      handleStartRun(time)
     }
     else {
       setEndTime(time)
@@ -59,7 +59,7 @@ const RunScreen = () => {
     <View>
       <Typography>Start a run?</Typography>
       <AlternativeMap isRunning={isRunning}
-        collectFinalRunData={collectFinalRunData} resetRun={resetRun} />
+        collectFinalRunData={collectFinalRunData} resetRun={onResetPress} />
       <AlternativeStopWatch style={styles.stopwatch} updateActivityStatus={updateActivityStatus} onResetPress={onResetPress} />
     </View>
   );
