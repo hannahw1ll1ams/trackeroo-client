@@ -30,10 +30,10 @@ class FollowingScreen extends Component {
     //pass in own username
     api.getUsers().then((allUsers) => {
       this.setState({ allUsers })
-    })
-    api.getSpecificUser().then((mySelfObj) => {
+    }).catch(error => console.log('ERROR'))
+    api.getSpecificUser("hannah").then((mySelfObj) => {
       this.setState({ loggedInUserInfo: mySelfObj })
-    })
+    }).catch(error => console.log('ERROR'))
   }
 
 
@@ -45,8 +45,8 @@ class FollowingScreen extends Component {
     console.log('pressed')
     //request to follow someone.
     //pass in 
-    api.followSpecificUser(usernameToFollow)
-    api.beSubscribedToUser(usernameToFollow)
+    api.followSpecificUser(usernameToFollow).catch(error => console.log('ERROR'))
+    api.beSubscribedToUser(usernameToFollow).catch(error => console.log('ERROR'))
   }
 
   render() {

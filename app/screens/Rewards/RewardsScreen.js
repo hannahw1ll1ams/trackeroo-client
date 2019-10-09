@@ -40,7 +40,7 @@ class RewardsScreen extends Component {
 
     api.getSpecificUser("hannah").then(user => {
       this.setState({ user })
-    })
+    }).catch(error => console.log('ERROR'))
   }
 
   componentDidUpdate(prevState) {

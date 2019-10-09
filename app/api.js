@@ -251,3 +251,12 @@ export const sendNewReward = async (challenge, reward) => {
     throw (error)
   }
 }
+
+//do we get anything back from this one??
+export const updateDistanceTotal = async (username, distanceTravelled) => {
+  try {
+    await request.patch(`/users/${username}`, { distance: distanceTravelled })
+  } catch (error) {
+    throw (error)
+  }
+}
