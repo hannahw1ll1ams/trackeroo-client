@@ -14,13 +14,15 @@ const RunScreen = () => {
   const [endTime, setEndTime] = useState(null);
   const [completedRun, setCompletedRun] = useState(false);
   const [resetRun, setResetRun] = useState(false)
+  const [run_id, setRun_id] = useState("")
 
   const { user } = useContext(UserContext);
 
-  const handleStartRun = async (startingTime) => {
-    //make request here
+  const handleStartRun = async () => {
     try {
       const run = await api.startRun(user.username, Date.now());
+      //does this work??? 
+      setRun_id(run.run_id)
       console.log(run);
     } catch (err) {
       console.log(err);
@@ -28,8 +30,7 @@ const RunScreen = () => {
   };
 
   const handleEndRun = (averageSpeed, distanceTravelled, stringedCoords) => {
-    //patch request with rest of run data and username?
-
+    api.endRun("hannah", run_id)
     console.log(endTime, '<----totalTime')
     console.log(averageSpeed, '<----averageSpeed')
     console.log(distanceTravelled, '<----totalDistance')
@@ -41,7 +42,6 @@ const RunScreen = () => {
     setIsRunning(boolean)
     if (boolean === true) {
       handleStartRun(time)
-
     }
     else {
       setEndTime(Date.now())

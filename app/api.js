@@ -139,15 +139,33 @@ export const getLatestRuns = async username => {
 export const startRun = async (username, start_time) => {
   console.log({ username, start_time });
   try {
-    const { data } = await request.post("/runs", { username, start_time });
-    return data.run;
+    const { run } = await request.post("/runs", { username, start_time });
+    return run;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-export const endRun = async ({ end_time }) => { };
+// export const endRun = async ({ end_time }) => { 
+//   try{
+//     await request.post
+//   }catch(error){
+//     throw(error)
+//   }
+// };
+
+export const endRun = async (username, run_id, finish_time, average_speed, total_distance, coordinates) => {
+  try {
+    await request.patch(`/runs`, { username, run_id, finish_time, average_speed, total_distance, coordinates })
+  } catch (error) {
+    throw (error)
+  }
+};
+
+
+
+
 
 //to sign out, just delete token from asyncStorage
 
@@ -214,3 +232,12 @@ export const beSubscribedToUser = async (username) => {
   }
 }
 
+
+export const getMyRuns = async (username) => {
+  try {
+    const { runs } = await request.get(`/users/${username}/runs`)
+    return runs;
+  } catch (error) {
+    throw (error)
+  }
+}
