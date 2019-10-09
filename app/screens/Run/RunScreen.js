@@ -9,9 +9,16 @@ import UserContext from "../../context/UserContext";
 
 const RunScreen = () => {
   const [isRunning, setIsRunning] = useState(false);
+  const [endTime, setEndTime] = useState(null);
+  const [startTime, setStartTime] = useState(null)
+  const [completedRun, setCompletedRun] = useState(false);
+  const [resetRun, setResetRun] = useState(false)
+
   const { user } = useContext(UserContext);
-  const handleStartRun = async () => {
+
+  const handleStartRun = async (startingTime) => {
     //make request here
+    console.log(startTime, '<---starting time')
     try {
       const run = await api.startRun(user.username, Date.now());
       console.log(run);
@@ -20,28 +27,40 @@ const RunScreen = () => {
     }
   };
 
-  updateActivityStatus = (boolean, time) => {
-    console.log(time);
-    setIsRunning(boolean);
+  const handleEndRun = (averageSpeed, distanceTravelled, stringedCoords) => {
+    //patch request with rest of run data and username?
+
+    console.log(endTime, '<----totalTime')
+    console.log(averageSpeed, '<----averageSpeed')
+    console.log(distanceTravelled, '<----totalDistance')
+    console.log(stringedCoords, '<----runObject')
   };
 
-  collectFinalRunData = (averageSpeed, distanceTravelled) => {
-    this.handleRun(averageSpeed, distanceTravelled);
-  };
+  const updateActivityStatus = (boolean, time) => {
+    setIsRunning(boolean)
+    if (boolean === true) {
+      handleStartedRun(time)
+    }
+    else {
+      setEndTime(time)
+    }
+  }
+
+  const collectFinalRunData = (averageSpeed, distanceTravelled, stringedCoords) => {
+    handleEndRun(averageSpeed, distanceTravelled, stringedCoords)
+  }
+
+  const onResetPress = (boolean) => {
+    console.log(boolean, "<--- reset watch?")
+    setResetRun(boolean)
+  }
 
   return (
     <View>
       <Typography>Start a run?</Typography>
-
-      <AlternativeMap
-        isRunning={isRunning}
-        collectFinalRunData={collectFinalRunData}
-      />
-      <AlternativeStopWatch
-        onStart={handleStartRun}
-        style={styles.stopwatch}
-        updateActivityStatus={updateActivityStatus}
-      />
+      <AlternativeMap isRunning={isRunning}
+        collectFinalRunData={collectFinalRunData} resetRun={resetRun} />
+      <AlternativeStopWatch style={styles.stopwatch} updateActivityStatus={updateActivityStatus} onResetPress={onResetPress} />
     </View>
   );
 };
