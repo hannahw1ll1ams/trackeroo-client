@@ -8,7 +8,7 @@ import getEnvVars from "../../../environment";
 import UserContext from "../../context/UserContext";
 const { webSocketUrl } = getEnvVars();
 
-const FeedScreen = () => {
+const FeedScreen = ({ navigation }) => {
   const { runs, addRuns } = useContext(RunsContext);
   const { user } = useContext(UserContext);
   const fetchRuns = async () => {
@@ -63,7 +63,7 @@ const FeedScreen = () => {
       <FlatList
         keyExtractor={item => item.run_id}
         data={runs}
-        renderItem={({ item }) => <RunItem run={item} />}
+        renderItem={({ item }) => <RunItem navigate={navigation.navigate} run={item} />}
       />
     </View>
   );
