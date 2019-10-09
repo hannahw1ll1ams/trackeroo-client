@@ -42,25 +42,52 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        placeholder="username"
-        onEndEditing={event => handleChange(event, "username")}
-        name="username"
-      />
-      <TextInput
-        placeholder="password"
-        onEndEditing={event => handleChange(event, "password")}
-        name="password"
-      />
-      <Text>
-        Password must be 8 characters long, include at least one capital and
-        lowercase letter, and one number
-      </Text>
-      <Button title="Create account and Log In" onPress={handleSubmit} />
-    </View>
-  );
-};
+  render() {
+    const { navigate } = this.props.navigation;
+    const { username, password } = this.state;
+    return (
+      <View style={styles.register}>
+        <ImageBackground
+          source={require('./road.jpg')}
+          style={styles.backgroundImage}
+        >
+          <Input
+            style={styles.input}
+            inputStyle={{ color: 'white' }}
+            placeholder="Username:"
+            placeholderTextColor="white"
+            onEndEditing={event => this.handleChange(event, 'username')}
+            underlineColorAndroid="black"
+          />
+
+          <Input
+            style={styles.input}
+            inputStyle={{ color: 'white' }}
+            placeholder="Password:"
+            placeholderTextColor="white"
+            onEndEditing={event => this.handleChange(event, 'password')}
+            underlineColorAndroid="black"
+          />
+
+          <Typography>
+            Password must be 8 characters long, include at least one capital and
+            lowercase letter, and one number
+          </Typography>
+          <TouchableOpacity style={styles.signup_button}>
+            <Button
+              style={styles.button}
+              title="Register"
+              onPress={this.handleSubmit}
+            >
+              Create
+            </Button>
+          </TouchableOpacity>
+        </ImageBackground>
+      </View>
+    );
+  }
+}
+
+  
 
 export default RegisterScreen;

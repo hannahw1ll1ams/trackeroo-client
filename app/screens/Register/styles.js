@@ -44,9 +44,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     width: undefined,
-    height: undefined
+    height: undefined,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   input: {
+    backgroundColor: 'rgb(128,128,0.6)',
     alignItems: 'center',
     justifyContent: 'center'
   }

@@ -29,7 +29,8 @@ class PasswordResetScreen extends Component {
           Enter Username
         </Text>
         <Input
-          placeholder="username: "
+          placeholder="username:"
+          inputStyle={{ color: 'white' }}
           placeholderTextColor="white"
           onEndEditing={event => this.handleChange(event, 'username')}
         />
