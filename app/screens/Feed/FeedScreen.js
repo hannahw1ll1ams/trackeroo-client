@@ -14,7 +14,6 @@ const FeedScreen = ({ navigation }) => {
   const fetchRuns = async () => {
     try {
       const latestRuns = await api.getLatestRuns(user.username);
-      console.log("running", latestRuns);
       addRuns(latestRuns);
     } catch (err) {
       console.log(err);
@@ -37,7 +36,7 @@ const FeedScreen = ({ navigation }) => {
     ws.onmessage = event => {
       const { run } = JSON.parse(event.data);
       if (run) {
-        console.log("new run", run);
+        console.log(user.username, "RECEIVED new run", run);
         addRuns(run);
       }
     };

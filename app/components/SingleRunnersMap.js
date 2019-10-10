@@ -28,7 +28,7 @@ const SingleRunnersMap = ({ navigation }) => {
   };
 
   const run = runs.find(r => r.run_id === run_id);
-  console.log("running", run);
+  console.log("WEBSOCKET RUNNAAA", run);
   return run ? (
     <View style={{ display: "flex", flexDirection: "column" }}>
       <MapView
@@ -55,9 +55,12 @@ const SingleRunnersMap = ({ navigation }) => {
             title="Start"
           />
         )}
-        {/* {isMapTrue && (
-          <Polyline strokeWidth={5} coordinates={} />
-        )} */}
+        {run.coordinates && (
+          <Polyline
+            strokeWidth={5}
+            coordinates={JSON.parse(run.coordinates).run}
+          />
+        )}
       </MapView>
     </View>
   ) : null;

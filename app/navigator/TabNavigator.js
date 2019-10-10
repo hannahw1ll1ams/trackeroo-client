@@ -10,15 +10,31 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 
-const Home = createStackNavigator({
-  HomeScreen,
-  MapView
-});
+const Home = createStackNavigator(
+  {
+    HomeScreen,
+    MapView
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
 
-const Feed = createStackNavigator({
-  FeedScreen,
-  SingleRunnersMap
-});
+const Feed = createStackNavigator(
+  {
+    FeedScreen,
+    SingleRunnersMap
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -42,6 +58,8 @@ const TabNavigator = createBottomTabNavigator(
       inactiveTintColor: "rgba(255,255,255,0.7)"
     },
     defaultNavigationOptions: ({ navigation }) => ({
+      header: null,
+
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let IconComponent = MaterialIcons;

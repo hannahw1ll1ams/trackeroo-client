@@ -9,17 +9,25 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
 import TabNavigator from "./TabNavigator";
 
-const AuthStack = createStackNavigator({
-  LoginScreen,
-  RegisterScreen,
-  PasswordResetScreen
-});
+const AuthStack = createStackNavigator(
+  {
+    LoginScreen,
+    RegisterScreen,
+    PasswordResetScreen
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
 
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       TabNavigator,
-      AuthStack,
+      AuthStack
     },
     {
       initialRouteName: "AuthStack"

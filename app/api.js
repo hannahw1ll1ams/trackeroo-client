@@ -109,11 +109,63 @@ export const getRuns = async () => {
   ];
 };
 
-export const getSuggestedUsers = async () => {
+// request.interceptors.response.use(response => {
+//   console.log("Response:", response);
+//   return response;
+// });
+
+export const getUsers = async () => {
   try {
-    const { data } = await request.get("/users");
+    const {
+      data: { users, last_username }
+    } = await request.get("/users");
+    return { users, last_username };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const getUser = async username => {
+  try {
+    console.log(username);
+    const { data } = await request.get(`/users/${username}`);
+    return data.user;
+  } catch (err) {
+    console.log(data);
+    throw err;
+  }
+};
+
+export const getSubscriptionUsers = async username => {
+  try {
+    const { data } = await request.get(`/users/${username}/subscriptions`);
     return data.users;
   } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const followUser = async (usernameToFollow, followerUsername) => {
+  try {
+    await request.patch(`/users/${usernameToFollow}/followers`, {
+      follower: followerUsername
+    });
+  } catch (err) {
+    console.log("followfailed", err, usernameToFollow, followerUsername);
+    throw err;
+  }
+};
+
+export const subscribeToUser = async (usernameToSubscribeTo, yourUsername) => {
+  try {
+    await request.patch(`/users/${yourUsername}/subscriptions`, {
+      subscription: usernameToSubscribeTo
+    });
+  } catch (err) {
+    console.log("subfailed", err, usernameToFollow, followerUsername);
+
     throw err;
   }
 };
@@ -137,12 +189,6 @@ export const updateRun = async ({ run_id, ...rest }) => {
     console.log(err);
     throw err;
   }
-};
-
-export const followUser = async (username, followerUsername) => {
-  return request.post(`/users/${username}/followers`, {
-    follower: followerUsername
-  });
 };
 
 export const startRun = async (username, start_time) => {
