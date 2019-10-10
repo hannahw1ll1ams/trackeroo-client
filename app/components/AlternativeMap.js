@@ -211,11 +211,11 @@ export default class AlternativeMap extends Component {
               }}
             >
               <Typography color="accent" fontSize={30}>
-                {currentSpeed.toFixed(1)}
+                {(currentSpeed * ((60 * 60) / 1000)).toFixed(1)}
               </Typography>
               <View style={{ marginBottom: 5, marginLeft: 5 }}>
                 <Typography fontSize={12} color="primary">
-                  mph
+                  km/h
                 </Typography>
               </View>
             </View>
@@ -233,7 +233,7 @@ export default class AlternativeMap extends Component {
               }}
             >
               <Typography color="accent" fontSize={30}>
-                {distanceTravelled.toFixed(1)}
+                {distanceTravelled.toFixed(2)}
               </Typography>
               <View style={{ marginBottom: 5, marginLeft: 5 }}>
                 <Typography fontSize={12} color="primary">
