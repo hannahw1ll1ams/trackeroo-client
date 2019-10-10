@@ -16,8 +16,10 @@ const RunScreen = () => {
   const [completedRun, setCompletedRun] = useState(false);
   const [resetRun, setResetRun] = useState(false);
   const [run, setRun] = useState({});
+  const [runToUpdate, setRunToUpdate] = useState(false);
   const [shouldResetStopWatch, setShouldResetStopWatch] = useState(false);
   const { user } = useContext(UserContext);
+
 
   const handleStartRun = async () => {
     //make request here
@@ -26,7 +28,7 @@ const RunScreen = () => {
       console.log("type", typeof startTime);
       console.log(startTime);
       const run = await api.startRun(user.username, startTime);
-      console.log(run);
+      console.log("run that came back", run);
       setRun(run);
     } catch (err) {
       console.log(err);
@@ -34,9 +36,17 @@ const RunScreen = () => {
   };
 
   const handleUpdateRun = async stats => {
-    console.log({ ...stats, run_id: run.run_id, username: user.username });
-    console.log(stats);
-    console.log(run.run_id);
+    try {
+      if (run.run_id) {
+        await api.updateRun({
+          ...stats,
+          run_id: run.run_id,
+          username: user.username
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleEndRun = async (
@@ -45,12 +55,19 @@ const RunScreen = () => {
     stringedCoords
   ) => {
     //patch request with rest of run data and username?
-
-    console.log(endTime, "<----totalTime");
-    console.log(averageSpeed, "<----averageSpeed");
-    console.log(distanceTravelled, "<----totalDistance");
+    const finish_time = Date.now().toString();
+    const updatedRun = {
+      // latitude: location.coords.latitude,
+      // longitude: location.coords.longitude,
+      finish_time,
+      average_speed: averageSpeed,
+      total_distance: distanceTravelled,
+      coordinates: stringedCoords,
+      username: user.username,
+      run_id: run.run_id
+    };
+    await api.endRun(updatedRun);
     //send this to server
-    console.log(stringedCoords, "<----runObject");
   };
 
   const updateActivityStatus = async (boolean, time) => {
@@ -76,8 +93,10 @@ const RunScreen = () => {
   };
 
   const toggleRun = async () => {
-    if (isRunning) {
+    if (!isRunning) {
       await handleStartRun();
+    } else {
+      setShouldResetStopWatch(false);
     }
     setIsRunning(!isRunning);
   };

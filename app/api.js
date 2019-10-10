@@ -127,6 +127,18 @@ export const getLatestRuns = async username => {
   }
 };
 
+export const updateRun = async ({ run_id, ...rest }) => {
+  try {
+    const { data } = await request.patch(`/runs/${run_id}`, rest);
+    console.log("actual run data", data);
+    return data.run;
+  } catch (err) {
+    console.log("params", run_id, rest);
+    console.log(err);
+    throw err;
+  }
+};
+
 export const followUser = async (username, followerUsername) => {
   return request.post(`/users/${username}/followers`, {
     follower: followerUsername
@@ -143,6 +155,36 @@ export const startRun = async (username, start_time) => {
   }
 };
 
-export const endRun = async ({ end_time }) => {};
+export const endRun = async ({ run_id, ...rest }) => {
+  try {
+    const { data } = await request.patch(`/runs/${run_id}`, rest);
+    console.log("ended run", data.run);
+    return data.run;
+  } catch (err) {
+    console.log("params", run_id, rest);
+    console.log(err);
+    throw err;
+  }
+};
+
+export const updateUserDistanceTotal = async (username, distance) => {
+  try {
+    await request.patch(`/users/${username}`, {
+      distance
+    });
+  } catch (err) {
+    console.log(username, distance);
+    throw err;
+  }
+};
+
+// Object {
+// "average_speed": 0,
+// "coordinates": "{\"run\":[{\"latitude\":53.4860496,\"longitude\":-2.2397571}]}",
+// "finish_time": "1570694173257",
+// "run_id": "6c2a9782-0985-41ea-bc2a-b96eacb39a64",
+// "total_distance": 0,
+// "username": "harry",
+// }
 
 //to sign out, just delete token from asyncStorage

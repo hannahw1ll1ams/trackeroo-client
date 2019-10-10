@@ -39,7 +39,7 @@ export default class AlternativeMap extends Component {
       if (isRunning) {
         this._getLocationAsync();
       }
-      if (isRunning === false) {
+      if (!isRunning) {
         this.location.remove();
         const { routeCoordinates, distanceTravelled, allSpeeds } = this.state;
         const averageSpeed = this.calcAveSpeed(allSpeeds);
@@ -52,7 +52,7 @@ export default class AlternativeMap extends Component {
         );
       }
     }
-    if (prevProps.resetRun !== this.props.resetRun) {
+    if (prevProps.shouldResetStopWatch !== this.props.shouldResetStopWatch) {
       this.setState({
         routeCoordinates: [],
         distanceTravelled: 0,
@@ -63,6 +63,38 @@ export default class AlternativeMap extends Component {
     }
   }
 
+  getPosition = async location => {
+    const { routeCoordinates, distanceTravelled, allSpeeds } = this.state;
+    const newLatLngs = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude
+    };
+    const positionLatLngs = pick(location.coords, ["latitude", "longitude"]);
+    console.log("speeds", allSpeeds, this.calcAveSpeed(allSpeeds));
+    const speed = location.coords.speed;
+    const updatedRun = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      average_speed: this.calcAveSpeed(allSpeeds),
+      total_distance: distanceTravelled,
+      coordinates: JSON.stringify({
+        run: routeCoordinates.concat(positionLatLngs)
+      })
+    };
+    const { onUpdateRun } = this.props;
+    console.log("up", onUpdateRun, updatedRun);
+    await onUpdateRun(updatedRun);
+    //also add run_id and username
+
+    this.setState({
+      routeCoordinates: routeCoordinates.concat(positionLatLngs),
+      // ownRunObjects: [...this.state.ownRunObjects, location],
+      distanceTravelled: distanceTravelled + this.calcDistance(newLatLngs),
+      prevLatLng: newLatLngs,
+      currentSpeed: speed,
+      allSpeeds: [...this.state.allSpeeds, speed]
+    });
+  };
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
@@ -72,40 +104,7 @@ export default class AlternativeMap extends Component {
     }
     this.location = await Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 0.1 },
-      async location => {
-        const { routeCoordinates, distanceTravelled, allSpeeds } = this.state;
-        const newLatLngs = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude
-        };
-        const positionLatLngs = pick(location.coords, [
-          "latitude",
-          "longitude"
-        ]);
-
-        const speed = location.coords.speed;
-        const updatedRun = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          average_speed: this.calcAveSpeed(allSpeeds),
-          total_distance: distanceTravelled,
-          route: JSON.stringify({
-            run: routeCoordinates.concat(positionLatLngs)
-          })
-        };
-        const { onUpdateRun } = this.props;
-        await onUpdateRun(updatedRun);
-        //also add run_id and username
-
-        this.setState({
-          routeCoordinates: routeCoordinates.concat(positionLatLngs),
-          // ownRunObjects: [...this.state.ownRunObjects, location],
-          distanceTravelled: distanceTravelled + this.calcDistance(newLatLngs),
-          prevLatLng: newLatLngs,
-          currentSpeed: speed,
-          allSpeeds: [...this.state.allSpeeds, speed]
-        });
-      }
+      this.getPosition
     );
   };
 
@@ -117,6 +116,8 @@ export default class AlternativeMap extends Component {
   calcAveSpeed(speedsArray) {
     if (speedsArray.length > 0) {
       return speedsArray.reduce((a, b) => a + b) / speedsArray.length;
+    } else {
+      return 0;
     }
   }
 
@@ -126,7 +127,12 @@ export default class AlternativeMap extends Component {
 
   render() {
     const { routeCoordinates, distanceTravelled, currentSpeed } = this.state;
-    const { isRunning, updateActivityStatus, onReset, shouldResetStopWatch } = this.props;
+    const {
+      isRunning,
+      updateActivityStatus,
+      onReset,
+      shouldResetStopWatch
+    } = this.props;
     const { onResetPress } = this.props;
     // const { isRunning } = this.state;
     let text = "Waiting..";
@@ -241,7 +247,11 @@ export default class AlternativeMap extends Component {
             updateActivityStatus={updateActivityStatus}
             onResetPress={onResetPress}
           /> */}
-          <StopWatch shouldResetStopWatch={shouldResetStopWatch} onReset={onReset} isRunning={isRunning} />
+          <StopWatch
+            shouldResetStopWatch={shouldResetStopWatch}
+            onReset={onReset}
+            isRunning={isRunning}
+          />
         </View>
       </View>
     );

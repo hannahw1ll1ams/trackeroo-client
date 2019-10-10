@@ -5,6 +5,7 @@ import { Button } from "react-native-elements";
 import Typography from "./Typography";
 
 const StopWatch = ({ isRunning, shouldResetStopWatch, onReset }) => {
+  console.log(shouldResetStopWatch, "<- reset");
   return (
     <View
       style={{
@@ -22,7 +23,9 @@ const StopWatch = ({ isRunning, shouldResetStopWatch, onReset }) => {
         }}
         onPress={onReset}
       >
-        <Typography fontSize={12} color="error">RESET</Typography>
+        <Typography fontSize={12} color="error">
+          RESET
+        </Typography>
       </TouchableOpacity>
       <Stopwatch
         start={isRunning}
