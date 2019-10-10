@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef, useState } from "react";
 import { View, FlatList } from "react-native";
 import Typography from "../../components/Typography";
 import * as api from "../../api";
@@ -8,19 +8,21 @@ import getEnvVars from "../../../environment";
 import UserContext from "../../context/UserContext";
 const { webSocketUrl } = getEnvVars();
 
-const FeedScreen = () => {
+const FeedScreen = ({ navigation }) => {
   const { runs, addRuns } = useContext(RunsContext);
   const { user } = useContext(UserContext);
+  const [firstRender, setFirstRender] = useState(true);
+  const [prevLength, setPrevLength] = useState(0);
   const fetchRuns = async () => {
     try {
       const latestRuns = await api.getLatestRuns(user.username);
-      console.log('running', latestRuns)
-      addRuns(latestRuns)
+      addRuns(latestRuns);
     } catch (err) {
       console.log(err);
     }
     // addRuns(latestRuns);
   };
+
   useEffect(() => {
     fetchRuns();
     const ws = new WebSocket(webSocketUrl);
@@ -37,6 +39,7 @@ const FeedScreen = () => {
     ws.onmessage = event => {
       const { run } = JSON.parse(event.data);
       if (run) {
+        console.log(user.username, "RECEIVED new run", run);
         addRuns(run);
       }
     };
@@ -46,11 +49,10 @@ const FeedScreen = () => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#121212" }}>
       <View
         style={{
           backgroundColor: "rgba(255,255,255,0.05)",
-          paddingTop: 36,
           paddingBottom: 16,
           paddingHorizontal: 20,
           marginBottom: 16
@@ -62,8 +64,12 @@ const FeedScreen = () => {
       </View>
       <FlatList
         keyExtractor={item => item.run_id}
-        data={runs}
-        renderItem={({ item }) => <RunItem run={item} />}
+        data={[...runs].sort((a, b) => {
+          return b.start_time - a.start_time;
+        })}
+        renderItem={({ item }) => (
+          <RunItem navigate={navigation.navigate} run={item} />
+        )}
       />
     </View>
   );

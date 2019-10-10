@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, Dimensions } from "react-native";
 import { Stopwatch } from "react-native-stopwatch-timer";
 import styles from "../screens/MapView/SharedStyles";
-import moment from "moment";
 
 class AlternativeStopWatch extends Component {
   state = {
@@ -12,12 +11,10 @@ class AlternativeStopWatch extends Component {
     startTime: 0,
     isRunning: false,
     resetPressed: true
-
   };
 
-
   startWatch = async () => {
-    const { updateActivityStatus, onStart } = this.props;
+    const { updateActivityStatus, onResetPress } = this.props;
     const startTime = new Date().getTime();
 
     this.setState(
@@ -27,18 +24,16 @@ class AlternativeStopWatch extends Component {
         startTime,
         resetPressed: false
       },
-      () => {
-        updateActivityStatus(this.state.isRunning, this.state.startTime);
-        onResetPress(this.state.resetStopwatch)
-
+      async () => {
+        await updateActivityStatus(this.state.isRunning, this.state.startTime);
+        onResetPress(this.state.resetStopwatch);
       }
     );
-    await onStart();
+    // await onStart();
   };
 
   stopStopWatch = () => {
     const { updateActivityStatus } = this.props;
-    const { startTime } = this.state;
     const endTime = new Date().getTime();
     // console.log(startTime, endTime);
     // const totalTime = endTime - startTime;
@@ -56,9 +51,12 @@ class AlternativeStopWatch extends Component {
 
   resetStopwatch = () => {
     const { onResetPress } = this.props;
-    this.setState({ isStopwatchStart: false, resetStopwatch: true, resetPressed: true }, () => {
-      onResetPress(this.state.resetStopwatch)
-    });
+    this.setState(
+      { isStopwatchStart: false, resetStopwatch: true, resetPressed: true },
+      () => {
+        onResetPress(this.state.resetStopwatch);
+      }
+    );
   };
 
   getFormattedTime = time => {
@@ -69,10 +67,16 @@ class AlternativeStopWatch extends Component {
   render() {
     const { isRunning, resetPressed } = this.state;
     return (
-      <View style={styles.stopwatch}>
+      <View
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end"
+        }}
+      >
         <Stopwatch
           laps
-          msecs
           start={this.state.isRunning}
           //To start
           reset={this.state.resetStopwatch}
@@ -81,9 +85,23 @@ class AlternativeStopWatch extends Component {
           // //options for the styling
           getTime={this.getFormattedTime}
         />
-        {isRunning === false && <Button title='START RUN' onPress={this.startWatch} disabled={resetPressed === false} />}
-        {isRunning && <Button title='FINISH RUN' onPress={this.stopStopWatch} />}
-        <Button disabled={isRunning} title='RESET' onPress={this.resetStopwatch} />
+        <View style={{ position: "absolute", bottom: 0 }}>
+          {isRunning === false && (
+            <Button
+              title="START RUN"
+              onPress={this.startWatch}
+              disabled={resetPressed === false}
+            />
+          )}
+        </View>
+        {isRunning && (
+          <Button title="FINISH RUN" onPress={this.stopStopWatch} />
+        )}
+        <Button
+          disabled={isRunning}
+          title="RESET"
+          onPress={this.resetStopwatch}
+        />
       </View>
     );
   }
@@ -91,16 +109,13 @@ class AlternativeStopWatch extends Component {
 
 const options = {
   container: {
-    backgroundColor: "#FF0000",
-    padding: 5,
-    borderRadius: 5,
-    width: 200,
-    alignItems: "center"
+    backgroundColor: "#121212",
+    alignItems: "flex-end",
+    paddingRight: 20
   },
   text: {
-    fontSize: 25,
-    color: "#FFF",
-    marginLeft: 7
+    fontSize: 30,
+    color: "#FFF"
   }
 };
 

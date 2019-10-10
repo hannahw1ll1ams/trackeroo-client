@@ -1,85 +1,51 @@
-/*This is an Example of Timer/Stopwatch in React Native */
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { Stopwatch } from 'react-native-stopwatch-timer';
+import React, { useState } from "react";
+import { Stopwatch } from "react-native-stopwatch-timer";
+import { View, TouchableOpacity } from "react-native";
+import { Button } from "react-native-elements";
+import Typography from "./Typography";
 
-class App extends Component {
-  state = {
-    isTimerStart: false,
-    isStopwatchStart: false,
-    timerDuration: 90000,
-    resetTimer: false,
-    resetStopwatch: false
-  };
-
-  startStopStopWatch = () => {
-    this.setState({
-      isStopwatchStart: !this.state.isStopwatchStart,
-      resetStopwatch: false
-    });
-  };
-  resetStopwatch = () => {
-    this.setState({ isStopwatchStart: false, resetStopwatch: true });
-  };
-
-  getFormattedTime = time => {
-    this.currentTime = time;
-  };
-
-  render() {
-    return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Stopwatch
-            laps
-            msecs
-            start={this.state.isStopwatchStart}
-            //To start
-            reset={this.state.resetStopwatch}
-            //To reset
-            options={options}
-            //options for the styling
-            getTime={this.getFormattedTime}
-          />
-          <Button onPress={this.startStopStopWatch}>
-            <Text style={{ fontSize: 20, marginTop: 10 }}>
-              {!this.state.isStopwatchStart ? 'START' : 'FINISH'}
-            </Text>
-          </Button>
-          <Button onPress={this.resetStopwatch}>
-            <Text style={{ fontSize: 20, marginTop: 10 }}>RESET</Text>
-          </Button>
-        </View>
-        <View
-          style={{
-            marginTop: 15,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        ></View>
-      </View>
-    );
-  }
-}
+const StopWatch = ({ isRunning, shouldResetStopWatch, onReset }) => {
+  console.log(shouldResetStopWatch, "<- reset");
+  return (
+    <View
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "flex-end"
+      }}
+    >
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#121212",
+          alignItems: "flex-end",
+          paddingRight: 20
+        }}
+        disabled={isRunning}
+        onPress={onReset}
+      >
+        <Typography fontSize={12} color="error">
+          RESET
+        </Typography>
+      </TouchableOpacity>
+      <Stopwatch
+        start={isRunning}
+        options={options}
+        reset={shouldResetStopWatch}
+      />
+    </View>
+  );
+};
 
 const options = {
   container: {
-    backgroundColor: '#FF0000',
-    padding: 5,
-    borderRadius: 5,
-    width: 200,
-    alignItems: 'center'
+    backgroundColor: "#121212",
+    alignItems: "flex-end",
+    paddingRight: 20
   },
   text: {
-    fontSize: 25,
-    color: '#FFF',
-    marginLeft: 7
+    fontSize: 30,
+    color: "#FFF"
   }
 };
-
-export default App;
+export default StopWatch;

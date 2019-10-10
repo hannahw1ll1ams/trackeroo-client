@@ -1,14 +1,14 @@
 import React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-elements";
+import { View, TouchableOpacity } from "react-native";
+import { Button } from "react-native-elements";
 import Typography from "./Typography";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const RunItem = ({ run }) => {
-  const { username, start_time, end_time, run_id } = run;
+const RunItem = ({ run, navigate }) => {
+  const { username, start_time, finish_time, run_id } = run;
   return (
     <View
       style={{
@@ -24,14 +24,34 @@ const RunItem = ({ run }) => {
       <Typography>
         {`${username} `}
         <Typography fontWeight={400} color="secondary">
-          {end_time ? "completed a run" : "started a run"}
+          {finish_time ? "completed a run" : "started a run"}
         </Typography>
       </Typography>
       <Typography color="secondary">
-        {end_time
-          ? timeAgo.format(new Date(end_time))
-          : timeAgo.format(new Date(start_time))}
+        {finish_time
+          ? timeAgo.format(new Date(+finish_time))
+          : timeAgo.format(new Date(+start_time))}
       </Typography>
+
+      <TouchableOpacity
+        onPress={() => {
+          navigate("SingleRunnersMap", { run_id });
+        }}
+        style={{
+          backgroundColor: "#121212",
+          width: 100,
+          alignSelf: "flex-end",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          padding: 5
+          // paddingRight: 20
+        }}
+      >
+        <Typography fontSize={14} color="accent">
+          Go Live
+        </Typography>
+      </TouchableOpacity>
     </View>
   );
 };

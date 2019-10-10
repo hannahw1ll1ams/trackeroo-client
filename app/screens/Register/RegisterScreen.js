@@ -1,31 +1,34 @@
-import styles from './styles';
-import React, { Component, useState, useContext } from 'react';
-import { View, Button, TextInput, Text } from 'react-native';
-import * as api from '../../api';
-import UserContext from '../../context/UserContext';
+import styles from "./styles";
+import React, { Component, useState, useContext } from "react";
+import { View, Button, TextInput, Text } from "react-native";
+import * as api from "../../api";
+import UserContext from "../../context/UserContext";
+import { Input } from "react-native-elements";
+import Typography from "../../components/Typography";
+import { TouchableOpacity } from "react-native";
 
 const RegisterScreen = ({ navigation }) => {
   const { setUser } = useContext(UserContext);
-  const [state, setState] = useState({ username: '', password: '' });
+  const [state, setState] = useState({ username: "", password: "" });
 
   const handleChange = (event, inputType) => {
     const { text } = event.nativeEvent;
     usernameRule = /^[a-zA-Z0-9]+$/;
     passwordRule = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[!?/[/@#"{}( )<>£%+='$:;%^&*])(?=.{8,})/;
 
-    if (inputType === 'username') {
+    if (inputType === "username") {
       if (usernameRule.test(text)) {
-        console.log('username is valid');
+        console.log("username is valid");
         setState({ ...state, [inputType]: text });
-      } else console.log('username is invalid');
+      } else console.log("username is invalid");
     }
 
-    if (inputType === 'password') {
+    if (inputType === "password") {
       console.log(text);
       if (passwordRule.test(text)) {
-        console.log('password is valid');
+        console.log("password is valid");
         setState({ ...state, [inputType]: text });
-      } else console.log('password is invalid');
+      } else console.log("password is invalid");
     }
   };
 
@@ -36,9 +39,9 @@ const RegisterScreen = ({ navigation }) => {
       console.log(username, password);
       const user = await api.signup(username, password);
       setUser(user);
-      navigate('HomeScreen');
+      navigate("HomeScreen");
     } catch (error) {
-      console.log(error.message, 'in register catch block');
+      console.log(error.message, "in register catch block");
     }
   };
 
@@ -46,42 +49,38 @@ const RegisterScreen = ({ navigation }) => {
   const { username, password } = state;
   return (
     <View style={styles.register}>
-      <ImageBackground
+      {/* <ImageBackground
         source={require('./road.jpg')}
         style={styles.backgroundImage}
-      >
-        <Input
-          style={styles.input}
-          inputStyle={{ color: 'white' }}
-          placeholder="Username:"
-          placeholderTextColor="white"
-          onEndEditing={event => handleChange(event, 'username')}
-          underlineColorAndroid="black"
-        />
+      > */}
+      <Input
+        style={styles.input}
+        inputStyle={{ color: "white" }}
+        placeholder="Username:"
+        placeholderTextColor="white"
+        onEndEditing={event => handleChange(event, "username")}
+        underlineColorAndroid="black"
+      />
 
-        <Input
-          style={styles.input}
-          inputStyle={{ color: 'white' }}
-          placeholder="Password:"
-          placeholderTextColor="white"
-          onEndEditing={event => this.handleChange(event, 'password')}
-          underlineColorAndroid="black"
-        />
+      <Input
+        style={styles.input}
+        inputStyle={{ color: "white" }}
+        placeholder="Password:"
+        placeholderTextColor="white"
+        onEndEditing={event => handleChange(event, "password")}
+        underlineColorAndroid="black"
+      />
 
-        <Typography>
-          Password must be 8 characters long, include at least one capital and
-          lowercase letter, and one number
-        </Typography>
-        <TouchableOpacity style={styles.signup_button}>
-          <Button
-            style={styles.button}
-            title="Register"
-            onPress={handleSubmit}
-          >
-            Create
-          </Button>
-        </TouchableOpacity>
-      </ImageBackground>
+      <Typography>
+        Password must be 8 characters long, include at least one capital and
+        lowercase letter, and one number
+      </Typography>
+      <TouchableOpacity style={styles.signup_button}>
+        <Button style={styles.button} title="Register" onPress={handleSubmit}>
+          Create
+        </Button>
+      </TouchableOpacity>
+      {/* </ImageBackground> */}
     </View>
   );
 };

@@ -1,7 +1,8 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Platform, StatusBar } from "react-native";
 
 const styles = {
+  paddingTop: StatusBar.currentHeight,
   backgroundColor: "#121212",
   flex: 1
 };

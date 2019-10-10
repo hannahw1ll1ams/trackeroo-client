@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View } from "react-native";
 import { Text, Button } from "react-native-elements";
 import Typography from "./Typography";
@@ -7,12 +7,13 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const UserItem = ({ user, current }) => {
-  const { name, followers } = user;
+const UserItem = ({ user, current, onFollow }) => {
+  const { username, followers } = user;
 
-  handlePress = () => {
-    console.log(`INVITED ${name}`)
-  }
+  handlePress = async () => {
+    await onFollow(username);
+    console.log(`INVITED ${username}`);
+  };
   return (
     <View
       style={{
@@ -21,19 +22,18 @@ const UserItem = ({ user, current }) => {
         paddingVertical: 16,
         marginBottom: 16,
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
         justifyContent: "space-between"
       }}
     >
       <Typography>
-        {`${name} `}
+        {`${username} `}
         <Typography fontWeight={400} color="secondary">
           {followers}
         </Typography>
       </Typography>
-      {current === false && <Button title='Invite' onPress={this.handlePress} />}
+      {current === false && <Button title="Invite" onPress={handlePress} />}
       {current === true && <Typography>Rank</Typography>}
-
     </View>
   );
 };

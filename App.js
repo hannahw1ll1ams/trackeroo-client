@@ -16,7 +16,23 @@ export default class App extends Component {
         runs: [...currentState.runs, ...runs]
       }));
     } else {
-      this.setState(currentState => ({ runs: [...currentState.runs, runs] }));
+      // if run item already exists, it's an update
+      const runExists = this.state.runs.some(r => r.run_id === runs.run_id);
+      if (runExists) {
+        this.setState(currentState => ({
+          runs: currentState.runs.map(r => {
+            if (r.run_id === runs.run_id) {
+              return runs;
+            } else {
+              return r;
+            }
+          })
+        }));
+      } else {
+        this.setState(currentState => ({
+          runs: [runs, ...currentState.runs]
+        }));
+      }
     }
   };
 
