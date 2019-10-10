@@ -7,10 +7,10 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex }) => {
+const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
   const { challenge, reward, winner, reward_id } = rewardObj;
-  handlePress = (id) => {
-    rewardClaimed(id)
+  handlePress = () => {
+    rewardClaimed(reward_id, user.username)
   }
   return (
     <View
@@ -34,8 +34,9 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex }) => {
         <Typography>
           Reward: {reward}
         </Typography>
+        <Typography>Winner : {winner} </Typography>
       </View>
-      {selectedIndex === 0 && <Button title="CLAIM" onPress={() => this.handlePress(reward_id)} />}
+      {selectedIndex === 0 && user.cumulative_distance > challenge && <Button title="CLAIM" onPress={handlePress} />}
     </View>
   );
 };

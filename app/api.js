@@ -224,6 +224,34 @@ export const updateUserDistanceTotal = async (username, distance) => {
   }
 };
 
+export const getRewards = async completed => {
+  try {
+    const { data: {rewards} } = await request.get("/rewards", {
+      params: { completed: completed }
+    });
+    return rewards;
+  } catch (error) {
+    throw error;
+  }
+};
+export const claimReward = async (reward_id, username) => {
+  try {
+    await request.patch("/rewards", {
+      reward_id: reward_id,
+      winner: username
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const updateUserRewardTotal = async username => {
+  try {
+    await request.patch(`/rewards/${username}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Object {
 // "average_speed": 0,
 // "coordinates": "{\"run\":[{\"latitude\":53.4860496,\"longitude\":-2.2397571}]}",
