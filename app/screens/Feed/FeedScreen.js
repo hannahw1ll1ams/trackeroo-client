@@ -64,7 +64,9 @@ const FeedScreen = ({ navigation }) => {
       </View>
       <FlatList
         keyExtractor={item => item.run_id}
-        data={runs}
+        data={[...runs].sort((a, b) => {
+          return b.start_time - a.start_time;
+        })}
         renderItem={({ item }) => (
           <RunItem navigate={navigation.navigate} run={item} />
         )}
