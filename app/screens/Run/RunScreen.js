@@ -20,7 +20,6 @@ const RunScreen = () => {
   const [shouldResetStopWatch, setShouldResetStopWatch] = useState(false);
   const { user } = useContext(UserContext);
 
-
   const handleStartRun = async () => {
     //make request here
     try {
@@ -94,10 +93,12 @@ const RunScreen = () => {
 
   const toggleRun = async () => {
     if (!isRunning) {
+      setShouldResetStopWatch(true);
       await handleStartRun();
     } else {
       setShouldResetStopWatch(false);
     }
+    setShouldResetStopWatch(false);
     setIsRunning(!isRunning);
   };
 

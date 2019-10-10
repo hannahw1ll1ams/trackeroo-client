@@ -21,6 +21,7 @@ const StopWatch = ({ isRunning, shouldResetStopWatch, onReset }) => {
           alignItems: "flex-end",
           paddingRight: 20
         }}
+        disabled={isRunning}
         onPress={onReset}
       >
         <Typography fontSize={12} color="error">
