@@ -11,6 +11,9 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
 
   const { challenge, reward, reward_id, winner } = rewardObj;
   console.log(rewardObj, '<----')
+  console.log(typeof (user.cumulative_distance), user.cumulative_distance, '<---- user')
+  console.log(typeof (challenge), challenge, '<---- challenge')
+
   handlePress = async () => {
     await rewardClaimed(reward_id, user.username)
   }
@@ -60,13 +63,13 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
         </Typography>
         {selectedIndex === 1 && <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>Winner : {winner.S}</Typography>}
       </View>
-      {/* {selectedIndex === 0 && user.cumulative_distance > challenge && <Button title="CLAIM" onPress={handlePress} />} */}
-      {selectedIndex === 0 && <Button title="CLAIM" titleStyle={{ color: 'black', fontSize: 14 }}
+      {selectedIndex === 0 && user.cumulative_distance > challenge && <Button title="CLAIM" onPress={handlePress} />}
+      {/* {selectedIndex === 0 && <Button title="CLAIM" titleStyle={{ color: 'black', fontSize: 14 }}
         buttonStyle={{
           paddingLeft: 15,
           paddingRight: 15,
           backgroundColor: 'rgb(255, 128, 0)'
-        }} type="outline" onPress={handlePress} />}
+        }} type="outline" onPress={handlePress} />} */}
     </View>
   );
 };

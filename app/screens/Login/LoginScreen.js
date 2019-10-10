@@ -165,7 +165,7 @@ const LoginScreen = ({ navigation }) => {
             titleStyle={{ color: 'black' }}
 
             color="black"
-            title="ᔕIGᑎ Iᑎ"
+            title="SIGᑎ Iᑎ"
             onPress={handleSubmit}
           />
 
@@ -175,18 +175,18 @@ const LoginScreen = ({ navigation }) => {
                 navigate("PasswordResetScreen", { title: "Forgot Password" })
               }
             >
-              ᖴOᖇGOT ᑭᗩᔕᔕᗯOᖇᗪ
+              FORGOT PASSWORD
           </Typography>
           </TouchableOpacity>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Typography onPress={handleSubmit}>ᔕᎥǤᑎ Ꭵᑎ</Typography>
+          <Typography onPress={handleSubmit}>SIGN IN</Typography>
         </TouchableOpacity>
         <TouchableOpacity>
           <Typography
             onPress={() => navigate("RegisterScreen", { title: "SIGN UP" })}
           >
-            ᗪOᑎ'T ᕼᗩᐯE ᗩᑎ ᗩᑕᑕOᑌᑎT?
+            DON'T HAVE A ACCOUNT?
         </Typography>
         </TouchableOpacity>
       </View>
