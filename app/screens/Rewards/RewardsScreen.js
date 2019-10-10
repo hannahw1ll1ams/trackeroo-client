@@ -60,35 +60,39 @@ export default RewardsScreen = () => {
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <ButtonGroup
-          onPress={() => {
-            if (selectedIndex === 0) {
-              setSelectedIndex(1);
-            } else {
-              setSelectedIndex(0);
-            }
-          }}
-          selectedIndex={selectedIndex}
-          buttons={buttons}
-          buttonStyle={{ backgroundColor: 'grey' }}
-          containerStyle={{ height: 50 }}
-          selectedButtonStyle={{ backgroundColor: 'rgb(255, 128, 0)' }}
+        <View style={{ margin: 20 }}>
+          <ButtonGroup
+            onPress={() => {
+              if (selectedIndex === 0) {
+                setSelectedIndex(1);
+              } else {
+                setSelectedIndex(0);
+              }
+            }}
+            selectedIndex={selectedIndex}
+            buttons={buttons}
+            buttonStyle={{ backgroundColor: 'grey' }}
+            containerStyle={{ height: 50 }}
+            selectedButtonStyle={{ backgroundColor: 'rgb(255, 128, 0)' }}
 
-        />
-        {selectedIndex === 0 ? <Typography>What can you claim?</Typography> : <Typography>Too slow</Typography>}
-        <FlatList
-          data={selectedIndex === 0 ? openRewards : completedRewards}
-          selectedIndex={selectedIndex}
-          keyExtractor={item => item.reward_id}
-          renderItem={({ item }) => (
-            <RewardItem
-              user={user}
-              rewardObj={item}
-              rewardClaimed={rewardClaimed}
-              selectedIndex={selectedIndex}
-            />
-          )}
-        />
+          />
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-start" }}>
+            {selectedIndex === 0 ? <Typography>What can you claim?</Typography> : <Typography>Too slow</Typography>}
+          </View>
+          <FlatList
+            data={selectedIndex === 0 ? openRewards : completedRewards}
+            selectedIndex={selectedIndex}
+            keyExtractor={item => item.reward_id}
+            renderItem={({ item }) => (
+              <RewardItem
+                user={user}
+                rewardObj={item}
+                rewardClaimed={rewardClaimed}
+                selectedIndex={selectedIndex}
+              />
+            )}
+          />
+        </View>
         <ViewToggler item="reward" postNewReward={postNewReward} />
       </SafeAreaView>
     </KeyboardAvoidingView>
