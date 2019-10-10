@@ -1,9 +1,19 @@
 import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingTop: 3,
-    textAlign: 'center'
+    textAlign: 'center',
+    flex: 1
+  },
+  text: {
+    fontSize: 25,
+    color: "purple",
+    marginLeft: 7
+  },
+  flatview: {
+    justifyContent: "center",
+    paddingTop: 30,
+    borderRadius: 2
   },
   button: {
     height: 40
@@ -19,13 +29,25 @@ export default styles;
 
 
 
+
+
+
 // import React, { Component, useContext, useState, useEffect } from "react";
+
 // import { View, Button, Text, FlatList, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+
+
 // import { ListItem, ButtonGroup } from "react-native-elements";
+
+
 // import Typography from "../../components/Typography";
+
+
 // import { SafeAreaView } from "react-navigation";
+
 // import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 // import UserItem from "../../components/UserItem";
+
 // import {
 //   getUsers,
 //   getSubscriptionUsers,
@@ -81,42 +103,42 @@ export default styles;
 
 //       {/* {selectedIndex === 0 && (
 //         <Header
-//           leftComponent={{
-//             text: 'Member',
-//             style: {
-//               color: 'white',
-//               fontSize: 16,
-//               fontWeight: 'bold',
-//               width: 100,
-//               textAlign: 'center'
-//             }
-//           }}
-//           centerComponent={{
-//             color: 'blue',
-//             text: 'Distance(km)',
-//             style: {
-//               color: 'white',
-//               fontSize: 15,
-//               fontWeight: 'bold',
-//               width: 100,
-//               textAlign: 'center'
-//             }
-//           }}
-//           rightComponent={{
-//             text: 'Ranking',
-//             style: {
-//               color: 'white',
-//               fontSize: 16,
-//               fontWeight: 'bold',
-//               width: 100,
-//               textAlign: 'center'
-//             }
-//           }}
-//           containerStyle={{
-//             backgroundColor: 'rgba(25, 25, 25, 0.1)',
-//             justifyContent: 'space-around',
-//             height: 70
-//           }}
+          // leftComponent={{
+          //   text: 'Member',
+          //   style: {
+          //     color: 'white',
+          //     fontSize: 16,
+          //     fontWeight: 'bold',
+          //     width: 100,
+          //     textAlign: 'center'
+          //   }
+          // }}
+          // centerComponent={{
+          //   color: 'blue',
+          //   text: 'Distance(km)',
+          //   style: {
+          //     color: 'white',
+          //     fontSize: 15,
+          //     fontWeight: 'bold',
+          //     width: 100,
+          //     textAlign: 'center'
+          //   }
+          // }}
+          // rightComponent={{
+          //   text: 'Ranking',
+          //   style: {
+          //     color: 'white',
+          //     fontSize: 16,
+          //     fontWeight: 'bold',
+          //     width: 100,
+          //     textAlign: 'center'
+          //   }
+          // }}
+          // containerStyle={{
+          //   backgroundColor: 'rgba(25, 25, 25, 0.1)',
+          //   justifyContent: 'space-around',
+          //   height: 70
+          // }}
 //         />
 //       )}
 //       {selectedIndex === 1 && (
