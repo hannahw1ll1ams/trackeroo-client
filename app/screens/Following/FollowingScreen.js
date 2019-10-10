@@ -158,7 +158,7 @@ const FollowingScreen = () => {
           data={
             selectedIndex === 0
               ? allUsers.filter(allUser =>
-                user.subscriptions.includes(allUser.username)
+                user.subscriptions.includes(allUser.username) || user.username === allUser.username
               )
               : allUsers.filter(
                 allUser =>
@@ -166,8 +166,9 @@ const FollowingScreen = () => {
                   allUser.username !== user.username
               )
           }
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <UserItem
+              rank={index}
               onFollow={handleFollow}
               user={item}
               current={selectedIndex === 0 ? true : false}

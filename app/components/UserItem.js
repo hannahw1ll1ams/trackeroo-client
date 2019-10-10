@@ -7,10 +7,9 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const UserItem = ({ user, current, onFollow }) => {
+const UserItem = ({ user, current, onFollow, rank }) => {
   const { username, followers, cumulative_distance, subscriptions } = user;
 
-  console.log(user)
   handlePress = async () => {
     await onFollow(username);
     console.log(`INVITED ${username}`);
@@ -24,17 +23,21 @@ const UserItem = ({ user, current, onFollow }) => {
         marginBottom: 16,
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-around"
       }}
     >
-      <Typography>
-        {`${username} `}
-        <Typography fontWeight={400} color="secondary">
-          {followers.length} followers
+      {current === true ? <Typography>{rank + 1}</Typography> : <Button title="Invite" onPress={handlePress} />}
+
+
+      <View style={{ flex: 1 }}>
+        <Typography >
+          {`${username} `}
         </Typography>
-      </Typography>
-      {current === false && <Button title="Invite" onPress={handlePress} />}
-      {current === true && <Typography>Rank</Typography>}
+        {current === false && <Typography fontWeight={400} color="secondary">
+          {followers.length} followers
+        </Typography>}
+      </View>
+      <Typography>{cumulative_distance} km</Typography>
     </View>
   );
 };
