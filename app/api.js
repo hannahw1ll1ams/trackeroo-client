@@ -254,9 +254,14 @@ export const updateUserRewardTotal = async username => {
 
 export const sendNewReward = async (challenge, reward) => {
   try {
+    console.log(challenge, reward, "chaleneg, reward")
     const { data } = await request.post('/rewards', { challenge, reward })
-    return data.reward;
+    console.log(data, "worked data")
+    // return data.reward;
   } catch (error) {
+    console.log(error, "error")
+    console.log(data, "<---- error data")
+
     throw (error)
   }
 }

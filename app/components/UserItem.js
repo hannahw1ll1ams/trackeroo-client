@@ -8,8 +8,9 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 const UserItem = ({ user, current, onFollow }) => {
-  const { username, followers } = user;
+  const { username, followers, cumulative_distance, subscriptions } = user;
 
+  console.log(user)
   handlePress = async () => {
     await onFollow(username);
     console.log(`INVITED ${username}`);
@@ -29,7 +30,7 @@ const UserItem = ({ user, current, onFollow }) => {
       <Typography>
         {`${username} `}
         <Typography fontWeight={400} color="secondary">
-          {followers}
+          {followers.length} followers
         </Typography>
       </Typography>
       {current === false && <Button title="Invite" onPress={handlePress} />}

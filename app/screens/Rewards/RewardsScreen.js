@@ -37,6 +37,11 @@ export default RewardsScreen = () => {
     fetchRewards();
   }, [selectedIndex]);
 
+  // do we need to update based on this????
+  // useEffect(() => {
+  //   fetchRewards();
+  // }, [selectedIndex, openRewards]);
+
   useEffect(() => {
     fetchRewards();
   }, []);
@@ -48,7 +53,7 @@ export default RewardsScreen = () => {
 
   const postNewReward = async (challenge, reward) => {
     const newReward = await sendNewReward(challenge, reward)
-    console.log(newReward)
+    // await sendNewReward(challenge, reward)
     setOpenRewards(...openRewards, newReward)
   }
 
@@ -70,7 +75,7 @@ export default RewardsScreen = () => {
           selectedButtonStyle={{ backgroundColor: 'rgb(255, 128, 0)' }}
 
         />
-        {selectedIndex === 0 ? <Typography>YOᑌ ᗪEᔕEᖇᐯE TᕼIᔕ !!</Typography> : <Typography>Too slow</Typography>}
+        {selectedIndex === 0 ? <Typography>What can you claim?</Typography> : <Typography>Too slow</Typography>}
         <FlatList
           data={selectedIndex === 0 ? openRewards : completedRewards}
           selectedIndex={selectedIndex}
