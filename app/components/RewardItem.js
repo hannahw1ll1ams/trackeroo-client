@@ -34,7 +34,7 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
         <Icon
           name="star"
           type="Font-Awesome"
-          color="gold"
+          color="green"
           iconStyle={{ paddingRight: 15 }}
         />
       )}
@@ -50,26 +50,36 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
         style={{
           flex: 1,
           flexDirection: 'row',
-          flexWrap: 'wrap',
+          // flexWrap: 'wrap',
           width: 400,
-          backgroundColor: 'rgba(255,255,255,0.01)'
+          backgroundColor: 'rgba(255,255,255,0.01)',
+          justifyContent: "space-between"
         }}
       >
-        <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>
-          Challenge: {challenge} km
+        <View>
+          <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>Challenge:</Typography>
+          <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>Reward:</Typography>
+          {selectedIndex === 1 && <Typography style={{ paddingRight: 10, fontSize: 16, color: 'green' }}>Winner:</Typography>}
+        </View>
+
+        <View style={{ flex: 1, alignItems: "flex-end" }}>
+
+          <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>
+            {challenge} km
       </Typography>
-        <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>
-          Reward: {reward}
-        </Typography>
-        {selectedIndex === 1 && <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>Winner : {winner.S}</Typography>}
+          <Typography style={{ paddingRight: 10, fontSize: 16, color: 'white' }}>
+            {reward}
+          </Typography>
+          {selectedIndex === 1 && <Typography style={{ paddingRight: 10, fontSize: 16, color: 'green' }}>{winner.S}</Typography>}
+        </View>
+        {selectedIndex === 0 && user.cumulative_distance > challenge && <Button title="CLAIM" onPress={handlePress} titleStyle={{ color: 'black', fontSize: 14 }}
+          buttonStyle={{
+            paddingLeft: 15,
+            paddingRight: 15,
+            backgroundColor: 'rgb(255, 128, 0)'
+          }} type="outline" />}
       </View>
-      {selectedIndex === 0 && user.cumulative_distance > challenge && <Button title="CLAIM" onPress={handlePress} />}
-      {/* {selectedIndex === 0 && <Button title="CLAIM" titleStyle={{ color: 'black', fontSize: 14 }}
-        buttonStyle={{
-          paddingLeft: 15,
-          paddingRight: 15,
-          backgroundColor: 'rgb(255, 128, 0)'
-        }} type="outline" onPress={handlePress} />} */}
+
     </View>
   );
 };
