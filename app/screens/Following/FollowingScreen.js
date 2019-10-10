@@ -1,5 +1,5 @@
 import React, { Component, useContext, useState, useEffect } from "react";
-import { View, Button, Text, FlatList, StyleSheet } from "react-native";
+import { View, Button, Text, FlatList, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import { ListItem, ButtonGroup } from "react-native-elements";
 import Typography from "../../components/Typography";
 import { SafeAreaView } from "react-navigation";
@@ -12,6 +12,7 @@ import {
   subscribeToUser
 } from "../../api";
 import UserContext from "../../context/UserContext";
+import styles from './styles'
 
 const FollowingScreen = () => {
   const [allUsers, setAllUsers] = useState([]);
@@ -73,13 +74,13 @@ const FollowingScreen = () => {
         data={
           selectedIndex === 0
             ? allUsers.filter(allUser =>
-                user.subscriptions.includes(allUser.username)
-              )
+              user.subscriptions.includes(allUser.username)
+            )
             : allUsers.filter(
-                allUser =>
-                  !user.subscriptions.includes(allUser.username) &&
-                  allUser.username !== user.username
-              )
+              allUser =>
+                !user.subscriptions.includes(allUser.username) &&
+                allUser.username !== user.username
+            )
         }
         renderItem={({ item }) => (
           <UserItem
@@ -131,21 +132,3 @@ const FollowingScreen = () => {
 //   }
 // }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    flex: 1
-  },
-  text: {
-    fontSize: 25,
-    color: "purple",
-    marginLeft: 7
-  },
-  flatview: {
-    justifyContent: "center",
-    paddingTop: 30,
-    borderRadius: 2
-  }
-});
-
-export default FollowingScreen;
