@@ -226,7 +226,7 @@ export const updateUserDistanceTotal = async (username, distance) => {
 
 export const getRewards = async completed => {
   try {
-    const { data: {rewards} } = await request.get("/rewards", {
+    const { data: { rewards } } = await request.get("/rewards", {
       params: { completed: completed }
     });
     return rewards;
@@ -251,6 +251,15 @@ export const updateUserRewardTotal = async username => {
     throw error;
   }
 };
+
+export const sendNewReward = async (challenge, reward) => {
+  try {
+    const { data } = await request.post('/rewards', { challenge, reward })
+    return data.reward;
+  } catch (error) {
+    throw (error)
+  }
+}
 
 // Object {
 // "average_speed": 0,
