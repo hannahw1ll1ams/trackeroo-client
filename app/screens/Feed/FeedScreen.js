@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef, useState } from "react";
 import { View, FlatList } from "react-native";
 import Typography from "../../components/Typography";
 import * as api from "../../api";
@@ -11,6 +11,8 @@ const { webSocketUrl } = getEnvVars();
 const FeedScreen = ({ navigation }) => {
   const { runs, addRuns } = useContext(RunsContext);
   const { user } = useContext(UserContext);
+  const [firstRender, setFirstRender] = useState(true);
+  const [prevLength, setPrevLength] = useState(0);
   const fetchRuns = async () => {
     try {
       const latestRuns = await api.getLatestRuns(user.username);
@@ -20,6 +22,7 @@ const FeedScreen = ({ navigation }) => {
     }
     // addRuns(latestRuns);
   };
+
   useEffect(() => {
     fetchRuns();
     const ws = new WebSocket(webSocketUrl);

@@ -30,7 +30,7 @@ export default class App extends Component {
         }));
       } else {
         this.setState(currentState => ({
-          runs: [...currentState.runs, runs]
+          runs: [runs, ...currentState.runs]
         }));
       }
     }

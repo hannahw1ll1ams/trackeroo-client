@@ -8,7 +8,7 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 const RunItem = ({ run, navigate }) => {
-  const { username, start_time, end_time, run_id } = run;
+  const { username, start_time, finish_time, run_id } = run;
   return (
     <View
       style={{
@@ -24,13 +24,13 @@ const RunItem = ({ run, navigate }) => {
       <Typography>
         {`${username} `}
         <Typography fontWeight={400} color="secondary">
-          {end_time ? "completed a run" : "started a run"}
+          {finish_time ? "completed a run" : "started a run"}
         </Typography>
       </Typography>
       <Typography color="secondary">
-        {end_time
-          ? timeAgo.format(new Date(end_time))
-          : timeAgo.format(new Date(start_time))}
+        {finish_time
+          ? timeAgo.format(new Date(+finish_time))
+          : timeAgo.format(new Date(+start_time))}
       </Typography>
 
       <TouchableOpacity
