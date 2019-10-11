@@ -65,7 +65,9 @@ const FollowingScreen = () => {
             }}
             selectedIndex={selectedIndex}
             buttons={buttons}
+            buttonStyle={{ backgroundColor: 'grey' }}
             containerStyle={{ height: 50 }}
+            selectedButtonStyle={{ backgroundColor: 'rgb(255, 128, 0)' }}
           />
         </TouchableOpacity>
         {/* {selectedIndex === 0 && (
