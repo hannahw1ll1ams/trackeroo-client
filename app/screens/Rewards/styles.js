@@ -7,12 +7,7 @@ const styles = StyleSheet.create({
     // width: 200
     // top: 30
   },
-  padLeft: {
-    paddingLeft: 16
-  },
-  padRight: {
-    paddingRight: 16
-  },
+
   backgroundImage: {
     flex: 1,
     width: null,

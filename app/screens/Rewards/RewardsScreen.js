@@ -59,7 +59,7 @@ export default RewardsScreen = () => {
 
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={{ margin: 20 }}>
           <ButtonGroup
             onPress={() => {
@@ -94,7 +94,7 @@ export default RewardsScreen = () => {
           />
         </View>
         <ViewToggler item="reward" postNewReward={postNewReward} />
-      </SafeAreaView>
+      </View>
     </KeyboardAvoidingView>
   )
 };
