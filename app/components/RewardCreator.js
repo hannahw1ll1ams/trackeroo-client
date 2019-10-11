@@ -24,14 +24,18 @@ class RewardCreator extends Component {
     return (
       <View style={{ paddingBottom: 100 }}>
         <Input
+          inputContainerStyle={{ backgroundColor: "grey" }}
+
           placeholder="Challenge"
-          placeholderTextColor="white"
+          placeholderTextColor="black"
           onEndEditing={event => this.handleChange(event, 'challenge')}
           name="Challenge"
         />
         <Input
+          inputContainerStyle={{ backgroundColor: "grey" }}
+          inputStyle={{ color: "white" }}
           placeholder="Reward"
-          placeholderTextColor="white"
+          placeholderTextColor="black"
           name="reward"
           onEndEditing={event => this.handleChange(event, 'reward')}
         />
@@ -39,6 +43,12 @@ class RewardCreator extends Component {
           title="Create!"
           onPress={this.handleSubmit}
           containerStyle={{ paddingTop: 20 }}
+          titleStyle={{ color: 'black', fontSize: 14 }}
+          buttonStyle={{
+            paddingLeft: 15,
+            paddingRight: 15,
+            backgroundColor: 'rgb(255, 128, 0)'
+          }} type="outline"
         />
       </View>
     );

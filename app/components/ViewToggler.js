@@ -22,7 +22,12 @@ class ViewToggler extends Component {
     const { postNewGroup, item, postNewReward } = this.props;
     return (
       <View>
-        <Button onPress={this.handlePress} title={messageToggle === true ? `+Add ${item}` : "Hide Form"}>
+        <Button titleStyle={{ color: 'black', fontSize: 14 }}
+          buttonStyle={{
+            paddingLeft: 15,
+            paddingRight: 15,
+            backgroundColor: 'rgb(255, 128, 0)'
+          }} type="outline" onPress={this.handlePress} title={messageToggle === true ? `+Add ${item}` : "Hide Form"}>
         </Button>
         {(isShowingForm) && (item === 'group') && <GroupCreator postNewGroup={postNewGroup} />}
         {(isShowingForm) && (item === 'reward') && <RewardCreator postNewReward={postNewReward} />}
