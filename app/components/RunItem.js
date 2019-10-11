@@ -15,7 +15,7 @@ const RunItem = ({ run, navigate }) => {
         backgroundColor: "rgba(255,255,255,0.05)",
         paddingHorizontal: 20,
         paddingVertical: 16,
-        marginBottom: 16,
+        marginTop: 16,
         borderColor: "black",
         borderWidth: 1,
         borderStyle: "solid"
@@ -27,31 +27,39 @@ const RunItem = ({ run, navigate }) => {
           {finish_time ? "completed a run" : "started a run"}
         </Typography>
       </Typography>
-      <Typography color="secondary">
+      <Typography color="tertiary">
         {finish_time
           ? timeAgo.format(new Date(+finish_time))
           : timeAgo.format(new Date(+start_time))}
       </Typography>
-
-      <TouchableOpacity
-        onPress={() => {
-          navigate("SingleRunnersMap", { run_id });
-        }}
+      <View
         style={{
-          backgroundColor: "#121212",
-          width: 100,
-          alignSelf: "flex-end",
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          padding: 5
-          // paddingRight: 20
+          flexDirection: "row"
         }}
       >
-        <Typography fontSize={14} color="accent">
-          Go Live
-        </Typography>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigate("SingleRunnersMap", { run_id });
+          }}
+          style={{
+            backgroundColor: "rgba(255,255,255,0.14)",
+            width: 100,
+            marginLeft: "auto",
+            alignSelf: "flex-end",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            padding: 5,
+            borderRadius: 3
+            // paddingRight: 20
+          }}
+        >
+          <Typography fontWeight={700} fontSize={14} color="accent">
+            Go Live
+          </Typography>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
