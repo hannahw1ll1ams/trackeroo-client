@@ -47,23 +47,20 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
             iconStyle={{ paddingRight: 15 }}
           />
         )}
+
+
         <View
           style={{
             flex: 1,
             flexDirection: 'row',
-            // flexWrap: 'wrap',
-            width: 400,
             backgroundColor: 'rgba(255,255,255,0.01)',
             justifyContent: "space-evenly"
-          }}
-        >
+          }}>
           <View>
             <Typography fontWeight={400} color="secondary">Challenge:</Typography>
             <Typography fontWeight={400} color="secondary">Reward:</Typography>
             {selectedIndex === 1 && <Typography fontWeight={400} style={{ color: "green" }}>Winner:</Typography>}
           </View>
-
-
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <Typography fontWeight={400} color="secondary">
               {challenge} km
@@ -74,6 +71,8 @@ const RewardItem = ({ rewardObj, rewardClaimed, selectedIndex, user }) => {
             {selectedIndex === 1 && <Typography fontWeight={400} style={{ color: "green" }}>{winner.S}</Typography>}
           </View>
         </View>
+
+
         {selectedIndex === 0 && user.cumulative_distance >= challenge && <Button title="CLAIM" onPress={handlePress} titleStyle={{ color: 'black', fontSize: 14 }}
           buttonStyle={{
             paddingLeft: 15,

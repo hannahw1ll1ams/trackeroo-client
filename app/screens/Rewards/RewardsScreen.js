@@ -60,7 +60,7 @@ export default RewardsScreen = () => {
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
       <View style={styles.container}>
-        <View style={{ margin: 20 }}>
+        <View>
           <ButtonGroup
             onPress={() => {
               if (selectedIndex === 0) {
