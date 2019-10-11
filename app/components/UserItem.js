@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View } from "react-native";
-import { Text, Button } from "react-native-elements";
+import { Text, Button, Badge } from "react-native-elements";
 import Typography from "./Typography";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
@@ -26,12 +26,13 @@ const UserItem = ({ user, current, onFollow, rank }) => {
         justifyContent: "space-around"
       }}
     >
-      {current === true ? <Typography>{rank + 1}</Typography> : <Button title="Invite" onPress={handlePress} titleStyle={{ color: 'black', fontSize: 14 }}
-        buttonStyle={{
-          paddingLeft: 15,
-          paddingRight: 15,
-          backgroundColor: 'rgb(255, 128, 0)'
-        }} type="outline" />}
+      {current === true ? <Badge value={<Text>{rank + 1}</Text>} />
+        : <Button title="Invite" onPress={handlePress} titleStyle={{ color: 'black', fontSize: 14 }}
+          buttonStyle={{
+            paddingLeft: 15,
+            paddingRight: 15,
+            backgroundColor: 'rgb(255, 128, 0)'
+          }} type="outline" />}
 
 
       <View style={{ flex: 1, alignItems: "center" }}>
