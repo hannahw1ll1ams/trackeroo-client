@@ -34,7 +34,7 @@ const UserItem = ({ user, current, onFollow, rank }) => {
         }} type="outline" />}
 
 
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: "center" }}>
         <Typography >
           {`${username} `}
         </Typography>
