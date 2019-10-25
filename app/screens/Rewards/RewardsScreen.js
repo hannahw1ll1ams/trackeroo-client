@@ -53,7 +53,6 @@ export default RewardsScreen = () => {
 
   const postNewReward = async (challenge, reward) => {
     const newReward = await sendNewReward(challenge, reward)
-    // await sendNewReward(challenge, reward)
     setOpenRewards(...openRewards, newReward)
   }
 

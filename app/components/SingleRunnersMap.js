@@ -19,6 +19,14 @@ import pick from "lodash.pick";
 import Typography from "./Typography";
 import RunsContext from "../context/RunsContext";
 
+const boxStyle = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  paddingVertical: 10,
+  paddingLeft: 20
+};
+
 const SingleRunnersMap = ({ navigation }) => {
   const { run_id } = navigation.state.params;
   const { runs } = useContext(RunsContext);
@@ -62,6 +70,78 @@ const SingleRunnersMap = ({ navigation }) => {
           />
         )}
       </MapView>
+
+      <View
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          backgroundColor: "#121212",
+          width: Dimensions.get("window").width
+        }}
+      >
+        <View style={boxStyle}>
+          <Typography color="secondary" fontSize={12}>
+            Speed:
+          </Typography>
+          <View
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-end"
+            }}
+          >
+            <Typography color="accent" fontSize={30}>
+              {(run.average_speed * ((60 * 60) / 1000)).toFixed(1)}
+            </Typography>
+            <View style={{ marginBottom: 5, marginLeft: 5 }}>
+              <Typography fontSize={12} color="primary">
+                km/h
+              </Typography>
+            </View>
+          </View>
+        </View>
+        <View style={boxStyle}>
+          <Typography fontSize={12} color="secondary">
+            Distance:
+          </Typography>
+          <View
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-end"
+            }}
+          >
+            <Typography color="accent" fontSize={30}>
+              {run.cumulative_distance
+                ? run.cumulative_distance.toFixed(2)
+                : (0.0).toFixed(2)}
+            </Typography>
+            <View style={{ marginBottom: 5, marginLeft: 5 }}>
+              <Typography fontSize={12} color="primary">
+                km
+              </Typography>
+            </View>
+          </View>
+        </View>
+
+        {/* <AlternativeStopWatch
+            updateActivityStatus={updateActivityStatus}
+            onResetPress={onResetPress}
+          /> */}
+        {/* <StopWatch
+          shouldResetStopWatch={shouldResetStopWatch}
+          onReset={onReset}
+          isRunning={isRunning}
+        /> */}
+        <Typography>{`${username}'s run`}</Typography>
+      </View>
     </View>
   ) : null;
 };

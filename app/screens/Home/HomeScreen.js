@@ -1,28 +1,31 @@
 import styles from "./styles";
-import React, { Component, useState, useContext } from "react";
+import React, { Component, useState, useContext, useEffect } from "react";
 import { Text, View, Button } from "react-native";
 import * as api from "../../api";
 import Typography from "../../components/Typography";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import UserContext from "../../context/UserContext";
-const run = {
-  average_speed: 0.345408510727187,
-  coordinates:
-    '{"run":[{"latitude":53.4860612,"longitude":-2.2397821},{"latitude":53.4860551,"longitude":-2.2397887},{"latitude":53.4860562,"longitude":-2.2397748},{"latitude":53.486054,"longitude":-2.2397529},{"latitude":53.4860888,"longitude":-2.2398231},{"latitude":53.4861439,"longitude":-2.2398979},{"latitude":53.4861884,"longitude":-2.2399493},{"latitude":53.4861875,"longitude":-2.2399544},{"latitude":53.4861828,"longitude":-2.2399505},{"latitude":53.4861179,"longitude":-2.239879},{"latitude":53.4861096,"longitude":-2.2398689},{"latitude":53.4861078,"longitude":-2.2398564},{"latitude":53.4861024,"longitude":-2.2398417},{"latitude":53.4861005,"longitude":-2.2398373},{"latitude":53.4861012,"longitude":-2.2398393},{"latitude":53.4860969,"longitude":-2.2398347},{"latitude":53.4860911,"longitude":-2.2398262},{"latitude":53.4860894,"longitude":-2.2398249},{"latitude":53.486087,"longitude":-2.2398213},{"latitude":53.4860759,"longitude":-2.2398006},{"latitude":53.4860714,"longitude":-2.2397924},{"latitude":53.4860687,"longitude":-2.2397876},{"latitude":53.4860699,"longitude":-2.2397823}]}',
-  finish_time: "1570721151331",
-  latitude: 53.4860699,
-  longitude: -2.2397823,
-  run_id: "4ea64712-f65a-475c-bfcc-492784560b23",
-  start_time: "1570721068895",
-  total_distance: 0.041511266999699516,
-  username: "Bob"
-};
-
-console.log("parser", JSON.parse(run.coordinates));
+import HomeList from "../../components/HomeList";
 
 const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [pastRuns, setPastRuns] = useState([]);
+  const [region, setRegion] = useState({
+    latitude: 53.486102,
+    longitude: -2.236313,
+    longitudeDelta: 0.02,
+    latitudeDelta: 0.02
+  });
   const { user } = useContext(UserContext);
+  const fetchRuns = async () => {
+    const runs = await api.getMyRuns(user.username);
+    setPastRuns(runs);
+  };
+  useEffect(() => {
+    fetchRuns();
+  }, []);
+
+  console.log(user);
 
   handleSignOut = async () => {
     const { navigate } = navigation;
@@ -34,11 +37,70 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  const { username, cumulative_distance } = user;
+
   return (
     <View style={styles.container}>
-      <Typography>This is the HomeScreen.</Typography>
-      <Typography>You are: {user.username}</Typography>
-      <Button title="Actually, sign me out" onPress={this.handleSignOut} />
+      {/* <Button title="Signout" onPress={handleSignOut} /> */}
+      <Typography>{username}</Typography>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "flex-end"
+        }}
+      >
+        <Typography color="accent" fontSize={100} fontWeight={700}>
+          {cumulative_distance}
+        </Typography>
+        <View style={{ marginBottom: 22, marginLeft: 5 }}>
+          <Typography color="primary" fontSize={20}>
+            km
+          </Typography>
+        </View>
+      </View>
+      <Button title="Logout" onPress={handleSignOut} />
+
+      <MapView
+        style={styles.map}
+        showsUserLocation
+        followsUserLocation
+        initialRegion={region}
+      >
+        <View>
+          {pastRuns.map(runObj => {
+            if (runObj.coordinates) {
+              const { latitude, longitude } = JSON.parse(
+                runObj.coordinates
+              ).run[0];
+              return (
+                <Marker
+                  key={runObj.run_id}
+                  coordinate={{
+                    latitude,
+                    longitude
+                  }}
+                  title="start"
+                  description="woo"
+                />
+              );
+            } else return null;
+          })}
+          {pastRuns.map(runObj => {
+            if (runObj.coordinates) {
+              // const { latitude, longitude } =
+              return (
+                <Polyline
+                  key={runObj.run_id}
+                  coordinates={JSON.parse(runObj.coordinates).run}
+                />
+              );
+            }
+          })}
+        </View>
+      </MapView>
+
+      <HomeList runs={pastRuns} />
     </View>
   );
 };

@@ -52,7 +52,9 @@ const TabNavigator = createBottomTabNavigator(
       style: {
         backgroundColor: "rgba(255,255,255,0.07)",
         height: 56,
-        borderTopColor: "transparent"
+        borderTopColor: "black",
+        borderWidth: 1,
+        borderStyle: "solid"
       },
       activeTintColor: "#ce93d8",
       inactiveTintColor: "rgba(255,255,255,0.7)"

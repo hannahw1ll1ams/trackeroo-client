@@ -1,6 +1,24 @@
 import React, { Component, useContext, useState, useEffect } from "react";
-import { View, Button, Text, FlatList, StyleSheet, ImageBackground, TouchableOpacity, Header } from "react-native";
-import { ListItem, ButtonGroup, Avatar, Badge, Icon, withBadge } from "react-native-elements";
+import {
+  View,
+  Button,
+  Text,
+  FlatList,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  Header,
+  ActivityIndicator,
+  Dimensions
+} from "react-native";
+import {
+  ListItem,
+  ButtonGroup,
+  Avatar,
+  Badge,
+  Icon,
+  withBadge
+} from "react-native-elements";
 import Typography from "../../components/Typography";
 import { SafeAreaView } from "react-navigation";
 import UserItem from "../../components/UserItem";
@@ -11,17 +29,22 @@ import {
   subscribeToUser
 } from "../../api";
 import UserContext from "../../context/UserContext";
-import styles from './styles'
+import styles from "./styles";
 
 const FollowingScreen = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [usersIFollow, setUsersIFollow] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loggedInUserInfo] = useState({});
-  const [buttons, setButtons] = useState(["Current Rankings", "People you may know"]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [buttons, setButtons] = useState([
+    "Current Rankings",
+    "People you may know"
+  ]);
   const { user, setUser } = useContext(UserContext);
   const fetchUsers = async () => {
     const { users } = await getUsers();
+    setIsLoading(false);
     console.log("all", users);
     // const followedUsers = await getSubscriptionUsers(user.username);
     // console.log("followedNot", followedUsers);
@@ -52,8 +75,11 @@ const FollowingScreen = () => {
   //   return b.cumulative_distance - a.cumulative_distance;
   // });
   return (
-    <ImageBackground style={styles.backgroundImage} source={require('./image.png')} >
-      <View style={styles.container}>
+    <ImageBackground
+      style={styles.backgroundImage}
+      source={require("./image.png")}
+    >
+      <View style={{ position: "relative" }}>
         <TouchableOpacity>
           <ButtonGroup
             onPress={() => {
@@ -65,44 +91,54 @@ const FollowingScreen = () => {
             }}
             selectedIndex={selectedIndex}
             buttons={buttons}
-            buttonStyle={{ backgroundColor: 'grey' }}
+            buttonStyle={{ backgroundColor: "grey" }}
             containerStyle={{ height: 50 }}
-            selectedButtonStyle={{ backgroundColor: 'rgb(255, 128, 0)' }}
+            selectedButtonStyle={{ backgroundColor: "rgb(255, 128, 0)" }}
           />
         </TouchableOpacity>
-        <Icon
-          type="ionicon"
-          color="pink"
-          iconStyle={{ height: 30, paddingTop: 15 }}
-        />
-        <FlatList
-          keyExtractor={item => item.username}
-          data={
-            selectedIndex === 0
-              ? allUsers.filter(allUser =>
-                user.subscriptions.includes(allUser.username) || user.username === allUser.username
-              )
-              : allUsers.filter(
-                allUser =>
-                  !user.subscriptions.includes(allUser.username) &&
-                  allUser.username !== user.username
-              )
-          }
-          renderItem={({ item, index }) => (
-            <UserItem
-              rank={index}
-              onFollow={handleFollow}
-              user={item}
-              current={selectedIndex === 0 ? true : false}
-            />
-          )}
-        />
+        <View
+          style={{
+            position: "absolute",
+            top: Dimensions.get("window").height / 2,
+            left: Dimensions.get("window").width / 2
+          }}
+        >
+          <ActivityIndicator size="large" animating={isLoading} />
+        </View>
+        {!isLoading && (
+          // <Icon
+          //   type="ionicon"
+          //   color="pink"
+          //   iconStyle={{ height: 30, paddingTop: 15 }}
+          // />
+          <FlatList
+            keyExtractor={item => item.username}
+            data={
+              selectedIndex === 0
+                ? allUsers.filter(
+                    allUser =>
+                      user.subscriptions.includes(allUser.username) ||
+                      allUser.username === user.username
+                  )
+                : allUsers.filter(
+                    allUser =>
+                      !user.subscriptions.includes(allUser.username) &&
+                      allUser.username !== user.username
+                  )
+            }
+            renderItem={({ item, index }) => (
+              <UserItem
+                rank={index}
+                onFollow={handleFollow}
+                user={item}
+                current={selectedIndex === 0 ? true : false}
+              />
+            )}
+          />
+        )}
       </View>
     </ImageBackground>
   );
 };
-
-
-
 
 export default FollowingScreen;

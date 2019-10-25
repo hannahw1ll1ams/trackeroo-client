@@ -10,11 +10,11 @@ class RewardCreator extends Component {
     const { text } = event.nativeEvent;
     this.setState({ [inputType]: text });
   };
-  handleSubmit = () => {
-    console.log(this.props);
+   handleSubmit = async () => {
+    // console.l?og(this.props);
     const { postNewReward } = this.props;
     const { challenge, reward } = this.state;
-    postNewReward(challenge, reward);
+    await postNewReward(challenge, reward);
     this.setState({
       challenge: '',
       reward: ''

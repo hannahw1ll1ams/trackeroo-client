@@ -1,21 +1,24 @@
 import React, { useEffect, useContext, useRef, useState } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, ActivityIndicator, Dimensions } from "react-native";
 import Typography from "../../components/Typography";
 import * as api from "../../api";
 import RunsContext from "../../context/RunsContext";
 import RunItem from "../../components/RunItem";
 import getEnvVars from "../../../environment";
 import UserContext from "../../context/UserContext";
+import TransitionView from "../../components/TransitionView";
 const { webSocketUrl } = getEnvVars();
 
 const FeedScreen = ({ navigation }) => {
   const { runs, addRuns } = useContext(RunsContext);
   const { user } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [firstRender, setFirstRender] = useState(true);
   const [prevLength, setPrevLength] = useState(0);
   const fetchRuns = async () => {
     try {
       const latestRuns = await api.getLatestRuns(user.username);
+      setIsLoading(false);
       addRuns(latestRuns);
     } catch (err) {
       console.log(err);
@@ -52,25 +55,42 @@ const FeedScreen = ({ navigation }) => {
     <View style={{ flex: 1, backgroundColor: "#121212" }}>
       <View
         style={{
-          backgroundColor: "rgba(255,255,255,0.05)",
-          paddingBottom: 16,
+          backgroundColor: "rgba(255,255,255,0.11)",
+          paddingVertical: 20,
           paddingHorizontal: 20,
-          marginBottom: 16
+          borderColor: "black",
+          borderWidth: 1,
+          borderStyle: "solid"
         }}
       >
         <Typography fontWeight={600} fontSize={18}>
           Live Feed
         </Typography>
       </View>
-      <FlatList
-        keyExtractor={item => item.run_id}
-        data={[...runs].sort((a, b) => {
-          return b.start_time - a.start_time;
-        })}
-        renderItem={({ item }) => (
-          <RunItem navigate={navigation.navigate} run={item} />
+      <View
+        style={{
+          position: "absolute",
+          top: Dimensions.get("window").height / 2,
+          left: Dimensions.get("window").width / 2
+        }}
+      >
+        <ActivityIndicator size="large" animating={isLoading} />
+      </View>
+      <TransitionView>
+        {!isLoading && (
+          <View style={{ marginBottom: 20 }}>
+            <FlatList
+              keyExtractor={item => item.run_id}
+              data={[...runs].sort((a, b) => {
+                return b.start_time - a.start_time;
+              })}
+              renderItem={({ item }) => (
+                <RunItem navigate={navigation.navigate} run={item} />
+              )}
+            />
+          </View>
         )}
-      />
+      </TransitionView>
     </View>
   );
 };

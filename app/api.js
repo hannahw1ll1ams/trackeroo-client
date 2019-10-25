@@ -12,6 +12,15 @@ const request = axios.create({
   baseURL: apiUrl
 });
 
+export const getMyRuns = async username => {
+  try {
+    const { data } = await request.get(`/users/${username}/runs`);
+    return data.runs;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const login = async (username, password) => {
   try {
     const { headers, data } = await request.post("/login", {
@@ -226,7 +235,9 @@ export const updateUserDistanceTotal = async (username, distance) => {
 
 export const getRewards = async completed => {
   try {
-    const { data: { rewards } } = await request.get("/rewards", {
+    const {
+      data: { rewards }
+    } = await request.get("/rewards", {
       params: { completed: completed }
     });
     return rewards;
@@ -254,17 +265,17 @@ export const updateUserRewardTotal = async username => {
 
 export const sendNewReward = async (challenge, reward) => {
   try {
-    console.log(challenge, reward, "chaleneg, reward")
-    const { data } = await request.post('/rewards', { challenge, reward })
-    console.log(data, "worked data")
+    console.log(challenge, reward, "chaleneg, reward");
+    const { data } = await request.post("/rewards", { challenge, reward });
+    console.log(data, "worked data");
     // return data.reward;
   } catch (error) {
-    console.log(error, "error")
-    console.log(data, "<---- error data")
+    console.log(error, "error");
+    console.log(data, "<---- error data");
 
-    throw (error)
+    throw error;
   }
-}
+};
 
 // Object {
 // "average_speed": 0,
