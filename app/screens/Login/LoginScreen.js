@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
   Image,
+  Header,
   AsyncStorage
 } from "react-native";
 import * as api from "../../api";
@@ -30,7 +32,6 @@ const LoginScreen = ({ navigation }) => {
     const { navigate } = navigation;
     try {
       const token = await api.getToken();
-
       if (token) {
         api.setAuthorizationHeader(token);
         console.log("rsss", user);
@@ -54,7 +55,20 @@ const LoginScreen = ({ navigation }) => {
       if (passwordRule.test(text)) {
         console.log("password is valid");
         setState({ ...state, [inputType]: text });
-      } else console.log("password is invalid");
+      } else {
+        console.log("password is invalid");
+        Alert.alert('Incorrect Password', "Password should contain at least 8 characters, including 1 number and 1 capital letter", [
+          {
+            text: 'Cancel',
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          {
+            text: 'Ok',
+            onPress: () => console.log("Ok Pressed"),
+          }
+        ], { cancelable: false })
+      }
     }
     if (inputType === "username") {
       if (usernameRule.test(text)) {
@@ -67,6 +81,9 @@ const LoginScreen = ({ navigation }) => {
   const handleSubmit = async () => {
     const { username, password, validUser } = state;
     const { navigate } = navigation;
+    if (!password) {
+
+    }
     try {
       const user = await api.login(username, password);
       console.log("got a users", user);
@@ -92,72 +109,88 @@ const LoginScreen = ({ navigation }) => {
   const { username, password, error, usernameValid, passwordValid } = state;
   if (error) return <Text>{error}</Text>;
   return (
-    <View style={styles.login}>
-      <Text style={styles.text}>彡TᖇᗩᑕKEᖇOO</Text>
+    <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
+      <View style={styles.container}>
+        <Text style={styles.text}>彡TᖇᗩᑕK•ᗩ•ᖇOO</Text>
 
-      <Image source={require("./running.png")} style={styles.backgroundImage} />
-      <Typography style={styles.signInText}>ᒪOG Iᑎ</Typography>
+        <Image source={require("./rubyroo.png")} style={styles.backgroundImage} />
+        <Typography style={styles.signInText}>ᒪOG Iᑎ</Typography>
 
-      <Input
-        placeholder="USERNAME"
-        inputStyle={{
-          color: "gold"
-        }}
-        placeholderTextColor="white"
-        onEndEditing={event => handleChange(event, "username")}
-        name="username"
-        style={styles.inputStyle}
-        underlineColorAndroid="gold"
-      />
-
-      <Input
-        style={{ color: "gold" }}
-        inputStyle={{
-          color: "gold"
-        }}
-        placeholder="PASSWORD"
-        placeholderTextColor="white"
-        name="password"
-        onEndEditing={event => handleChange(event, "password")}
-        style={styles.inputStyle}
-        underlineColorAndroid="white"
-      />
-
-      <Typography style={styles.bottomText}>
-        Password must be 8 characters long
-      </Typography>
-      <TouchableOpacity>
-        <Button
-          buttonStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.1)"
+        <Input
+          placeholder="USERNAME"
+          inputStyle={{
+            color: 'gold'
           }}
-          style={styles.button}
-          color="black"
-          title="ᔕIGᑎ Iᑎ"
-          onPress={handleSubmit}
+          placeholderTextColor="white"
+          onEndEditing={event => handleChange(event, 'username')}
+          name="username"
+          labelStyle={{ color: 'black' }}
+          containerStyle={{
+            backgroundColor: '#202020',
+            width: 300,
+            borderRadius: 5,
+            marginTop: 5,
+            height: 43
+          }}
         />
 
+        <Input
+          style={{ color: 'gold' }}
+          inputStyle={{
+            color: 'gold'
+          }}
+          placeholder="PASSWORD"
+          placeholderTextColor="white"
+          name="password"
+          onEndEditing={event => handleChange(event, 'password')}
+          labelStyle={{ color: 'black' }}
+          containerStyle={{
+            backgroundColor: '#202020',
+            width: 300,
+            borderRadius: 5,
+            marginTop: 5,
+            height: 43
+          }}
+        />
+
+        <Typography style={styles.bottomText}>
+          Password must be 8 characters long
+      </Typography>
+        <TouchableOpacity>
+          <Button
+            buttonStyle={{
+              backgroundColor: '#FF8000'
+            }}
+            style={styles.button}
+            titleStyle={{ color: 'black' }}
+
+            color="black"
+            title="SIGᑎ Iᑎ"
+            onPress={handleSubmit}
+          />
+
+          <TouchableOpacity>
+            <Typography
+              onPress={() =>
+                navigate("PasswordResetScreen", { title: "Forgot Password" })
+              }
+            >
+              FORGOT PASSWORD
+          </Typography>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Typography onPress={handleSubmit}>SIGN IN</Typography>
+        </TouchableOpacity>
         <TouchableOpacity>
           <Typography
-            onPress={() =>
-              navigate("PasswordResetScreen", { title: "Forgot Password" })
-            }
+            onPress={() => navigate("RegisterScreen", { title: "SIGN UP" })}
           >
-            ᖴOᖇGOT ᑭᗩᔕᔕᗯOᖇᗪ
-          </Typography>
-        </TouchableOpacity>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Typography onPress={handleSubmit}>Sign In</Typography>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Typography
-          onPress={() => navigate("RegisterScreen", { title: "SIGN UP" })}
-        >
-          ᗪOᑎ'T ᕼᗩᐯE ᗩᑎ ᗩᑕᑕOᑌᑎT?
+            DON'T HAVE A ACCOUNT?
         </Typography>
-      </TouchableOpacity>
-    </View>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
